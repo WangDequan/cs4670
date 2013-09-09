@@ -1,0 +1,80 @@
+%% jdh.sty (A collection of macros for psets)
+%%
+%% version 1
+%% 8 September 2013
+
+\ProvidesPackage{jdh}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Package Imports %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage[usenames,dvipsnames]{xcolor}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{enumerate,soul,relsize,scrextend,mdframed}
+\RequirePackage{listings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% For Typesetting OCaml %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstset{language=[Objective] Caml}
+
+\lstset{
+  language=Caml,
+  defaultdialect=[Objective]Caml,
+  keywords=[2]{int,float,bool,string,char,list,unit,option,Some,None,raise},
+  showstringspaces=false,
+  basicstyle=\smaller\tt,
+  tabsize=2,
+  frame=single,
+  keywordstyle=\color{blue}\textbf,
+  keywordstyle=[2]\color{DarkOrchid},
+  commentstyle=\color{ForestGreen},
+  stringstyle=\color{Red},
+  backgroundcolor=\color{BackgroundGreen}
+}
+
+\let\code\lstinline
+
+\let\codeNoColor\texttt
+
+\lstnewenvironment{ocaml}{}{}
+
+%% Common Type Variables
+\newcommand\ta{'a}
+\newcommand\tb{'b}
+\newcommand\tc{'c}
+\newcommand\td{'d}
+\newcommand\te{'e}
+
+%% TODO
+% %% For Uncommon Type Variables
+% \newcommand{talloc}[1]{'#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% For Typesetting Text %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{BackgroundGreen}{HTML}{E6F0F0}
+\definecolor{NoteBackground}{HTML}{FFFCE3}
+
+\newcommand\link[2]{\href{#1}{{\color{blue}\underline{\smash{#2}}}}}
+
+\renewcommand\emph[1]{{\bf\color{BlueViolet}#1}}
+
+\newcommand\filename[1]{{\smaller\tt#1}}
+
+\newcommand\compactlist{
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}
+
+\newenvironment{note}[1]{
+  \vspace{0.5em}
+  \begin{addmargin}[4em]{4em}
+    \begin{mdframed}[backgroundcolor=NoteBackground]
+      \textbf{#1: }
+}{
+\end{mdframed}
+\end{addmargin}
+\vspace{0.5em}
+}
+
+%%
+%% End of file 'jdh.sty'
