@@ -1,0 +1,58 @@
+{
+    "folders":
+    [
+        {
+            "path": ".",
+            "folder_exclude_patterns": [],
+            "file_exclude_patterns": 
+            [
+                // temporary files
+                "*.swp",
+                "~",
+
+                // latex
+                "*.acn",
+                "*.acr",
+                "*.alg",
+                "*.aux",
+                "*.bbl",
+                "*.blg",
+                "*.dvi",
+                "*.fdb_latexmk",
+                "*.glg",
+                "*.glo",
+                "*.gls",
+                "*.idx",
+                "*.ilg",
+                "*.ind",
+                "*.ist",
+                "*.lof",
+                "*.log",
+                "*.lot",
+                "*.maf",
+                "*.mtc",
+                "*.mtc0",
+                "*.nav",
+                "*.nlo",
+                "*.out",
+                "*.pdfsync",
+                "*.ps",
+                "*.snm",
+                "*.synctex.gz",
+                "*.toc",
+                "*.vrb",
+                "*.xdy",
+                "*.tdo",
+
+                // sublime
+                "*.sublime-workspace"
+            ]
+        }
+    ],
+    "settings": 
+    {
+        "tab_size": 2,
+        "translate_tabs_to_spaces": true,
+        "rulers": [80]
+    }
+}
