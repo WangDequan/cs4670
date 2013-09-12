@@ -1,0 +1,3 @@
+[submodule "proj/1/release"]
+	path = proj/1/release
+	url = http://www.cs.cornell.edu/courses/cs4670/2013fa/projects/p1/skeleton.git
