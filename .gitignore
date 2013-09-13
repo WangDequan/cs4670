@@ -35,6 +35,7 @@
 *.vrb
 *.xdy
 *.tdo
+*-eps-converted-to.pdf
 
 #sublime
 *.sublime-*
