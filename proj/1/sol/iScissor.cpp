@@ -32,7 +32,7 @@ inline unsigned char PIXEL(const unsigned char* p, int i, int j, int c, int widt
 
 void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHeight)
 {
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+  nodes = (Node*) malloc(imgWidth * imgHeight * sizeof(Node)); 
 
 }
 /************************ END OF TODO 1 ***************************/
