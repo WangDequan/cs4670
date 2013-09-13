@@ -37,4 +37,4 @@
 *.tdo
 
 #sublime
-*.sublime-workspace
+*.sublime-*
