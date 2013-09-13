@@ -32,8 +32,25 @@ inline unsigned char PIXEL(const unsigned char* p, int i, int j, int c, int widt
 
 void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHeight)
 {
-  nodes = (Node*) malloc(imgWidth * imgHeight * sizeof(Node)); 
-
+  double px[3];
+  double inten[8];
+  double maxD = 0;
+  nodes = (Node*) malloc(imgWidth * imgHeight * sizeof(Node));
+  for (int y=0;y<imgHeight;y++){
+    for (int x=0;x<imgWidth;x++){
+      nodes->column = x;
+      nodes->row = y;
+      for (int i=0;i<8;i++){
+        pixel_filter(px, x, y, img, imgWidth, imgHeight, kernels[i], 3, 3, 1, 0);
+        inten[i] = sqrt((px[0]*px[0] + px[1]*px[1] + px[2]*px[2])/3);
+        maxD = __max(maxD, inten[i]);
+      }
+      for (int i=0;i<8;i++){
+        nodes->linkCost[i] = (maxD - inten[i]) * (i % 2 == 1 ? SQRT2 : 1) ;
+      }
+      nodes++;
+    }
+  }
 }
 /************************ END OF TODO 1 ***************************/
 
