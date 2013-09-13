@@ -1,6 +1,6 @@
 /* iScissor.cpp */
 /* Main file for implementing project 1.  See TODO statments below
- * (see also correlation.cpp and iScissor.h for additional TODOs) */
+ * (see also correlation->cpp and iScissor.h for additional TODOs) */
 
 #include <assert.h>
 
@@ -33,22 +33,21 @@ inline unsigned char PIXEL(const unsigned char* p, int i, int j, int c, int widt
 void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHeight)
 {
   double px[3];
-  double inten[8];
-  double maxD = 0;
-  nodes = (Node*) malloc(imgWidth * imgHeight * sizeof(Node));
+  long double inten[8];
   for (int y=0;y<imgHeight;y++){
     for (int x=0;x<imgWidth;x++){
-      nodes->column = x;
-      nodes->row = y;
+      NODE(nodes, x, y, imgWidth).column = x;
+      NODE(nodes, x, y, imgWidth).row = y;
+      long double maxD = 0;
       for (int i=0;i<8;i++){
         pixel_filter(px, x, y, img, imgWidth, imgHeight, kernels[i], 3, 3, 1, 0);
         inten[i] = sqrt((px[0]*px[0] + px[1]*px[1] + px[2]*px[2])/3);
         maxD = __max(maxD, inten[i]);
       }
       for (int i=0;i<8;i++){
-        nodes->linkCost[i] = (maxD - inten[i]) * (i % 2 == 1 ? SQRT2 : 1) ;
+        assert(maxD >= inten[i]);
+        NODE(nodes, x, y, imgWidth).linkCost[i] = (maxD - inten[i]) * (i % 2 == 1 ? SQRT2 : 1) ;
       }
-      nodes++;
     }
   }
 }
@@ -79,8 +78,42 @@ static int offsetToLinkIndex(int dx, int dy)
 
 void LiveWireDP(int seedX, int seedY, Node* nodes, int width, int height, const unsigned char* selection, int numExpanded)
 {
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
+  CTypedPtrHeap<Node> pq;
+  for (int i=0;i<width*height;i++){ nodes[i].state = INITIAL;  }
+  NODE(nodes, seedX, seedY, width).totalCost = 0;
+  NODE(nodes, seedX, seedY, width).prevNode = NULL;
+  pq.Insert(&NODE(nodes,seedX,seedY,width));
+  
+  Node* cur;
+  int dx, dy;
+  while (!pq.IsEmpty() && numExpanded > 0){
+    cur = pq.ExtractMin();
+    cur->state = EXPANDED;
+    for(int i=0;i<8;i++){
+      cur->nbrNodeOffset( dx, dy, i);
+      int x2 = cur->column+dx;
+      int y2 = cur->row + dy;
+      if (x2 > -1 && x2 < width && y2 > -1 && y2 < height){
+        Node* n = &NODE(nodes, cur->column + dx, cur->row + dy, width);
+        int v = cur->totalCost + cur->linkCost[i];
+        switch(n->state){
+        case INITIAL:
+          n->totalCost = v;
+          n->state = ACTIVE;
+          n->prevNode = cur;
+          pq.Insert(n);
+          break;
+        case ACTIVE:
+          if (n->totalCost > v) {
+            n->totalCost = v;
+            n->prevNode = cur;
+            pq.Update(n);
+          }
+          break;
+        }
+      }
+    }
+  }
 }
 /************************ END OF TODO 4 ***************************/
 
@@ -100,8 +133,12 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
 
 void MinimumPath(CTypedPtrDblList <Node>* path, int freePtX, int freePtY, Node* nodes, int width, int height)
 {
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
+  Node* cur = &NODE(nodes, freePtX, freePtY, width);
+  assert(path->IsEmpty());
+  while (cur != NULL){
+    path->AddHead(cur);
+    cur = cur->prevNode;
+  }
 }
 /************************ END OF TODO 5 ***************************/
 
@@ -112,7 +149,7 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
  *		width, height:		dimensions of the image buffer;
  *		x,y:				an input seed position;
  *	OUTPUT:
- *		update the value of x,y to the closest edge based on local image information.
+ *		update the value of x,y to the closest edge based on local image information->
  */
 
 void SeedSnap(int& x, int& y, unsigned char* img, int width, int height)
