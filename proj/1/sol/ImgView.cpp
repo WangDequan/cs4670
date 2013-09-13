@@ -1735,6 +1735,24 @@ int ImgView::handle(int c)
                     int cntX = (x - zoomPort[0]) / zoomFactor + targetPort[0];
                     int cntY = (y - zoomPort[2]) / zoomFactor + targetPort[2];
 
+                    for (int i=-brushSize;i<brushSize;i++){
+                      for (int j=-brushSize;j<brushSize;j++){
+                        int x2 = cntX + i;
+                        int y2 = cntY + j;
+                        if (x2 > -1 && y2 > -1 && y2 < imgHeight && x2 < imgWidth){
+                          switch(brushType){
+                          case SQUARE_BRUSH:
+                            brushSelection[y2*imgWidth + x2] = true;
+                            break;
+                          case ROUND_BRUSH:
+                            if (sqrt(i*i + j*j) < brushSize){
+                              brushSelection[y2*imgWidth + x2] = true;
+                            }
+                            break;
+                          }
+                        }
+                      }
+                    }
                     //int i,j;
 
                     /********************TO DO********************
@@ -1743,7 +1761,6 @@ int ImgView::handle(int c)
                      *
                      */
 
-                    printf("selecting region by brush (1): to be implemented in ImgView.cpp\n");
                     /******************************************************/
                     UpdateImgBufOpacity();
                     UpdateViewBuffer();
@@ -1920,6 +1937,26 @@ int ImgView::handle(int c)
                     int cntX = (x - zoomPort[0]) / zoomFactor + targetPort[0];
                     int cntY = (y - zoomPort[2]) / zoomFactor + targetPort[2];
 
+
+                    for (int i=-brushSize;i<brushSize;i++){
+                      for (int j=-brushSize;j<brushSize;j++){
+                        int x2 = cntX + i;
+                        int y2 = cntY + j;
+                        if (x2 > -1 && y2 > -1 && y2 < imgHeight && x2 < imgWidth){
+                          switch(brushType){
+                          case SQUARE_BRUSH:
+                            brushSelection[y2*imgWidth + x2] = true;
+                            break;
+                          case ROUND_BRUSH:
+                            if (sqrt(i*i + j*j) < brushSize){
+                              brushSelection[y2*imgWidth + x2] = true;
+                            }
+                            break;
+                          }
+                        }
+                      }
+                    }
+
                     //int i,j;
 
                     /********************TO DO********************
@@ -1928,7 +1965,6 @@ int ImgView::handle(int c)
                      *
                      */
 
-                    printf("selecting region by brush (2): to be implemented in ImgView.cpp\n");
                     /******************************************************/
                     UpdateImgBufOpacity();
                     UpdateViewBuffer();
