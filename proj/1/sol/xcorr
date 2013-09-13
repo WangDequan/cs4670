@@ -1,3 +1,7 @@
+D(link) = sqrt((DR(link)*DR(link) + DG*DG+DB*DB)/3)
+cost(link) = (maxD-D(link))*length(link)
+length(link) = sqrt(2) on diagonals, 1 on vertical/horiztonal
+
 link0: (1/2) * abs(
 [0,1/2,1/2;
 0,0,0;
