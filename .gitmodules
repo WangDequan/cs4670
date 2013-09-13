@@ -1,7 +1,6 @@
 [submodule "proj/1/release"]
-	path = proj/1/release
-	url = http://www.cs.cornell.edu/courses/cs4670/2013fa/projects/p1/skeleton.git
-
+  path = proj/1/release
+  url = http://www.cs.cornell.edu/courses/cs4670/2013fa/projects/p1/skeleton.git
 [submodule "resources/tex"]
 	path = resources/tex
 	url = https://github.com/jawshooah/tex.git
