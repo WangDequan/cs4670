@@ -5,6 +5,11 @@
 # object files
 *.o
 
+# eclipse
+*.cproject
+*.project
+*.settings
+
 # latex
 *.acn
 *.acr
