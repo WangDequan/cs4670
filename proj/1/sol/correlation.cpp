@@ -76,8 +76,8 @@ void pixel_filter(double rsltPixel[3], int x, int y, const unsigned char* origIm
                   double scale, double offset)
 {
   long double out[] = {0,0,0};
-  for (int i=0;i<knlWidth;i++){
-    for (int j=0;j<knlHeight;j++){
+  for (int j=0;j<knlHeight;j++){
+    for (int i=0;i<knlWidth;i++){
       int col = x + i;
       int row = y + j;
       if (!(row < 0 || col < 0 || row > imgHeight || col > imgWidth)) {

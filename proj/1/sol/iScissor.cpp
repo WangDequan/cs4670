@@ -33,20 +33,27 @@ inline unsigned char PIXEL(const unsigned char* p, int i, int j, int c, int widt
 void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHeight)
 {
   double px[3];
-  long double inten[8];
+  double maxD = 0;
   for (int y=0;y<imgHeight;y++){
     for (int x=0;x<imgWidth;x++){
       NODE(nodes, x, y, imgWidth).column = x;
       NODE(nodes, x, y, imgWidth).row = y;
-      long double maxD = 0;
       for (int i=0;i<8;i++){
         pixel_filter(px, x, y, img, imgWidth, imgHeight, kernels[i], 3, 3, 1, 0);
-        inten[i] = sqrt((px[0]*px[0] + px[1]*px[1] + px[2]*px[2])/3);
-        maxD = __max(maxD, inten[i]);
+        int v = sqrt((px[0]*px[0] + px[1]*px[1] + px[2]*px[2])/3);
+        NODE(nodes, x, y, imgWidth).linkCost[i] = v;
+        assert(v >= px[0] * sqrt(1/3));
+        assert(v >= px[1] * sqrt(1/3));
+        assert(v >= px[2] * sqrt(1/3));
+        maxD = __max(maxD, v);
       }
+    }
+  }
+  for (int y=0;y<imgHeight;y++){
+    for (int x=0;x<imgWidth;x++){
       for (int i=0;i<8;i++){
-        assert(maxD >= inten[i]);
-        NODE(nodes, x, y, imgWidth).linkCost[i] = (maxD - inten[i]) * (i % 2 == 1 ? SQRT2 : 1) ;
+        double* c = &(NODE(nodes, x, y, imgWidth).linkCost[i]);
+        *c = (maxD - *c) * linkLengths[i];
       }
     }
   }
