@@ -38,14 +38,24 @@ void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHei
     for (int x=0;x<imgWidth;x++){
       NODE(nodes, x, y, imgWidth).column = x;
       NODE(nodes, x, y, imgWidth).row = y;
-      for (int i=0;i<8;i++){
+      for (int i=0;i<4;i++){
         pixel_filter(px, x, y, img, imgWidth, imgHeight, kernels[i], 3, 3, 1, 0);
         int v = sqrt((px[0]*px[0] + px[1]*px[1] + px[2]*px[2])/3);
         NODE(nodes, x, y, imgWidth).linkCost[i] = v;
+        int dx, dy;
+        switch(i){
+        case 0: dx = 1; dy = 0; break;
+        case 1: dx = 1; dy = 1; break;
+        case 2: dx = 0; dy = 1; break;
+        case 3: dx = -1; dy = 1; break;
+        }
+        if (((x+dx) > -1)&&((x+dx)<imgWidth)&&((y+dy)>-1)&&((y+dy)<imgHeight)){
+          NODE(nodes, x + dx, y + dy, imgWidth).linkCost[i+4] = v;
+        }
+        maxD = __max(maxD, v);
         assert(v >= px[0] * sqrt(1/3));
         assert(v >= px[1] * sqrt(1/3));
         assert(v >= px[2] * sqrt(1/3));
-        maxD = __max(maxD, v);
       }
     }
   }
