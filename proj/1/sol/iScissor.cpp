@@ -100,7 +100,7 @@ void LiveWireDP(int seedX, int seedY, Node* nodes, int width, int height, const 
       cur->nbrNodeOffset( dx, dy, i);
       int x2 = cur->column+dx;
       int y2 = cur->row + dy;
-      if (x2 > -1 && x2 < width && y2 > -1 && y2 < height){
+      if (x2 > -1 && x2 < width && y2 > -1 && y2 < height && (selection == NULL || selection[y2*width+x2])){
         Node* n = &NODE(nodes, cur->column + dx, cur->row + dy, width);
         int v = cur->totalCost + cur->linkCost[i];
         switch(n->state){
