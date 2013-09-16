@@ -32,6 +32,7 @@ inline unsigned char PIXEL(const unsigned char* p, int i, int j, int c, int widt
 
 void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHeight)
 {
+  const bool blur = true;
   double px[3];
   double maxD = 0;
   for (int y=0;y<imgHeight;y++){
@@ -39,7 +40,21 @@ void InitNodeBuf(Node* nodes, const unsigned char* img, int imgWidth, int imgHei
       NODE(nodes, x, y, imgWidth).column = x;
       NODE(nodes, x, y, imgWidth).row = y;
       for (int i=0;i<4;i++){
-        pixel_filter(px, x, y, img, imgWidth, imgHeight, kernels[i], 3, 3, 1, 0);
+        if (blur){
+// bell whistle, turn blur constant off to disable
+          const double k[9] = {kernels[i][0], kernels[i][1], kernels[i][2],
+                               kernels[i][3], kernels[i][4], kernels[i][5],
+                               kernels[i][6], kernels[i][7], kernels[i][8]};
+          const double kn[25] =
+            {k[0] / 9, (k[0] + k[1]) / 9, (k[0] + k[1] + k[2]) / 9, (k[1] + k[2]) / 9,  k[2] / 9,
+             (k[0] + k[3]) / 9, (k[0] + k[1] + k[3] + k[4]) / 9, (k[0] + k[1] + k[2] + k[3] + k[4] + k[5]) / 9, (k[1] + k[2] + k[4] + k[5]) / 9, (k[2] + k[5]) / 9,
+             (k[0]+k[3]+k[6])/9, (k[0]+k[1]+k[3]+k[4]+k[6]+k[7])/9, (k[0]+k[1]+k[2]+k[3]+k[4]+k[5]+k[6]+k[7]+k[8])/9, (k[1]+k[2]+k[4]+k[5]+k[7]+k[8])/9, (k[2]+k[5]+k[8])/9,
+             (k[3]+k[6])/9, (k[3]+k[4]+k[6]+k[7])/9, (k[3]+k[4]+k[5]+k[6]+k[7]+k[8])/9, (k[4]+k[5]+k[7]+k[8])/9, (k[5]+k[8])/9,
+             k[6]/9, (k[6]+k[7])/9, (k[6]+k[7]+k[8])/9, (k[7]+k[8])/9, k[8]/9};
+          pixel_filter(px, x, y, img, imgWidth, imgHeight, kn, 5, 5, 1, 0);
+        } else { 
+          pixel_filter(px, x, y, img, imgWidth, imgHeight, kernels[i], 3, 3, 1, 0);
+        }
         int v = sqrt((px[0]*px[0] + px[1]*px[1] + px[2]*px[2])/3);
         NODE(nodes, x, y, imgWidth).linkCost[i] = v;
         int dx, dy;
