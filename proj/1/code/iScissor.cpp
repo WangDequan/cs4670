@@ -3,7 +3,6 @@
  * (see also correlation->cpp and iScissor.h for additional TODOs) */
 
 #include <assert.h>
-#include <math.h>
 
 #include "correlation.h"
 #include "iScissor.h"
@@ -176,7 +175,7 @@ void MinimumPath(CTypedPtrDblList <Node>* path, int freePtX, int freePtY, Node* 
 /************************ END OF TODO 5 ***************************/
 
 /************************ An Extra Credit Item ***************************
- *SeedSnap:
+ *SeeSnap:
  *	INPUT:
  *		img:				a RGB image buffer of size width by height;
  *		width, height:		dimensions of the image buffer;
@@ -187,77 +186,7 @@ void MinimumPath(CTypedPtrDblList <Node>* path, int freePtX, int freePtY, Node* 
 
 void SeedSnap(int& x, int& y, unsigned char* img, int width, int height)
 {
-  const double xSobel[9] = {
-    1.0000, 0.0000, -1.0000,
-    2.0000, 0.0000, -2.0000,
-    1.0000, 0.0000, -1.0000
-  };
-  const double ySobel[9] = {
-    1.0000, 2.0000, 1.0000,
-    0.0000, 0.0000, 0.0000,
-   -1.0000,-2.0000,-1.0000
-  };
-  double* xGrad = new double[3 * width * height];
-  double* yGrad = new double[3 * width * height];
-  double* gradient = new double[width * height];
-  double maxGrad = 0.0;
-  int idx, row, col;
-  for (row = 0; row < height; row++) {
-    for (col = 0; col < width; col++) {
-      idx = 3 * (row * width + col);
-      pixel_filter(xGrad + idx, row, col, img, width, height, xSobel, 3, 3, 8, 0);
-      pixel_filter(yGrad + idx, row, col, img, width, height, ySobel, 3, 3, 8, 0);
-      gradient[idx / 3] = sqrt((pow(xGrad[idx+0],2) + pow(xGrad[idx+1],2) + pow(xGrad[idx+2],2) +
-                                pow(yGrad[idx+0],2) + pow(yGrad[idx+1],2) + pow(yGrad[idx+2],2))/3);
-      maxGrad = std::max(maxGrad, gradient[idx / 3]);
-    }
-  }
-  double delta;
-  double threshold = 0.4;
-  bool found = false;
-  int maxD = std::max(x,std::max(y,std::max(width-x,height-y)));
-  int d = 0;
-  while (++d < maxD && !found) {
-    int i = -d - 1;
-    while (++i <= d && !found) {
-      int j = -d - 1;
-      while (++j <= d && !found) {
-        if (abs(i) == d || abs(j) == d) {
-          row = y + j;
-          col = x + i;
-          if (col > 0 && row > 0 && col < width-1 && row < height-1) {
-            idx = row * width + col;
-            delta = maxGrad - gradient[idx];
-            printf("(%d,%d) %f\n", col, row, delta);
-            if (delta/maxGrad <= threshold) {
-              printf("Delta: %f, Max: %f\n", delta, maxGrad);
-              printf("New (x,y): (%d,%d) %f\n", col, row, delta/maxGrad);
-              found = true;
-              x = col;
-              y = row;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // for (row = 1; row < height-1; row++) {
-  //   for (col = 1; col < width-1; col++) {
-  //     idx = row * width + col;
-  //     delta = maxGrad - gradient[idx];
-  //     dist = sqrt(pow(row - y, 2) + pow(col - x, 2));
-  //     cost = pow(delta/maxGrad, 2) + dist/sqrt((double)width*width + (double)height*height);
-  //     if (cost < minCost && col != x && row != y) {
-  //       minCost = cost;
-  //       newX = col;
-  //       newY = row;
-  //       printf("New (x,y): (%d,%d) %f\n", col, row, cost);
-  //     }
-  //   }
-  // }
-  // x = newX;
-  // y = newY;
+    printf("SeedSnap in iScissor.cpp: to be implemented for extra credit!\n");
 }
 
 //generate a cost graph from original image and node buffer with all the link costs;
