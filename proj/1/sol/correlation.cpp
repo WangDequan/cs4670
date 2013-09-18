@@ -1,3 +1,7 @@
+#include <assert.h>
+#include <iostream>
+#include <string>
+
 #include "correlation.h"
 
 /************************ TODO 2 **************************/
@@ -39,11 +43,10 @@ void image_filter(double* rsltImg, const unsigned char* origImg,
   int idx;
   for (int col = 0; col < imgWidth; col++) {
     for (int row = 0; row < imgHeight; row++) {
-      idx = (row*imgWidth + col);
+      idx = row*imgWidth + col;
       if (selection == NULL || selection[idx] == 1) {
-        pixel_filter(rsltImg + 3*idx, col - (knlWidth/2), row - (knlHeight/2),
-                     origImg, imgWidth, imgHeight, kernel, knlWidth, knlHeight,
-                     scale, offset);
+        pixel_filter(rsltImg + 3*idx, col, row, origImg, imgWidth, imgHeight, 
+                     kernel, knlWidth, knlHeight, scale, offset);
       }
     }
   }
@@ -83,26 +86,19 @@ void pixel_filter(double rsltPixel[3], int x, int y,
                   const double* kernel, int knlWidth, int knlHeight, 
                   double scale, double offset)
 {
-  long double out[] = {0, 0, 0};
+  x = x - knlWidth/2;
+  y = y - knlHeight/2;
+  assert(scale > 0);
+  double out[] = {0, 0, 0};
   for (int j = 0; j < knlHeight; j++) {
     for (int i = 0; i < knlWidth; i++) {
       int col = x + i;
       int row = y + j;
-      if (row < 0) {
-        row = imgHeight + row;
+      if (!(row < 0 || col < 0 || row >= imgHeight || col >= imgWidth)) {
+        out[0] += origImg[3*(row*imgWidth + col) + 0] * kernel[j*knlWidth + i];
+        out[1] += origImg[3*(row*imgWidth + col) + 1] * kernel[j*knlWidth + i];
+        out[2] += origImg[3*(row*imgWidth + col) + 2] * kernel[j*knlWidth + i];
       }
-      else if (row >= imgHeight) {
-        row = row - imgHeight;
-      }
-      if (col < 0) {
-        col = imgWidth + col;
-      }
-      else if (col >= imgWidth) {
-        col = col - imgWidth;
-      }
-      out[0] += origImg[3*(row*imgWidth + col) + 0] * kernel[j*knlWidth + i];
-      out[1] += origImg[3*(row*imgWidth + col) + 1] * kernel[j*knlWidth + i];
-      out[2] += origImg[3*(row*imgWidth + col) + 2] * kernel[j*knlWidth + i];
     }
   }
   rsltPixel[0] = out[0] / scale + offset;

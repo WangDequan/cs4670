@@ -1756,9 +1756,8 @@ int ImgView::handle(int c)
                     //int i,j;
 
                     /********************TO DO********************
-                     * apply brush here, by updating brushSelection.  You'll also need to update LiveWireDP to
-                     * ensure that the live wire with brush selection works correctly
-                     *
+                     * apply brush here, by updating brushSelection.  You'll also need to update
+                     * LiveWireDP to ensure that the live wire with brush selection works correctly
                      */
 
                     /******************************************************/

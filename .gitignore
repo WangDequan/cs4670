@@ -2,8 +2,9 @@
 *.swp
 *~
 
-# object files
+# C/C++
 *.o
+scissors
 
 # eclipse
 *.cproject
