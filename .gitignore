@@ -48,3 +48,6 @@ scissors
 
 #sublime
 *.sublime-*
+
+#mac
+*.DS_Store
