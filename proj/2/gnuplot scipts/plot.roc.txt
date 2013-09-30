@@ -1,0 +1,7 @@
+set terminal png
+set output "plot.roc.png"
+set key right bottom box 3
+plot 'roc1.txt' using 2:3 with lines lw 2 title "MOPS + SSD", \
+     'roc2.txt' using 2:3 with lines lw 2 title "MOPS + ratio test", \
+     'roc1.sift.txt' using 2:3 with lines lw 2 title "SIFT + SSD", \
+     'roc2.sift.txt' using 2:3 with lines lw 2 title "SIFT + ratio test"
