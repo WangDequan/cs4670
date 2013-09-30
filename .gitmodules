@@ -4,3 +4,6 @@
 [submodule "resources/tex"]
 	path = resources/tex
 	url = https://github.com/jawshooah/tex.git
+[submodule "proj/2/skeleton"]
+	path = proj/2/skeleton
+	url = http://www.cs.cornell.edu/courses/cs4670/2013fa/projects/p2/skeleton.git
