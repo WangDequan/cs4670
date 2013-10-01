@@ -149,10 +149,13 @@ void ComputeHarrisFeatures(CFloatImage &image, FeatureSet &features)
     // descriptor computation for each point above a threshold. You need to fill in id, type, 
     // x, y, and angle.
     int id = 0;
+    const float thresh = .01;
     for (int y=0; y < harrisMaxImage.Shape().height; y++) {
         for (int x=0; x < harrisMaxImage.Shape().width; x++) {
 
             if (harrisMaxImage.Pixel(x, y, 0) == 0)
+                continue;
+            if (harrisImage.Pixel(x, y, 0) < thresh)
                 continue;
 
             Feature f;
@@ -216,20 +219,24 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
 // destImage: Assign 1 to local maximum in 3x3 window, 0 otherwise
 void computeLocalMaxima(CFloatImage &srcImage,CByteImage &destImage)
 {
-  // TODO: does this make sense, cutting off 1 pixel from each direction??
   int w = srcImage.Shape().width;
   int h = srcImage.Shape().height;
-  for (int y = 1; y < h - 1; y++){
-    for (int x = 1; x < w - 1; x++){
+  for (int y = 0; y < h; y++){
+    for (int x = 0; x < w; x++){
       bool max = true;
-      for (int i = -1; i < 2; i++){
-        for (int j = -1; j < 2; j++){
-          if (srcImage.Pixel(x + i, y + j, 0) > srcImage.Pixel(x, y, 0)){
+      for (int i = -2; i < 3; i++){
+        for (int j = -2; j < 3; j++){
+          if (!srcImage.Shape().InBounds(x+i,y+j))
+             continue;
+          if (i == 0 && j == 0)
+             continue;
+          if (srcImage.Pixel(x + i, y + j, 0) >= srcImage.Pixel(x, y, 0)){
             max = false;
           }
         }
       }
-      if (max) { destImage.Pixel(x, y, 0) = 1; }
+      destImage.Pixel(x, y, 0) = (max ? 1 : 0);
+      assert(!max || destImage.Pixel(x,y,0) != 0);
     }
   }
 }
@@ -248,6 +255,7 @@ void ComputeSimpleDescriptors(CFloatImage &image, FeatureSet &features)
         int y = f.y;
 
         f.data.resize(5 * 5);
+        f.data.clear();
 
         for (int i = -2; i < 3; i++){
             for (int j = -2; j < 3; j++){
