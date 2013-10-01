@@ -162,10 +162,6 @@ void ComputeHarrisFeatures(CFloatImage &image, FeatureSet &features)
             f.id = id;
 
             f.angleRadians = orientationImage.Pixel(x, y, 0);
-            // f.data = ??
-
-            //TODO: Fill in feature with location and orientation data here
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
             features.push_back(f);
             id++;
@@ -192,9 +188,12 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
-            int ix2 = 0, ixiy = 0, iy2 = 0;
+            float ix2 = 0, ixiy = 0, iy2 = 0;
             for (int i = -2; i < 3; i++){
                 for (int j = -2; j < 3; j++){
+                    if (!srcImage.Shape().InBounds(x+i,y+j))
+                        continue;
+
                     ix2 += dx.Pixel(x+i, y+j, 0) * dx.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);
                     ixiy += dx.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);
                     iy2 += dy.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);  
@@ -202,7 +201,7 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
             }
             float det = ix2 * iy2 - ixiy * ixiy;
             float trace = ix2 + iy2;
-            harrisImage.Pixel(x, y, 0) = (trace != 0) ? det/trace : 0;
+            harrisImage.Pixel(x, y, 0) = ((trace != 0) ? det/trace : 0);
             orientationImage.Pixel(x, y, 0) = atan2(dy.Pixel(x, y, 0), dx.Pixel(x, y, 0));
         }
     }
@@ -250,10 +249,16 @@ void ComputeSimpleDescriptors(CFloatImage &image, FeatureSet &features)
 
         f.data.resize(5 * 5);
 
-        //TODO---------------------------------------------------------------------
-        // The descriptor is a 5x5 window of intensities sampled centered on the feature point.
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+        for (int i = -2; i < 3; i++){
+            for (int j = -2; j < 3; j++){
+                if (!image.Shape().InBounds(x+i, y+j)){
+                    f.data.push_back(0);
+                    continue;
+                }
 
+                f.data.push_back(grayImage.Pixel(x+i, y+j, 0));
+            }
+        }
     }
 }
 
