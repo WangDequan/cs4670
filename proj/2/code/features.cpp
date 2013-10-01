@@ -1,5 +1,4 @@
 #include <assert.h>
-  ionst float thresh = .05;
 #include <math.h>
 #include <FL/Fl.H>
 #include <FL/Fl_Image.H>
