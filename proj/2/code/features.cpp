@@ -183,41 +183,30 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
 {
     int w = srcImage.Shape().width;
     int h = srcImage.Shape().height;
-    CFloatImage xderiv(w, h, 1);
-    CFloatImage yderiv(w, h, 1);
-    CFloatImage derivh(w, h, 3);
-    CFloatImage derivh2(w, h, 3);
 
-    CFloatImage gauss(5, 5, 1);
-    gauss.ReAllocate(CShape(5, 5, 1), (float *) gaussian5x5, false, 5);
-
-    Convolve(srcImage, xderiv, ConvolveKernel_SobelX);
-    Convolve(srcImage, yderiv, ConvolveKernel_SobelY);
+    CFloatImage dx(w, h, 1);
+    CFloatImage dy(w, h, 1);
+    
+    Convolve(srcImage, dx, ConvolveKernel_SobelX);
+    Convolve(srcImage, dy, ConvolveKernel_SobelY);
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
-           orientationImage.Pixel(x, y, 0) = atan2(yderiv.Pixel(x,y,0), xderiv.Pixel(x,y,0)); 
-           derivh.Pixel(x, y, 0) = xderiv.Pixel(x, y, 0) * xderiv.Pixel(x, y, 0);
-           derivh.Pixel(x, y, 1) = xderiv.Pixel(x, y, 0) * yderiv.Pixel(x, y, 0);
-           derivh.Pixel(x, y, 2) = yderiv.Pixel(x, y, 0) * yderiv.Pixel(x, y, 0);
+            int ix2 = 0, ixiy = 0, iy2 = 0;
+            for (int i = -2; i < 3; i++){
+                for (int j = -2; j < 3; j++){
+                    ix2 += dx.Pixel(x+i, y+j, 0) * dx.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);
+                    ixiy += dx.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);
+                    iy2 += dy.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);  
+                }
+            }
+            float det = ix2 * iy2 - ixiy * ixiy;
+            float trace = ix2 + iy2;
+            harrisImage.Pixel(x, y, 0) = (trace != 0) ? det/trace : 0;
+            orientationImage.Pixel(x, y, 0) = atan2(dy.Pixel(x, y, 0), dx.Pixel(x, y, 0));
         }
     }
 
-    Convolve(derivh, derivh2, gauss);
-
-    for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
-            float A = derivh2.Pixel(x, y, 0);
-            float B = derivh2.Pixel(x, y, 1);
-            float C = derivh2.Pixel(x, y, 2);
-            harrisImage.Pixel(x, y, 0) = (A*C - B*B) / (A + C);
-        }
-    }
-    derivh.DeAllocate();
-    derivh2.DeAllocate();
-    gauss.DeAllocate();
-    xderiv.DeAllocate();
-    yderiv.DeAllocate();
 }
 
 
