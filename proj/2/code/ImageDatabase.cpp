@@ -1,5 +1,5 @@
 #include <fstream>
-#include <Fl/filename.H>
+#include <FL/filename.H>
 #include "ImageDatabase.h"
 
 // Create a database.
