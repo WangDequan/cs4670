@@ -4,6 +4,7 @@
 
 # C/C++
 *.o
+*.a
 scissors
 
 # eclipse
