@@ -188,6 +188,7 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
     
     Convolve(srcImage, dx, ConvolveKernel_SobelX);
     Convolve(srcImage, dy, ConvolveKernel_SobelY);
+    float* g = (float*) gaussian5x5;
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
@@ -197,10 +198,10 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
                     if (!srcImage.Shape().InBounds(x+i,y+j))
                         continue;
 
-                    ix2 += dx.Pixel(x+i, y+j, 0) * dx.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);
-                    ixiy += dx.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);
-                    iy2 += dy.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * ((float) gaussian5x5[(j+2)*5 + (i+2)]);  
-                }
+                    ix2 += dx.Pixel(x+i, y+j, 0) * dx.Pixel(x+i, y+j, 0) * gaussian5x5[(j+2)*5 + (i+2)];
+                    ixiy += dx.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * gaussian5x5[(j+2)*5 + (i+2)];
+                    iy2 += dy.Pixel(x+i, y+j, 0) * dy.Pixel(x+i, y+j, 0) * gaussian5x5[(j+2)*5 + (i+2)];
+               } 
             }
             float det = ix2 * iy2 - ixiy * ixiy;
             float trace = ix2 + iy2;
@@ -278,16 +279,18 @@ void ComputeMOPSDescriptors(CFloatImage &image, FeatureSet &features)
     const int windowSize = 8;
     CFloatImage destImage(windowSize, windowSize, 1);
 
-    CFloatImage grayImage = ConvertToGray(image);
+    CFloatImage gray = ConvertToGray(image);
 
     for (vector<Feature>::iterator i = features.begin(); i != features.end(); i++) {
         Feature &f = *i;
-
+        float angle = f.angleRadians;
         //TODO: Compute the inverse transform as described by the feature location/orientation.
         //You'll need to compute the transform from each pixel in the 8x8 image 
         //to sample from the appropriate pixels in the 40x40 rotated window surrounding the feature
         CTransform3x3 xform;
-
+        xform = CTransform3x3::Translation(f.x - 20, f.y - 20) * CTransform3x3::Rotation(angle * 180 / PI);
+        xform.Inverse();
+        
 //printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
 
@@ -295,7 +298,14 @@ void ComputeMOPSDescriptors(CFloatImage &image, FeatureSet &features)
         WarpGlobal(image, destImage, xform, eWarpInterpLinear);
 
         f.data.resize(windowSize * windowSize);
+        f.data.clear();
 
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                f.data.push_back(destImage.Pixel(i, j, 0));
+            }
+        }
+ 
         //TODO: fill in the feature descriptor data for a MOPS descriptor
 //printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
