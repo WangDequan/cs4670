@@ -1,4 +1,5 @@
 #include <assert.h>
+  ionst float thresh = .05;
 #include <math.h>
 #include <FL/Fl.H>
 #include <FL/Fl_Image.H>
@@ -278,6 +279,8 @@ void ComputeMOPSDescriptors(CFloatImage &image, FeatureSet &features)
     const int windowSize = 8;
     CFloatImage destImage(windowSize, windowSize, 1);
 
+    CFloatImage grayImage = ConvertToGray(image);
+
     for (vector<Feature>::iterator i = features.begin(); i != features.end(); i++) {
         Feature &f = *i;
 
@@ -286,7 +289,7 @@ void ComputeMOPSDescriptors(CFloatImage &image, FeatureSet &features)
         //to sample from the appropriate pixels in the 40x40 rotated window surrounding the feature
         CTransform3x3 xform;
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+//printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
 
         //Call the Warp Global function to do the mapping
@@ -295,7 +298,7 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
         f.data.resize(windowSize * windowSize);
 
         //TODO: fill in the feature descriptor data for a MOPS descriptor
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+//printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
     }
 }
