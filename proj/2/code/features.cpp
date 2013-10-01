@@ -188,7 +188,6 @@ void computeHarrisValues(CFloatImage &srcImage, CFloatImage &harrisImage, CFloat
     
     Convolve(srcImage, dx, ConvolveKernel_SobelX);
     Convolve(srcImage, dy, ConvolveKernel_SobelY);
-    float* g = (float*) gaussian5x5;
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
