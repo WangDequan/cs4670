@@ -1,6 +1,6 @@
 #include <assert.h>
-#include <Fl/Fl.H>
-#include <Fl/Fl_Shared_Image.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Shared_Image.H>
 #include <FL/fl_ask.H>
 #include "features.h"
 #include "FeaturesUI.h"

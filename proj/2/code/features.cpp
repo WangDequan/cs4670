@@ -156,10 +156,15 @@ void ComputeHarrisFeatures(CFloatImage &image, FeatureSet &features)
                 continue;
 
             Feature f;
+            f.type = 2;
+            f.x = x;
+            f.y = y;
+            f.id = id;
+
+            f.angleRadians = 0; // TODO: what should this be and what should data be
 
             //TODO: Fill in feature with location and orientation data here
 printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
 
             features.push_back(f);
             id++;
@@ -169,7 +174,7 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
 
 
 
-//TO DO---------------------------------------------------------------------
+//TODO---------------------------------------------------------------------
 // Loop through the image to compute the harris corner values as described in class
 // srcImage:  grayscale of original image
 // harrisImage:  populate the harris values per pixel in this image
@@ -197,14 +202,28 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
 
 
 
-//TO DO---------------------------------------------------------------------
+//TODO---------------------------------------------------------------------
 //Loop through the image to compute the harris corner values as described in class
 // srcImage:  image with Harris values
 // destImage: Assign 1 to local maximum in 3x3 window, 0 otherwise
 void computeLocalMaxima(CFloatImage &srcImage,CByteImage &destImage)
 {
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
+  // TODO: does this make sense, cutting off 1 pixel from each direction??
+  int w = srcImage.Shape().width;
+  int h = srcImage.Shape().height;
+  for (int y = 1; y < h - 1; y++){
+    for (int x = 1; x < w - 1; x++){
+      bool max = true;
+      for (int i = -1; i < 2; i++){
+        for (int j = -1; j < 2; j++){
+          if (srcImage.Pixel(x + i, y + j, 0) > srcImage.Pixel(x, y, 0)){
+            max = false;
+          }
+        }
+      }
+      if (max) { destImage.Pixel(x, y, 0) = 1; }
+    }
+  }
 }
 
 // TODO: Implement parts of this function
@@ -222,7 +241,7 @@ void ComputeSimpleDescriptors(CFloatImage &image, FeatureSet &features)
 
         f.data.resize(5 * 5);
 
-        //TO DO---------------------------------------------------------------------
+        //TODO---------------------------------------------------------------------
         // The descriptor is a 5x5 window of intensities sampled centered on the feature point.
 printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
@@ -388,6 +407,7 @@ double distanceSSD(const vector<double> &v1, const vector<double> &v2) {
     int n = v2.size();
 
     if (m != n) {
+        printf("shouldn't be happening\n");
         // Here's a big number.
         return 1e100;
     }
