@@ -276,37 +276,60 @@ void ComputeMOPSDescriptors(CFloatImage &image, FeatureSet &features)
 {
     // This image represents the window around the feature you need to compute to store as the feature descriptor
     const int windowSize = 8;
+    int w = image.Shape().width;
+    int h = image.Shape().height;
     CFloatImage destImage(windowSize, windowSize, 1);
-
+    CFloatImage filtered(w, h, 1);
     CFloatImage gray = ConvertToGray(image);
+    Convolve(gray, filtered, ConvolveKernel_7x7);
+
+    CTransform3x3 scaleT = CTransform3x3();
+    scaleT[0][0] = 41/8;
+    scaleT[1][1] = 41/8;
 
     for (vector<Feature>::iterator i = features.begin(); i != features.end(); i++) {
         Feature &f = *i;
-        float angle = f.angleRadians;
+        CTransform3x3 rotateT = CTransform3x3::Rotation(f.angleRadians * 180 / PI);
+        CTransform3x3 transrT = CTransform3x3::Translation(f.x, f.y);
         //TODO: Compute the inverse transform as described by the feature location/orientation.
         //You'll need to compute the transform from each pixel in the 8x8 image 
         //to sample from the appropriate pixels in the 40x40 rotated window surrounding the feature
-        CTransform3x3 xform;
-        xform = CTransform3x3::Translation(f.x - 20, f.y - 20) * CTransform3x3::Rotation(angle * 180 / PI);
-        xform.Inverse();
-        
-//printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+        CTransform3x3 xform = transrT * rotateT * scaleT * CTransform3x3::Translation(-4, -4);
+
 
 
         //Call the Warp Global function to do the mapping
-        WarpGlobal(image, destImage, xform, eWarpInterpLinear);
+        WarpGlobal(filtered, destImage, xform, eWarpInterpLinear);
+
+        float mean = 0;
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                mean += destImage.Pixel(i, j, 0);
+            }
+        }
+        mean /= ((float)(8 * 8));
+
+        float dev = 0;
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                destImage.Pixel(i, j, 0) -= mean;
+                dev += pow(destImage.Pixel(i, j, 0), 2);
+            }
+        }
+        dev = sqrt(dev / ((float)(8 * 8)));
 
         f.data.resize(windowSize * windowSize);
         f.data.clear();
-
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
+                destImage.Pixel(i, j, 0) /= dev;
                 f.data.push_back(destImage.Pixel(i, j, 0));
             }
         }
  
         //TODO: fill in the feature descriptor data for a MOPS descriptor
 //printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+
 
     }
 }
@@ -361,7 +384,37 @@ void ssdMatchFeatures(const FeatureSet &f1, const FeatureSet &f2, vector<Feature
 // ssdMatchFeatures for reference).
 void ratioMatchFeatures(const FeatureSet &f1, const FeatureSet &f2, vector<FeatureMatch> &matches) 
 {
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    int m = f1.size();
+    int n = f2.size();
+
+    matches.clear();
+    matches.resize(m);
+
+    int idBest;
+    double dBest, dBest2, d;
+
+    for (int i=0; i<m; i++){
+        dBest = 1e100;
+        dBest2 = 1e100;
+        idBest = 0;
+        for (int j=0;j<n;j++){
+            d = distanceSSD(f1[i].data, f2[j].data);
+
+            if (d < dBest){
+                dBest2 = dBest;
+                dBest = d;
+                idBest = f2[j].id;
+            } else if (d < dBest2){
+                dBest2 = d;
+            }
+
+            matches[i].id1 = f1[i].id;
+            matches[i].id2 = idBest;
+            matches[i].distance = dBest / dBest2;
+        }
+    }
+      
+//printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
 }
 
