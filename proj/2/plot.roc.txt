@@ -1,9 +1,9 @@
 set terminal png
 set output "data/plot.roc.png"
 set key right bottom box 3
-plot 'rocfile1hs' using 2:3 with lines lw 2 title "Simple + SSD", \
-     'rocfile1hm' using 2:3 with lines lw 2 title "MOPS + SSD", \
-     'rocfile2hs' using 2:3 with lines lw 2 title "Simple + ratio test", \
-     'rocfile2hm' using 2:3 with lines lw 2 title "MOPS + ratio test", \
-     'imagesets/yosemite/roc1.sift.txt' using 2:3 with lines lw 2 title "SIFT + SSD", \
-     'imagesets/yosemite/roc2.sift.txt' using 2:3 with lines lw 2 title "SIFT + ratio test"
+plot 'data/rocfile1hs' using 2:3 with lines lw 2 title "Simple + SSD", \
+     'data/rocfile2hs' using 2:3 with lines lw 2 title "Simple + ratio test", \
+     'data/rocfile1hm' using 2:3 with lines lw 2 title "MOPS + SSD", \
+     'data/rocfile2hm' using 2:3 with lines lw 2 title "MOPS + ratio test", \
+     'imagesets/graf/roc1.sift.txt' using 2:3 with lines lw 2 title "SIFT + SSD", \
+     'imagesets/graf/roc2.sift.txt' using 2:3 with lines lw 2 title "SIFT + ratio test"
