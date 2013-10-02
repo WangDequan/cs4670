@@ -1,0 +1,9 @@
+set terminal png
+set output "data/plota.roc.png"
+set key right bottom box 3
+plot 'rocfile1hsa' using 2:3 with lines lw 2 title "Simple + SSD", \
+     'rocfile1hma' using 2:3 with lines lw 2 title "MOPS + SSD", \
+     'rocfile2hsa' using 2:3 with lines lw 2 title "Simple + ratio test", \
+     'rocfile2hma' using 2:3 with lines lw 2 title "MOPS + ratio test", \
+     'imagesets/yosemite/roc1.sift.txt' using 2:3 with lines lw 2 title "SIFT + SSD", \
+     'imagesets/yosemite/roc2.sift.txt' using 2:3 with lines lw 2 title "SIFT + ratio test"
