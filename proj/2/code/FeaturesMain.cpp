@@ -568,10 +568,10 @@ int mainBenchmark(int argc, char **argv) {
     }
 
     string imageFile;
-    FeatureSet features[6];
+    FeatureSet features[3];
 
     // Compute the features for each of the six images in the set.
-    for (int i=0; i<6; i++) {
+    for (int i=0; i<3; i++) {
         imageFile = imageDir + "img" + (char)('1'+i) + ".ppm";
 
         // Load the query image.
@@ -614,7 +614,7 @@ int mainBenchmark(int argc, char **argv) {
 
     // Match the first image with each of the other images, and compare
     // the results to the ground truth homography.
-    for (int i=1; i<6; i++) {
+    for (int i=1; i<3; i++) {
         // Open the homography file.
         homographyFile = imageDir + "H1to" + (char)('1'+i) + "p";
 

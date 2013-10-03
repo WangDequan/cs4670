@@ -1,0 +1,19 @@
+graf:
+	average error: 63.832170 pixels
+
+	average AUC: 0.250055
+
+leuven:
+	average error: 301.723316 pixels
+
+	average AUC: 0.609649
+
+bikes:
+	average error: 413.362410 pixels
+
+	average AUC: 0.609112
+
+wall:
+	average error: 376.280627 pixels
+
+	average AUC: 0.587672
