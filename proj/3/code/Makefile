@@ -18,7 +18,7 @@ CFLAGS = -g `fltk-config --cxxflags`
 
 else
 # Flags for Linux / Cygwin
-LIBS = -L$(HOME)/local/lib `fltk-config --libs --use-images` -lpng -ljpeg -lfltk -L/usr/X11R6/lib -lXext -lXft -lXinerama -lfontconfig -lX11 -ldl
+LIBS = -L$(HOME)/local/lib `fltk-config --libs --use-images` -lpng -ljpeg -lfltk -L/usr/X11R6/lib -lXcursor -lXfixes -lXext -lXft -lXinerama -lfontconfig -lX11 -ldl
 CFLAGS = -g
 endif
 
