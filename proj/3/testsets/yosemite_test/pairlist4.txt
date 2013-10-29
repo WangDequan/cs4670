@@ -1,0 +1,3 @@
+yosemite1.warp.tga yosemite2.warp.tga 1 0 276.72 0 1 -0.91 0 0 1
+yosemite2.warp.tga yosemite3.warp.tga 1 0 327.80 0 1 -9.03 0 0 1
+yosemite3.warp.tga yosemite4.warp.tga 1 0 388.97 0 1 -25.09 0 0 1

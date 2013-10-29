@@ -1,0 +1,30 @@
+# Warp the input images
+#  usage: Panorama sphrWarp input.tga output.tga f [k1 k2]
+Panorama sphrWarp yosemite1.jpg yosemite1.warp.tga 678 -0.21 0.26
+Panorama sphrWarp yosemite2.jpg yosemite2.warp.tga 678 -0.21 0.26
+Panorama sphrWarp yosemite3.jpg yosemite3.warp.tga 678 -0.21 0.26
+Panorama sphrWarp yosemite4.jpg yosemite4.warp.tga 678 -0.21 0.26
+
+# Detect features
+#  usage: Features computeFeatures image featFile featType
+Features computeFeatures yosemite1.warp.tga yosemite1.warp.f 2
+Features computeFeatures yosemite2.warp.tga yosemite2.warp.f 2
+Features computeFeatures yosemite3.warp.tga yosemite3.warp.f 2
+Features computeFeatures yosemite4.warp.tga yosemite4.warp.f 2
+
+# Match features
+#  usage: Features matchFeatures feat1 feat2 threshold matchFile matchType
+Features matchFeatures yosemite1.warp.f yosemite2.warp.f 0.8 match_1_2.txt 2
+Features matchFeatures yosemite2.warp.f yosemite3.warp.f 0.8 match_2_3.txt 2
+Features matchFeatures yosemite3.warp.f yosemite4.warp.f 0.8 match_3_4.txt 2
+
+# Align the pairs using matched features
+#  usage: Panorama alignPair feat1 feat2 matchfile ransacRounds ransacThresh
+Panorama alignPair yosemite1.warp.f yosemite2.warp.f match_1_2.txt 200 3
+Panorama alignPair yosemite2.warp.f yosemite3.warp.f match_2_3.txt 200 3
+Panorama alignPair yosemite3.warp.f yosemite4.warp.f match_3_4.txt 200 3
+
+# Finally, blend these four images together
+#  Assumes the output of the three commands above is saved to pairlist4.txt
+#  usage: Panorama blendPairs pairlist.txt outfile.tga blendWidth
+Panorama blendPairs pairlist4.txt stitch4.tga 200
