@@ -12,7 +12,7 @@ ifeq ($(UNAME), Darwin)
 # one bellow is where MacPorts usually puts things, if you used some other
 # package manager (e.g. brew) or installed libpng from source you will
 # have to modify it.
-PNGLIB_PATH=/opt/local/lib 
+PNGLIB_PATH=/usr/local/lib
 LIBS =  -L$(PNGLIB_PATH) `fltk-config --libs --use-images` -framework Cocoa -lpng -ljpeg -lz
 CFLAGS = -g `fltk-config --cxxflags`
 
@@ -29,7 +29,7 @@ all: Panorama
 Panorama: $(OBJS) $(IMAGELIB)
 	g++ -o $@ $(CFLAGS) $(OBJS) $(IMAGELIB) $(LIBS)
 
-$(IMAGELIB): 
+$(IMAGELIB):
 	make -C ImageLib
 
 clean:
