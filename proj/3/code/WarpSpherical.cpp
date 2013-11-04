@@ -58,7 +58,7 @@ CFloatImage WarpSphericalField(CShape srcSh, CShape dstSh, float f,
 	for (int y = 0; y < dstSh.height; y++) {
 		float *uv = &uvImg.Pixel(0, y, 0);
 		for (int x = 0; x < dstSh.width; x++, uv += 2) {
-			// (x,y) is the spherical image coordinates. 
+			// (x,y) is the spherical image coordinates.
 			// (xf,yf) is the spherical coordinates, e.g., xf is the angle theta
 			// and yf is the angle phi
 
@@ -79,7 +79,7 @@ CFloatImage WarpSphericalField(CShape srcSh, CShape dstSh, float f,
 
             p[0] = sin(xf)*cos(yf);
             p[1] = sin(yf);
-            p[2] = cos(xf)*sin(yf);
+            p[2] = cos(xf)*cos(yf);
 
             p = r * p;
 
