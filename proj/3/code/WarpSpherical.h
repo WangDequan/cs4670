@@ -17,7 +17,7 @@
 //  for correcting radial distortion in an image and/or mapping
 //  the image into spherical coordinates (for image mosaics).
 //
-//  Use the output of WarpSphericalField as the input to 
+//  Use the output of WarpSphericalField as the input to
 //  WarpLocal, along with a source and destination image, to actually
 //  perform the warp.
 //
