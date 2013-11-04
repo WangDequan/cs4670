@@ -136,6 +136,7 @@ int alignPair(const FeatureSet &f1, const FeatureSet &f2,
         bestInliers = inliers;
       }
     }
+    fprintf(stderr, "num_inliers: %d / %d\n", bestInliers, matches.size());
     leastSquaresFit(f1, f2, matches, m, bestInliers, M);
 
     // END TODO
