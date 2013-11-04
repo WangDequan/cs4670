@@ -139,7 +139,23 @@ static void NormalizeBlend(CFloatImage& acc, CByteImage& img)
 {
     // BEGIN TODO
     // fill in this routine..
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    int width = acc.Shape().width;
+    int height = acc.Shape().height;
+    for (int i=0;i<width;i++){
+        for (int j=0;j<height;j++){
+            float w = acc.Pixel(i,j,3);
+            img.Pixel(i,j,3) = 255;
+            if (w > 0){
+                img.Pixel(i,j,0) = acc.Pixel(i,j,0) / w;
+                img.Pixel(i,j,1) = acc.Pixel(i,j,1) / w;
+                img.Pixel(i,j,2) = acc.Pixel(i,j,2) / w;
+            } else {
+                img.Pixel(i,j,0) = 0;
+                img.Pixel(i,j,1) = 0;
+                img.Pixel(i,j,2) = 0;
+            }
+        }
+    }
 
     // END TODO
 }
