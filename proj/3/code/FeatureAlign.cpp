@@ -18,11 +18,12 @@
 #include <math.h>
 #include <iostream>
 
+
 CTransform3x3 ComputeHomography(const FeatureSet &f1, const FeatureSet &f2,
                                 const vector<FeatureMatch> &matches)
 {
     int numMatches = (int) matches.size();
-
+    assert(0);
     // first, we will compute the A matrix in the homogeneous linear equations Ah = 0
     int numRows = 2 * numMatches; // number of rows of A
     const int numCols = 9;        // number of columns of A
@@ -132,8 +133,8 @@ int alignPair(const FeatureSet &f1, const FeatureSet &f2,
 
       countInliers(f1, f2, matches, m, trans, RANSACthresh, inliers);
 
-      if (inliers.size() > bestCount){
-        bestCount = inliers.size();
+      if (((int)inliers.size()) > bestCount){
+        bestCount = ((int)inliers.size());
         bestInliers = inliers;
       }
     }
@@ -170,8 +171,7 @@ int countInliers(const FeatureSet &f1, const FeatureSet &f2,
                  CTransform3x3 M, double RANSACthresh, vector<int> &inliers)
 {
     inliers.clear();
-
-    for (unsigned int i = 0; i < matches.size(); i++) {
+    for (unsigned int i = 0; i < ((int)matches.size()); i++) {
         // BEGIN TODO
         // determine if the ith matched feature f1[id1], when transformed by M,
         // is within RANSACthresh of its match in f2
@@ -179,14 +179,17 @@ int countInliers(const FeatureSet &f1, const FeatureSet &f2,
         // if so, append i to inliers
 
         // initialize the vectors
-        CVector3 p1(f1[matches[i].id1].x, f1[matches[i].id1].y, 1);
+        const FeatureMatch &m = matches[i];
+        const Feature &a = f1[m.id1];
+        const Feature &b = f2[m.id2];
+        CVector3 p1(a.x, b.y, 1);
         p1 = M*p1; // perform the transform
         // scale into 2D
         p1[0] /= p1[2];
         p1[1] /= p1[2];
         // diffs
-        double d1 = p1[0] - f2[matches[i].id2].x;
-        double d2 = p1[1] - f2[matches[i].id2].y;
+        double d1 = p1[0] - b.x;
+        double d2 = p1[1] - b.y;
 
         if (d1*d1 + d2*d2 < RANSACthresh * RANSACthresh){
             inliers.push_back(i);
@@ -226,16 +229,17 @@ int leastSquaresFit(const FeatureSet &f1, const FeatureSet &f2,
             // between the feature in f1 and its match in f2 for all inliers
             double u = 0;
             double v = 0;
-            FeatureMatch m;
 
             for (int i=0; i < (int) inliers.size(); i++) {
 			    // BEGIN TODO
 			    // use this loop to compute the average translation vector
 			    // over all inliers
 
-                m = matches[inliers[i]];
-                u += f2[m.id1].x - f1[m.id2].x;
-                v += f2[m.id1].y - f1[m.id2].y;
+                const FeatureMatch &m = matches[inliers[i]];
+                const Feature &a = f1[m.id1];
+                const Feature &b = f2[m.id2];
+                u += b.x - a.x;
+                v += b.y - a.y;
 
                 // END TODO
             }
@@ -256,7 +260,7 @@ int leastSquaresFit(const FeatureSet &f1, const FeatureSet &f2,
 		    // This should call ComputeHomography.
 
             vector<FeatureMatch> myMatches;
-            for (int i=0;i<inliers.size();i++){ myMatches.push_back(matches[inliers[i]]); }
+            for (int i=0;i<((int)inliers.size());i++){ myMatches.push_back(matches[inliers[i]]); }
 
             M = ComputeHomography(f1, f2, myMatches);
 

@@ -40,14 +40,31 @@ static int iround(double x) {
     }
 }
 
+inline float max(float x, float y){ return (x > y ? x : y); }
+inline float min(float x, float y){ return (x < y ? x : y); }
+
 void ImageBoundingBox(CImage &image, CTransform3x3 &M, 
     int &min_x, int &min_y, int &max_x, int &max_y)
 {
     // This is a useful helper function that you might choose to implement
     // takes an image, and a transform, and computes the bounding box of the
     // transformed image.
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    CShape s = image.Shape();
+    CVector3 v1(0,0,1);
+    CVector3 v2(s.width - 1, 0, 1);
+    CVector3 v3(0, s.height - 1, 1);
+    CVector3 v4(s.width - 1, s.height - 1, 1);
 
+    // apply the transform and scale
+    v1 = M*v1; v1[0] /= v1[2]; v1[1] /= v1[2];
+    v2 = M*v2; v2[0] /= v2[2]; v2[1] /= v2[2];
+    v3 = M*v3; v3[0] /= v3[2]; v3[1] /= v3[2];
+    v4 = M*v4; v4[0] /= v4[2]; v4[1] /= v4[2];
+
+    min_x = min(min(v1[0], v2[0]), min(v3[0], v4[0]));
+    max_x = max(max(v1[0], v2[0]), max(v3[0], v4[0]));
+    min_y = min(min(v1[1], v2[1]), min(v3[1], v4[1]));
+    max_y = max(max(v1[1], v2[1]), max(v3[1], v4[1]));
 }
 
 
@@ -68,6 +85,8 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
 {
     // BEGIN TODO
     // Fill in this routine
+    int minx, maxx, miny, maxy;
+    ImageBoundingBox(img, M, minx, miny, maxx, maxy);
 printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
     // END TODO
