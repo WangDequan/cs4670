@@ -101,7 +101,7 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
             CVector3 cPt(i, j, 1);
             cPt = Minv * cPt;
             int x = iround(cPt[0] / cPt[2]);
-            int y = iround(cPt[0] / cPt[2]);
+            int y = iround(cPt[1] / cPt[2]);
 
             if (y < 0.0 || y > height - 1 || x < 0 || x > width - 1){ continue; }
 
@@ -114,10 +114,12 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
                 w = 1.0;
             }
 
-            acc.Pixel(i, j, 0) += (float)(w*img.Pixel(x,y,0));
-            acc.Pixel(i, j, 1) += (float)(w*img.Pixel(x,y,1));
-            acc.Pixel(i, j, 2) += (float)(w*img.Pixel(x,y,2));
-            acc.Pixel(i, j, 3) += (float)w;
+            if (acc.Pixel(i,j,0) == 0 && acc.Pixel(i,j,1) == 0 && acc.Pixel(i,j,2) == 0){
+              acc.Pixel(i, j, 0) += (float)(w*img.Pixel(x,y,0));
+              acc.Pixel(i, j, 1) += (float)(w*img.Pixel(x,y,1));
+              acc.Pixel(i, j, 2) += (float)(w*img.Pixel(x,y,2));
+              acc.Pixel(i, j, 3) += (float)w;
+            }
         }
     }
 
@@ -203,7 +205,7 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
         int iminx, iminy, imaxx, imaxy;
         ImageBoundingBox(img0, T, iminx, iminy, imaxx, imaxy);
         if (i == 0) { dy += imaxy; }
-        if (i == n - 1) { dy -+ imaxy; }
+        if (i == n - 1) { dy -= imaxy; }
         min_x = min(min_x, iminx);
         min_y = min(min_y, iminy);
         max_x = max(max_x, imaxx);
@@ -288,7 +290,6 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
     }
 
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
     // END TODO
 
