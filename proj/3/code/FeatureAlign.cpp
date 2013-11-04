@@ -109,7 +109,35 @@ int alignPair(const FeatureSet &f1, const FeatureSet &f2,
     // Your homography handling code should call ComputeHomography.
     // This function should also call countInliers and, at the end,
     // leastSquaresFit.
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    int d, bestCount = -1;
+    vector<int> tryMatches, inliers, bestInliers;
+    for (int i=0;i<nRANSAC;i++){
+      tryMatches.clear();
+
+      switch(m){
+        case eTranslate: d = 1; break;
+        case eHomography: d = 4; break;
+      }
+      
+      for (int k=0; k<d; k++){
+        int s = rand() % matches.size();
+        // deal with dupes
+        int j;
+        for (j=0;j<k;j++){ if (s == tryMatches[j]){ continue; } }
+        if ( j == k ) { tryMatches.push_back(s); }
+      }
+
+      CTransform3x3 trans;
+      leastSquaresFit(f1, f2, matches, m, tryMatches, trans);
+
+      countInliers(f1, f2, matches, m, trans, RANSACthresh, inliers);
+
+      if (inliers.size() > bestCount){
+        bestCount = inliers.size();
+        bestInliers = inliers;
+      }
+    }
+    leastSquaresFit(f1, f2, matches, m, bestInliers, M);
 
     // END TODO
 
@@ -149,7 +177,20 @@ int countInliers(const FeatureSet &f1, const FeatureSet &f2,
         // is within RANSACthresh of its match in f2
         //
         // if so, append i to inliers
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+
+        // initialize the vectors
+        CVector3 p1(f1[matches[i].id1].x, f1[matches[i].id1].y, 1);
+        p1 = M*p1; // perform the transform
+        // scale into 2D
+        p1[0] /= p1[2];
+        p1[1] /= p1[2];
+        // diffs
+        double d1 = p1[0] - f2[matches[i].id2].x;
+        double d2 = p1[1] - f2[matches[i].id2].y;
+
+        if (d1*d1 + d2*d2 < RANSACthresh * RANSACthresh){
+            inliers.push_back(i);
+        }
 
         // END TODO
     }
