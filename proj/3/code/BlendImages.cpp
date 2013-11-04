@@ -87,7 +87,25 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
     // Fill in this routine
     int minx, maxx, miny, maxy;
     ImageBoundingBox(img, M, minx, miny, maxx, maxy);
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    int width = img.Shape().width;
+    int height = img.Shape().height;
+    int nBands = img.Shaped().nBands;
+
+    int acc_width = acc.Shape().width;
+    int acc_height = acc.Shape().height;
+
+    CTransform3x3 Minv = M.Inverse();
+
+    for (int i=0;i<acc_width;i++){
+        for (int j=0;j<acc_hieght;j++){
+            CVector cPt(i, j, 1);
+            cPt = Minv * cPt;
+            cPt[0] /= cPt[2];
+            cPt[1] /= cPt[2];
+
+            if (y < 0.0 || y > height - 1 || x < 0 || x > width - 1){ continue; }
+        }
+    }
 
     // END TODO
 }
