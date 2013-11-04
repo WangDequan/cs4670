@@ -114,7 +114,7 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
                 w = 1.0;
             }
 
-            if (img.Pixel(i,j,0) > 0 || img.Pixel(i,j,1) > 0 || img.Pixel(i,j,2) > 0){
+            if (img.Pixel(x,y,0) > 0 || img.Pixel(x,y,1) > 0 || img.Pixel(x,y,2) > 0){
               acc.Pixel(i, j, 0) += (float)(w*img.Pixel(x,y,0));
               acc.Pixel(i, j, 1) += (float)(w*img.Pixel(x,y,1));
               acc.Pixel(i, j, 2) += (float)(w*img.Pixel(x,y,2));
