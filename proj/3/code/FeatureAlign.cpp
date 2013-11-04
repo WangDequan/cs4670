@@ -22,15 +22,13 @@
 CTransform3x3 ComputeHomography(const FeatureSet &f1, const FeatureSet &f2,
                                 const vector<FeatureMatch> &matches)
 {
-    printf("asdf\n");
     int numMatches = (int) matches.size();
     // first, we will compute the A matrix in the homogeneous linear equations Ah = 0
     int numRows = 2 * numMatches; // number of rows of A
     const int numCols = 9;        // number of columns of A
-
     // this allocates space for the A matrix
     AMatrixType A = AMatrixType::Zero(numRows, numCols);
-
+    
     for (int i = 0; i < numMatches; i++) {
         const FeatureMatch &m = matches[i];
         const Feature &a = f1[m.id1];
@@ -66,7 +64,7 @@ CTransform3x3 ComputeHomography(const FeatureSet &f1, const FeatureSet &f2,
 
     for (int i=0;i<3;i++){
         for (int j=0;j<3;j++){
-            H[i][j] = Vt(3*i+j,8)/Vt(8,8);
+            H[i][j] = Vt(8,3*i+j)/Vt(8,8);
         }
     }
     // END TODO
@@ -119,15 +117,15 @@ int alignPair(const FeatureSet &f1, const FeatureSet &f2,
         case eTranslate: d = 1; break;
         case eHomography: d = 4; break;
       }
-      
-      for (int k=0; k<d; k++){
+      while (tryMatches.size() < d){
         int s = rand() % matches.size();
         // deal with dupes
-        int j;
-        for (j=0;j<k;j++){ if (s == tryMatches[j]){ continue; } }
-        if ( j == k ) { tryMatches.push_back(s); }
+        bool dupe = false;
+        for (int j=0;j<tryMatches.size();j++){
+            if (s == tryMatches[j]){ dupe = true; }
+        }
+        if ( !dupe ) { tryMatches.push_back(s); }
       }
-
       CTransform3x3 trans;
       leastSquaresFit(f1, f2, matches, m, tryMatches, trans);
 
@@ -182,7 +180,7 @@ int countInliers(const FeatureSet &f1, const FeatureSet &f2,
         const FeatureMatch &m = matches[i];
         const Feature &a = f1[m.id1];
         const Feature &b = f2[m.id2];
-        CVector3 p1(a.x, b.y, 1);
+        CVector3 p1(a.x, a.y, 1);
         p1 = M*p1; // perform the transform
         // scale into 2D
         p1[0] /= p1[2];
