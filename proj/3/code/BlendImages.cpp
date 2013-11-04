@@ -43,7 +43,7 @@ static int iround(double x) {
 inline float max(float x, float y){ return (x > y ? x : y); }
 inline float min(float x, float y){ return (x < y ? x : y); }
 
-void ImageBoundingBox(CImage &image, CTransform3x3 &M, 
+void ImageBoundingBox(CImage &image, CTransform3x3 &M,
     int &min_x, int &min_y, int &max_x, int &max_y)
 {
     // This is a useful helper function that you might choose to implement
@@ -114,7 +114,7 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
                 w = 1.0;
             }
 
-            if (acc.Pixel(i,j,0) == 0 && acc.Pixel(i,j,1) == 0 && acc.Pixel(i,j,2) == 0){
+            if (img.Pixel(i,j,0) > 0 || img.Pixel(i,j,1) > 0 || img.Pixel(i,j,2) > 0){
               acc.Pixel(i, j, 0) += (float)(w*img.Pixel(x,y,0));
               acc.Pixel(i, j, 1) += (float)(w*img.Pixel(x,y,1));
               acc.Pixel(i, j, 2) += (float)(w*img.Pixel(x,y,2));
@@ -201,7 +201,7 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
     {
         CTransform3x3 &T = ipv[i].position;
        // BEGIN TODO
-        // add some code here to update min_x, ..., max_y  
+        // add some code here to update min_x, ..., max_y
         int iminx, iminy, imaxx, imaxy;
         ImageBoundingBox(img0, T, iminx, iminy, imaxx, imaxy);
         if (i == 0) { dy += imaxy; }
@@ -210,8 +210,8 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
         min_y = min(min_y, iminy);
         max_x = max(max_x, imaxx);
         max_y = max(max_y, imaxy);
-        
- 
+
+
         // END TODO
     }
 
