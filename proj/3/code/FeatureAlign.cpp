@@ -35,10 +35,20 @@ CTransform3x3 ComputeHomography(const FeatureSet &f1, const FeatureSet &f2,
         const Feature &a = f1[m.id1];
         const Feature &b = f2[m.id2];
 
+// CHECK!
+
+        A(2*i,0) = a.x;         A(2*i,1) = a.y;         A(2*i,2) = 1;
+        A(2*i,3) = 0;           A(2*i,4) = 0;           A(2*i,5) = 0;
+        A(2*i,6) = -a.x*b.x;    A(2*i,7) = -a.y*b.x;    A(2*i,8) = -b.x;
+
+        A(2*i+1,0) = 0;         A(2*i+1,1) = 0;         A(2*i+1,2) = 0;
+        A(2*i+1,3) = a.x;       A(2*i+1,4) = a.y;       A(2*i+1,5) = 1;
+        A(2*i+1,6) = -a.x*b.y;  A(2*i+1,7) = -a.y*b.y;  A(2*i+1,8) = -b.y;
+
+
         // BEGIN TODO
         // fill in the matrix A in this loop.
         // To access an element of A, use parentheses, e.g. A(0,0)
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
         // END TODO
     }
@@ -52,8 +62,12 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
     // BEGIN TODO
     // fill the homography H with the appropriate elements of the SVD
     // To extract, for instance, the V matrix, use svd.matrixV()
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
+    for (int i=0;i<3;i++){
+        for (int j=0;j<3;j++){
+            H[i][j] = Vt(3*i+j,8)/Vt(8,8);
+        }
+    }
     // END TODO
 
     return H;
