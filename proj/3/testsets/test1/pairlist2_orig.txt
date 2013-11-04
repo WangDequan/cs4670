@@ -1,0 +1,1 @@
+pano1_0008.tga pano1_0009.tga [insert homography here]

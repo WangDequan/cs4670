@@ -285,8 +285,8 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
     // to take out the vertical drift if this is a 360 panorama
     // (i.e. is360 is true)
     if (is360){
-        A[0][2] = width / 2;
-        A[1][0] = dy / outputWidth;
+        A[0][2] = width / 2; // crop
+        A[1][0] = dy / outputWidth; // align
     }
 
 
