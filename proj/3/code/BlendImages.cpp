@@ -194,12 +194,21 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
     float min_x = FLT_MAX, min_y = FLT_MAX;
     float max_x = 0, max_y = 0;
     int i;
+    float dy;
     for (i = 0; i < n; i++)
     {
         CTransform3x3 &T = ipv[i].position;
        // BEGIN TODO
-        // add some code here to update min_x, ..., max_y
-//        ImageBoundingBox(img0, T, min_x, min_y, max_x, max_y); 
+        // add some code here to update min_x, ..., max_y  
+        int iminx, iminy, imaxx, imaxy;
+        ImageBoundingBox(img0, T, iminx, iminy, imaxx, imaxy);
+        if (i == 0) { dy += imaxy; }
+        if (i == n - 1) { dy -+ imaxy; }
+        min_x = min(min_x, iminx);
+        min_y = min(min_y, iminy);
+        max_x = max(max_x, imaxx);
+        max_y = max(max_y, imaxy);
+        
  
         // END TODO
     }
@@ -275,7 +284,7 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
     // (i.e. is360 is true)
     if (is360){
         A[0][2] = width / 2;
-//        A[1][0] = (firstcorner-lastcorner) / outputWidth;
+        A[1][0] = dy / outputWidth;
     }
 
 
