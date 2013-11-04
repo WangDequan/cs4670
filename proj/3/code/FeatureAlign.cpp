@@ -226,12 +226,16 @@ int leastSquaresFit(const FeatureSet &f1, const FeatureSet &f2,
             // between the feature in f1 and its match in f2 for all inliers
             double u = 0;
             double v = 0;
+            FeatureMatch m;
 
             for (int i=0; i < (int) inliers.size(); i++) {
 			    // BEGIN TODO
 			    // use this loop to compute the average translation vector
 			    // over all inliers
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+
+                m = matches[inliers[i]];
+                u += f2[m.id1].x - f1[m.id2].x;
+                v += f2[m.id1].y - f1[m.id2].y;
 
                 // END TODO
             }
@@ -250,7 +254,11 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
             // BEGIN TODO
 		    // Compute a homography M using all inliers.
 		    // This should call ComputeHomography.
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+
+            vector<FeatureMatch> myMatches;
+            for (int i=0;i<inliers.size();i++){ myMatches.push_back(matches[inliers[i]]); }
+
+            M = ComputeHomography(f1, f2, myMatches);
 
             // END TODO
         
