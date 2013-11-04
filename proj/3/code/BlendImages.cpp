@@ -100,15 +100,24 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
         for (int j=0;j<acc_height;j++){
             CVector3 cPt(i, j, 1);
             cPt = Minv * cPt;
-            int x = cPt[0] / cPt[2];
-            int y = cPt[0] / cPt[2];
+            int x = iround(cPt[0] / cPt[2]);
+            int y = iround(cPt[0] / cPt[2]);
 
             if (y < 0.0 || y > height - 1 || x < 0 || x > width - 1){ continue; }
 
-            int bDist = 0;
-            
+            int bDist = min(min(x, width-x), min(y, width-y));
 
-            
+            double w;
+            if (bDist < blendWidth){
+                w = bDist / blendWidth;
+            } else {
+                w = 1.0;
+            }
+
+            acc.Pixel(i, j, 0) += (float)(w*img.Pixel(x,y,0));
+            acc.Pixel(i, j, 1) += (float)(w*img.Pixel(x,y,1));
+            acc.Pixel(i, j, 2) += (float)(w*img.Pixel(x,y,2));
+            acc.Pixel(i, j, 3) += (float)w;
         }
     }
 
