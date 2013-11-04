@@ -197,11 +197,10 @@ CByteImage BlendImages(CImagePositionV& ipv, float blendWidth)
     for (i = 0; i < n; i++)
     {
         CTransform3x3 &T = ipv[i].position;
-
-        // BEGIN TODO
+       // BEGIN TODO
         // add some code here to update min_x, ..., max_y
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
+//        ImageBoundingBox(img0, T, min_x, min_y, max_x, max_y); 
+ 
         // END TODO
     }
 
@@ -274,6 +273,12 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
     // fill in appropriate entries in A to trim the left edge and
     // to take out the vertical drift if this is a 360 panorama
     // (i.e. is360 is true)
+    if (is360){
+        A[0][2] = width / 2;
+//        A[1][0] = (firstcorner-lastcorner) / outputWidth;
+    }
+
+
 printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
     // END TODO

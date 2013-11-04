@@ -22,8 +22,8 @@
 CTransform3x3 ComputeHomography(const FeatureSet &f1, const FeatureSet &f2,
                                 const vector<FeatureMatch> &matches)
 {
+    printf("asdf\n");
     int numMatches = (int) matches.size();
-    assert(0);
     // first, we will compute the A matrix in the homogeneous linear equations Ah = 0
     int numRows = 2 * numMatches; // number of rows of A
     const int numCols = 9;        // number of columns of A
