@@ -16,7 +16,7 @@ do
 done
 
 # Extract features
-for d in *.tga
+for d in *.warp.tga
 do
     echo "Extracting features from image $d"
     $FEATURES computeFeatures $d `basename $d .tga`.f 2 2

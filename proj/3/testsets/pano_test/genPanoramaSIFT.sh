@@ -11,14 +11,14 @@ BLENDWIDTH=100.0
 
 # Warp images
 for d in *.[Jj][Pp][Gg]
-do 
+do
     echo Warping image $d
     $PANORAMA sphrWarp $d `echo $d | sed 's/.[Jj][Pp][Gg]//'`.warp.tga $FOCAL $K1 $K2
 done
 
 # Extract features
-for d in *.tga
-do 
+for d in *.warp.tga
+do
     echo "Extracting SIFT features from image $d"
 
     # Silly intermediate conversion to ppm because sift refuses to work on
