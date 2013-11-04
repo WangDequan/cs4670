@@ -6,7 +6,7 @@ echo "rm -f pairlist.txt"
 
 awk '{ for (i=1; i <= NF; i++) { \
          j = i % NF + 1; \
-         print "echo \"Matching image " i " to " j "\"\n../Features.exe matchFeatures " $i, $j " 0.7 match_" i "_" j ".txt " 2 2; \
+         print "echo \"Matching image " i " to " j "\"\n../Features.exe matchFeatures " $i, $j " 0.7 match_" i "_" j ".txt " 2; \
        } \
      } ' files_one_line.txt
 
