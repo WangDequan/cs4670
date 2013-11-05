@@ -1,0 +1,66 @@
+<!--
+	buttons-png-include.xml template
+	- based on the 'buttons.png'
+	- the transparency is achieved by the alpha channel of the png image
+	- this example also changes the mouse cursor (Flash only)
+-->
+<krpano>
+
+	<!-- a container layer with the default navigation buttons -->
+	<layer name="buttons" keep="true" type="container" align="bottom" width="280" height="40" y="10">
+		<layer name="in"       url="buttons.png" align="left" x="0"   crop="160|0|40|40" onovercrop="160|40|40|40" ondowncrop="160|80|40|40" ondown="set(fov_moveforce,-1);"      onup="set(fov_moveforce,0);" />
+		<layer name="out"      url="buttons.png" align="left" x="40"  crop="200|0|40|40" onovercrop="200|40|40|40" ondowncrop="200|80|40|40" ondown="set(fov_moveforce,+1);"      onup="set(fov_moveforce,0);" />
+		<layer name="left"     url="buttons.png" align="left" x="80"  crop=  "0|0|40|40" onovercrop=  "0|40|40|40" ondowncrop=  "0|80|40|40" ondown="set(hlookat_moveforce,-1);"  onup="set(hlookat_moveforce,0);" />
+		<layer name="right"    url="buttons.png" align="left" x="120" crop= "40|0|40|40" onovercrop= "40|40|40|40" ondowncrop= "40|80|40|40" ondown="set(hlookat_moveforce,+1);"  onup="set(hlookat_moveforce,0);" />
+		<layer name="up"       url="buttons.png" align="left" x="160" crop= "80|0|40|40" onovercrop= "80|40|40|40" ondowncrop= "80|80|40|40" ondown="set(vlookat_moveforce,-1);"  onup="set(vlookat_moveforce,0);" />
+		<layer name="down"     url="buttons.png" align="left" x="200" crop="120|0|40|40" onovercrop="120|40|40|40" ondowncrop="120|80|40|40" ondown="set(vlookat_moveforce,+1);"  onup="set(vlookat_moveforce,0);" />
+		<layer name="dragmode" url="buttons.png" align="left" x="240" crop="400|0|40|40" onovercrop="400|40|40|40" ondowncrop="400|80|40|40" onclick="set_drag_cursor();" visible="true"  />
+		<layer name="movemode" url="buttons.png" align="left" x="240" crop="360|0|40|40" onovercrop="360|40|40|40" ondowncrop="360|80|40|40" onclick="set_qtvr_cursor();" visible="false" />
+	</layer>
+
+	<!-- add fullscreen buttons and make the container larger -->
+	<layer name="buttons" width="320" devices="fullscreensupport">
+		<layer name="openfs"   url="buttons.png" align="left" x="280" crop="280|0|40|40" onovercrop="280|40|40|40" ondowncrop="280|80|40|40" onclick="set(fullscreen,true);"  visible="true"  />
+		<layer name="closefs"  url="buttons.png" align="left" x="280" crop="320|0|40|40" onovercrop="320|40|40|40" ondowncrop="320|80|40|40" onclick="set(fullscreen,false);" visible="false" />
+	</layer>
+	
+	<!-- events to change the fullscreen buttons, set cursor on start -->
+	<events name="buttonevents" keep="true"
+	        onxmlcomplete="if(istouchdevice, set_drag_cursor(), set_qtvr_cursor() );"
+	        onenterfullscreen="set(layer[openfs].visible,false); set(layer[closefs].visible,true);"
+	        onexitfullscreen ="set(layer[openfs].visible,true);  set(layer[closefs].visible,false);"
+	        />
+
+
+	<!-- actions to change the mouse cursor image -->
+	<action name="set_drag_cursor">
+		set(layer[dragmode].visible, false);
+		set(layer[movemode].visible, true);
+		set(control.mousetype, drag2D);
+		set(control.touchtype, drag2D);
+		set(cursors.url, %CURRENTXML%/drag-cursors.png);
+		set(cursors.type, drag);
+		set(cursors.move,  2|0|30|32);
+		set(cursors.drag, 37|0|30|32);
+	</action>
+
+	<action name="set_qtvr_cursor">
+		set(layer[dragmode].visible, true);
+		set(layer[movemode].visible, false);
+		set(control.mousetype, moveto);
+		set(control.touchtype, moveto);
+		set(cursors.url, %CURRENTXML%/qtvr-cursors.png);
+		set(cursors.type, 8way);
+		set(cursors.move,       0|0|16|16);
+		set(cursors.drag,      16|0|16|16);
+		set(cursors.arrow_u,   32|0|16|16);
+		set(cursors.arrow_d,   48|0|16|16);
+		set(cursors.arrow_l,   64|0|16|16);
+		set(cursors.arrow_r,   80|0|16|16);
+		set(cursors.arrow_lu,  96|0|16|16);
+		set(cursors.arrow_ru, 112|0|16|16);
+		set(cursors.arrow_rd, 128|0|16|16);
+		set(cursors.arrow_ld, 144|0|16|16);
+	</action>
+
+</krpano>

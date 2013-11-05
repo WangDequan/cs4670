@@ -1,0 +1,170 @@
+<!-- krpano 1.16.3 - panoramic video interface example -->
+<krpano idletime="4.0">
+
+	<style name="videointerface_menubutton" url="%SWFPATH%/plugins/textfield.swf" children="false" align="lefttop" x="10" vcenter="true" width="180" height="25" css="text-align:left; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:12px;" background="true" backgroundcolor="0" backgroundalpha="0.25" border="false" onover="set(effect,glow(0xFFFFFF,0.7,4,2));" onout="set(effect,null);" />
+
+	<layer name="videointerface_paused" url="videointerface_paused.png" align="center" zorder="2" crop="0|0|200|200" onovercrop="0|200|200|200" ondowncrop="0|200|200|200" visible="false" alpha="0.0" scale="1.5" onclick="videointerface_togglepause();" />
+
+	<layer name="videointerface_control_bar" type="container" bgalpha="0.5" bgcolor="0x000000" width="80%" height="40" align="bottom" y="20" zorder="1">
+		<layer name="videointerface_pp_button" url="videointerface_pp_button.png"                  align="left"  onclick="videointerface_togglepause();" onover="set(effect,glow(0xFFFFFF,0.7,4,2));" onout="set(effect,null);" />
+		<layer name="videointerface_fs_button" url="videointerface_fs_button.png" crop="0|0|50|40" align="right" onclick="switch(fullscreen);" onover="set(effect,glow(0xFFFFFF,0.7,4,2));" onout="set(effect,null);" devices="fullscreensupport" />
+		<layer name="videointerface_pj_button" url="videointerface_open_button.png" align="right" x="40" onclick="videointerface_toggle_projectionsmenu();" onover="set(effect,glow(0xFFFFFF,0.7,4,2));" onout="set(effect,null);" devices="flash" />
+		<layer name="videointerface_t1" url="%SWFPATH%/plugins/textfield.swf" enabled="false" align="left"  width="55" autoheight="true" x="60" y="-1" html="" css="text-align:right; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:12px;" background="false" border="false" />
+		<layer name="videointerface_t2" url="%SWFPATH%/plugins/textfield.swf" enabled="false" align="right" width="85" autoheight="true" x="42" y="-1" html="" css="text-align:left; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:12px;" background="false" border="false" />
+		<layer name="videointerface_t2" x="15" devices="!flash+fullscreensupport" />
+		<layer name="videointerface_t2" x="-20" devices="!flash+!fullscreensupport" />
+		<layer name="videointerface_loadbar" type="container" bgalpha="0.5" bgcolor="0x606060" align="left" x="125" width="0" height="12">
+			<layer name="videointerface_seekbar" type="container" bgalpha="0.9" bgcolor="0xFFFFFF" align="left" width="0%" height="10" />
+			<layer name="videointerface_seekgrip" url="videointerface_seekgrip.png" align="left" x="0" edge="center" ondown="videointerface_startdragging();" onup="videointerface_stopdragging();"/>
+		</layer>
+		<layer name="videointerface_menuscroller" type="container" width="200" height="285" align="righttop" edge="rightbottom" maskchildren="true" devices="flash">
+			<layer name="videointerface_menu" type="container" bgalpha="0.5" bgcolor="0x000000" width="200" height="285" y="285" align="lefttop" state="closed">
+				<layer name="videointerface_m1" style="videointerface_menubutton" y="10"  html="[u]Select Projection[/u]" enabled="false" />
+				<layer name="videointerface_m2" style="videointerface_menubutton" y="40"  html="• Flat View"          onclick="view_flat();"          />
+				<layer name="videointerface_m3" style="videointerface_menubutton" y="70"  html="• Normal View"        onclick="view_normal();"        />
+				<layer name="videointerface_m4" style="videointerface_menubutton" y="100" html="• Wide View"          onclick="view_wide();"          />
+				<layer name="videointerface_m5" style="videointerface_menubutton" y="130" html="• Fisheye View"       onclick="view_fisheye();"       />
+				<layer name="videointerface_m6" style="videointerface_menubutton" y="160" html="• Architectural View" onclick="view_architectural();" />
+				<layer name="videointerface_m7" style="videointerface_menubutton" y="190" html="• Stereographic View" onclick="view_stereographic();" />
+				<layer name="videointerface_m8" style="videointerface_menubutton" y="220" html="• Pannini View"       onclick="view_pannini();"       />
+				<layer name="videointerface_m9" style="videointerface_menubutton" y="250" html="• Little Planet View" onclick="view_littleplanet();"  />
+			</layer>
+		</layer>
+	</layer>
+
+	<events name="videointerface_events"
+	        onenterfullscreen="set(layer[videointerface_fs_button].crop, 0|40|50|40);"
+	        onexitfullscreen="set(layer[videointerface_fs_button].crop, 0|0|50|40);"
+	        onresize="videointerface_updatevideoinfo(false);"
+	        onidle="if(layer[videointerface_menu].state == 'closed', videointerface_hide_interface(); );"
+	        onclick="videointerface_show_interface();"
+	        />
+
+	<action name="videointerface_setvideo">
+		set(videointerface_video, %1);
+		videointerface_updatevideoinfo();
+
+		if(plugin[get(videointerface_video)].pausedonstart,
+			set(layer[videointerface_paused].visible, true);
+			tween(layer[videointerface_paused].alpha, 1.0, 0.25, default);
+			tween(layer[videointerface_paused].scale, 1.0, 0.15, default);
+		  );
+	</action>
+
+	<action name="videointerface_formattime">
+		copy(t,%1);
+		set(sign,'');
+		if(t LT 0, set(sign,'-'); mul(t,-1));
+		div(hh,t,3600);
+		Math.floor(hh);
+		roundval(hh);
+		div(mm,t,60);
+		mod(mm,60);
+		Math.floor(mm);
+		roundval(mm);
+		copy(ss,t);
+		mod(ss,60);
+		Math.floor(ss);
+		roundval(ss);
+		if(hh GT 0, if(mm LT 10, txtadd(mm, '0', get(mm)); ); );
+		if(ss LT 10, txtadd(ss, '0', get(ss)); );
+		txtadd(ft, get(mm),':',get(ss));
+		if(hh GT 0, txtadd(ft,get(hh),':',get(ft)); );
+		txtadd(ft,get(sign),get(ft));
+		copy(%2,ft);
+	</action>
+
+	<action name="videointerface_updatevideoinfo">
+		set(ready,true);
+		ifnot(plugin[get(videointerface_video)].loaded, set(ready,false));
+		ifnot(plugin[get(videointerface_video)].isvideoready, set(ready,false));
+		if(ready,
+			copy(t1, plugin[get(videointerface_video)].time);
+			copy(tt, plugin[get(videointerface_video)].totaltime);
+			if(tt GT 0, div(td, t1, tt), set(td,0));
+
+			sub(t2,tt,t1);
+			mul(t2,-1);
+			videointerface_formattime(t1, layer[videointerface_t1].html);
+			videointerface_formattime(t2, layer[videointerface_t2].html);
+
+			if(device.flash,
+				copy(l1, plugin[get(videointerface_video)].loadedbytes);
+				copy(lt, plugin[get(videointerface_video)].totalbytes);
+				div(ld, l1, lt);
+			  ,
+			  <!-- html5 -->
+				set(ld, 1);
+			);
+
+			copy(maxbarwidth, layer[videointerface_control_bar].pixelwidth);
+			sub(maxbarwidth,125);
+			sub(maxbarwidth,140);
+			mul(loadbar_width, maxbarwidth, ld);
+			set(layer[videointerface_loadbar].width, get(loadbar_width));
+
+			mul(layer[videointerface_seekbar].width, td, maxbarwidth);
+			mul(layer[videointerface_seekgrip].x, td, maxbarwidth);
+		);
+
+		if(%1 !== false, delayedcall(0.30, videointerface_updatevideoinfo() ); );
+	</action>
+
+	<action name="videointerface_togglepause">
+		plugin[get(videointerface_video)].togglepause();
+		if(plugin[get(videointerface_video)].ispaused,
+			set(layer[videointerface_paused].visible, true);
+			tween(layer[videointerface_paused].alpha, 1.0, 0.25, default);
+			tween(layer[videointerface_paused].scale, 1.0, 0.15, default);
+		  ,
+			tween(layer[videointerface_paused].scale, 1.5, 0.40, default);
+			tween(layer[videointerface_paused].alpha, 0.0, 0.25, default, set(layer[videointerface_paused].visible,false); );
+		  );
+	</action>
+
+	<action name="videointerface_hide_interface">
+		tween(layer[videointerface_control_bar].alpha, 0.0, 0.5, default, set(layer[videointerface_control_bar].visible,false); );
+	</action>
+
+	<action name="videointerface_show_interface">
+		set(layer[videointerface_control_bar].visible,true);
+		tween(layer[videointerface_control_bar].alpha, 1.0, 0.2, default);
+	</action>
+
+	<action name="videointerface_startdragging">
+		sub(videointerface_mouse_x_offset, layer[videointerface_seekgrip].x, mouse.x);
+		set(videointerface_dragging,true);
+		videointerface_draggrip();
+	</action>
+
+	<action name="videointerface_stopdragging">
+		set(videointerface_dragging,false);
+		plugin[get(videointerface_video)].seek(get(videointerface_seekpos));
+		delayedcall(0, videointerface_updatevideoinfo(false); );
+	</action>
+
+	<action name="videointerface_draggrip">
+		if(videointerface_dragging,
+			add(xpos, mouse.x, videointerface_mouse_x_offset);
+			copy(xmax, layer[videointerface_loadbar].pixelwidth);
+			if(xpos LT 0, set(xpos,0));
+			if(xpos GT xmax, copy(xpos,xmax));
+			copy(layer[videointerface_seekgrip].x, xpos);
+
+			div(val, xpos, xmax);
+			mul(videointerface_seekpos, val ,plugin[get(videointerface_video)].totaltime);
+
+			delayedcall(0, videointerface_draggrip() );
+		  );
+	</action>
+
+	<action name="videointerface_toggle_projectionsmenu">
+		if(layer[videointerface_menu].state == 'opened',
+			tween(layer[videointerface_menu].y, 285, distance(285,0.5), default, set(layer[videointerface_menu].state,'closed'));
+		  ,
+			set(layer[videointerface_menu].state,'opened');
+			tween(layer[videointerface_menu].y, 0, distance(285,0.5), default);
+		  );
+	</action>
+
+</krpano>

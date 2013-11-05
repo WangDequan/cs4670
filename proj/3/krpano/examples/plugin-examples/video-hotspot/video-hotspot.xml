@@ -1,0 +1,30 @@
+<krpano version="1.16">
+
+	<!-- use only a grid preview pano to save download space -->
+	<preview type="grid(cube,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);" details="16" />
+
+
+	<!-- note - the url of the video must be always relative to the main krpano swf file -->
+	<hotspot name="videospot" 
+			 url="%SWFPATH%/plugins/videoplayer.swf" 
+			 alturl="%SWFPATH%/plugins/videoplayer.js" 
+			 videourl="%SWFPATH%/examples/plugin-examples/video-hotspot/cats-short.m4v|%SWFPATH%/examples/plugin-examples/video-hotspot/cats-short.ogv|%SWFPATH%/examples/plugin-examples/video-hotspot/cats-short.webm"
+			 posterurl="%SWFPATH%/examples/plugin-examples/video-hotspot/poster.jpg"
+			 distorted="true"
+			 ath="0"
+			 atv="0"
+			 edge="center"
+			 scale="1.0"
+			 rx="0"
+			 ry="0"
+			 rz="0"
+			 loop="true"
+			 pausedonstart="true"
+			 directionalsound="true"
+			 range="200"
+			 volume="0.7"
+			 onclick="togglepause();"
+			 />
+
+</krpano>
+

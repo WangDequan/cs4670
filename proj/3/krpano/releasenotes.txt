@@ -1,0 +1,3245 @@
+krpano.com - Release Notes
+===============================================================================
+
+krpano 1.16.9 / 2013-10-28
+
+  News:
+
+    * IE11 support.
+    * Minor bugfixes.
+
+
+  Release Notes / Changes from 1.16.8 to 1.16.9:
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: Wrong hotspot children positions when zooming and having
+            scalechildren enabled.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Fix: Support for the final IE11 browser (which has different
+            pointer events).
+          o Fix: iOS 7 Safari landscape mode with controls on the iPhone.
+          o Fix: 'touchtype=moveto' control mode.
+
+    * ScrollArea Plugin (scrollarea.js)
+          o Fix: Support for the final IE11 browser (which has different
+            pointer events).
+
+    * kmakemultires Tool (Droplets)
+          o Fix: Wrong negative levelsize height calculation and crash due
+            this when using large flat/partial images.
+
+    * kmaketiles Tool
+          o Fix: Numeric (32bit-integer) overflow when proportionally
+            resizing large images.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.8 / 2013-09-27
+
+  News:
+
+    * Minor bugfixes.
+
+
+  Release Notes / Changes from 1.16.7 to 1.16.8:
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: Correct pixelwidth/pixelheight values for zoom=true hotspots.
+          o Fix: Wrong scaleschildren=true children scaling for hotspots.
+          o Fix: <include> inside <data> wasn't resolved.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Fix: switch() bug when comparing numeric and string values.
+          o Fix: Correct sizes (and pixelwidth/pixelheight values) for
+            scaleschildren=true children elements.
+          o Fix: The hotspot pixelwidth/pixelheight sizes are now independent
+            of the zoom=true scaling.
+          o Fix: Expose the addlayer(addplugin) / addhotspot /
+            removelayer(removeplugin) / removehotspot actions to the
+            plugin-interface (for getting and direct calling).
+
+    * Editor Plugin (editor.swf)
+          o Fix: More accurate numbers.
+
+    * Videoplayer Plugin (videoplayer.swf)
+          o Fix: Workaround for a Flashplayer bug which causes delays and
+            empty video frames when looping the video.
+
+    * Examples
+          o Change: Updated images in XML Slider example.
+          o Change: Updated Splitscreen / Syncscreen examples.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.7 / 2013-09-11
+
+  News:
+
+    * Minor bugfixes.
+    * Workaround for the iOS 7 iPad landscape bug.
+
+
+  Release Notes / Changes from 1.16.6 to 1.16.7:
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: Wrong hotspot position when using maskchildren.
+          o Fix: The hotspot onovercrop/ondowncrop settings weren't working
+            when using scale9grid.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Fix: Workaround for the iPad iOS 7 Safari landscape bug: iOS 7
+            Safari is buggy on the iPad and reports a wrong (too large) height
+            for the pano html element.
+          o Fix: Workaround for the iPad Chrome landscape bug: Chrome
+            sometimes (after device rotations) reports a wrong (too small)
+            height for the pano html element.
+          o Fix: Correct keyboard focus handling for input into html forms.
+          o Fix: Domain limitation check also for the 'full' domain name
+            (=without ignoreing the sub-domain).
+          o Fix: Avoid scale9grid flickering in iOS Chrome.
+          o Fix: The ox/oy positions weren't scaled when scalechildren=true
+            is set.
+          o Fix: The ox/oy positions with percent sizes weren't scaled by the
+            stagescale.
+
+    * krpano XML / Actions Interface
+          o Fix: Allow using empty strings as %$VAR% url placeholder.
+
+    * Soundinterface Plugin (soundinterface.js)
+          o Fix: Automatic sound-start by first-touch anywhere also in all
+            Android browsers.
+          o Fix: Better browser fileformat-support detection (especially
+            Firefox).
+
+    * Videoplayer Plugin (videoplayer.swf)
+          o Fix: Avoid Flash script-break when using a distorted hotspot with
+            visible=false and pausedonstart=true.
+
+    * kmakemultires Tool (Droplets)
+          o New: Optionally allow layered psd/psb files as input via the
+            ignorelayers setting.
+          o Fix: Wrong level heights with enabled adjustlevelsizes setting for
+            spherical panos.
+
+    * Examples
+          o Fix: Panoramic Videos - videointerface.xml - Calculate the times
+            correctly (rounding down instead of normal rounding).
+
+    * Templates / Skins
+          o Fix: Missing androidbuttons.png in the defaultbuttons.skin.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.6 / 2013-08-09
+
+  News:
+
+    * Minor bugfixes.
+
+
+  Release Notes / Changes from 1.16.5 to 1.16.6:
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: Avoid actions crash when using 'null' as tween-type in the
+            tween action.
+          o Fix: Round pixel positions correctly when using accuracy=0 for
+            normal hotspots.
+          o Fix: Provide the undocumented and still experimental
+            unloadkrpano() action for dynamically removing the krpano Flash
+            viewer from the Flash stage again.
+          o Fix: The events.onclick event was dispatched wrongly when moving
+            the mouse only horizontally or vertically between the mouse button
+            down and up events.
+          o Fix: Update the area.pixel* values instantly before dispatching
+            the onresize event.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Fix: Support for the Chrome 28 'fullscreen mode' on iPad.
+          o Fix: Dragging control - stop previous friction when starting
+            dragging again.
+          o Fix: Dragging control - moving friction stops too early when
+            zoomed in.
+          o Fix: Update the area.pixel* values instantly before dispatching
+            the onresize event to avoid double onresize events.
+          o Fix: Distorted hotspot rendering on IE11 in Fisheye/Stereographic
+            mode.
+          o Fix: Improved distorted hotspot clickability for
+            Android Chrome 28+ and BlackBerry.
+          o Fix: When multi-touching, track only the first finger as
+            mouse.x/mouse.y.
+          o Fix: Allow only one touch on a plugin/layer/hotspot at the same
+            time.
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o Fix: Wrong HTML5 support detection in Opera Mini on iOS.
+
+    * krpano XML / Actions Interface
+          o Fix: Correct parsing of [ ] characters inside string quote
+            characters.
+
+    * kmakemultires Tool (Droplets)
+          o Fix: Allow using the [ ] characters in folder paths.
+
+    * krpano Update Tool
+          o Fix: Update js files with new viewer but old license-embed mode
+            correctly.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.5 / 2013-07-09
+
+  News:
+
+    * Improved HTML5 support (IE11 with WebGL and Fullscreen support)
+    * Minor bugfixes.
+
+
+  Release Notes / Changes from 1.16.4 to 1.16.5
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: Wrong coordinates of the screentosphere() action when using
+            the Architectural projection.
+          o Fix: Render at least the <preview> pano image when invalid <image>
+            settings were used (multires=true but no <level> elements).
+          o Fix: The fscommand() action wasn't working.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o New: IE11 support (WebGL, HTML5 Fullscreen API, ...).
+          o Fix: Better WebGL support for some buggy mobile GPUs (graphic
+            errors like 'pyramids' at the nadir/zenith area).
+          o Fix: Correct WebGL rendering viewport on size-limited rendering
+            buffers.
+          o Fix: Avoid endless event loops when changing the stagescale
+            setting inside the onresize event.
+          o Fix: Disable the automatic iPhone urlbar hiding (full-window mode)
+            when the viewer was embedded inside nested html elements.
+          o Fix: Call textfield 'event:' action-code with caller-reference.
+          o Fix: Support the Fisheye / Stereographic / Architectural
+            projections in the spheretoscreen() and screentosphere() actions.
+          o Fix: Inverse sweep-friction problem in touchtype=moveto control
+            mode.
+          o Fix: Improved enabled=false/children=false handling for children
+            layer elements.
+
+    * Gyro Plugin (gyro.js)
+          o Fix: Add partial fallback when the browser doesn't support the
+            window.orientation property (e.g. IE11, Android Firefox).
+
+    * Combobox Plugin (combobox.js)
+          o Fix: Correct scaling on several Android browsers and devices.
+
+    * kmakemultires Tool (Droplets)
+          o Fix: EXIF GPS parsing bug for some images.
+
+    * kprotectcl Tool
+          o Fix: Automatically correct domain names with an invalid '/'
+            character at the end.
+
+    * Examples / Templates / Skins
+          o Fix: vtourskin.xml - Do correct check for already loaded scene
+            before updating the scene infos (no 'parent not found' error
+            anymore when not-loading (or delayed loading) the first scene at
+            startup).
+          o Fix: Add names to the contextmenu items to avoid getting duplicate
+            entries when loading the xml again.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.4 / 2013-06-05
+
+  News:
+
+    * Minor bugfixes and changes.
+
+
+  Release Notes / Changes from 1.16.3 to 1.16.4
+
+    * krpano Flash Viewer (krpano.swf)
+          o Change: The xml-entity handling for <data> elements was improved
+            for better HTML5-compatibility. Now all <data> elements in a xml
+            file will be pre-processed (CDATA enclosing + manually xml-entity
+            resolving) to provide the same data[...].content values for Flash
+            and HTML5.
+            Warning - there can be side-effects when <data> elements were used
+            also in custom xml structures!
+          o Fix: The adjusthlookat() action wasn't working fully correct.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Change: Use the full/real screen-resolution for the WebGL-
+            rendering on Hi-DPI Android and BlackBerry devices.
+          o Change: Whitelist fullscreen-mode-support for Android Chrome 28
+            and higher.
+          o Change: Prefer WebGL for Android Firefox 22 or higher (Mozilla has
+            dramatically improved the WebGL performance in this Firefox
+            version).
+          o Fix: Added a workaround for the Android Firefox CSS3D pano/layer
+            overlapping problem.
+          o Fix: Correct stagescale for Android Chrome 18 based mobile-
+            browsers (e.g. the Samsung Galaxy S4 stock browser).
+          o Fix: Correct stagescale for BlackBerry mobiles (Q10, Z10).
+          o Fix: Avoid too small values in the CSS3D styles for normal
+            hotspots for correct rendering in all cases.
+          o Fix: Filter/skip the first sub-domain when checking for domain-
+            limitations.
+
+    * krpano XML / Actions Interface
+          o Change: No 'tween type not found warning' when using an
+            'empty string' or 'null' as tween type. Just use the default tween
+            type 'easeOutQuad' in this case.
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o New: html5=fallback setting to prefer Flash and use HTML5 only as
+            fallback.
+          o Change: Prefer the HTML5 viewer on mobiles/tablets when using
+            html5=auto.
+          o Fix: Ignore supposed successful CSS3D detection in older Android
+            versions (below Android 4.0) on some devices.
+
+    * krpano Tools (all)
+          o Fix: License-error problem with embedded HTML5 licenses which have
+            single-quote / apostrophe characters in their registration name.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.3 / 2013-05-06
+
+  News:
+
+    * Minor bugfixes and changes.
+    * All Mac OS X tools are signed now.
+
+
+  Release Notes / Changes from 1.16.2 to 1.16.3
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: The xml-entity resolving inside <data> elements wasn't fully
+            working as expected.
+          o Fix: Avoid error when changing the display.flash10 setting in the
+            onready embedding callback.
+          o Fix: Allow online usage also for demo-version swf files.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Change: Prefer CSS3D instead of WebGL on Android Stock / WebView-
+            based browsers (some Android devices tend to perform very bad with
+            WebGL).
+          o Fix: When using autoheight=true and setting the textfield html
+            setting to empty, then the previous text was still displayed.
+          o Fix: Avoid too small values in the CSS3D styles for distorted
+            hotspots for correct rendering in all cases.
+          o Fix: Prefer <tablet> images (when <mobile> and <tablet> images are
+            available) also on Windows 8 RT and BlackBerry tablets.
+          o Fix: Set device.ios=true in iPhone/iPad simulator mode.
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o Fix: Pass xml=null correctly to the Flash viewer.
+
+    * krpano XML / Actions Interface
+          o Change: Error messages will be shown with a 500ms delay. This
+            should avoid wrong loading error messages when the browser
+            interrupts the downloads when quickly leaving the page. This
+            change applies to fatal-error messages and the log-opening for
+            normal error messages.
+          o Fix: mod() with negative values.
+
+    * Bingmaps Plugin (bingmaps.swf)
+          o Fix: Avoid Flashplayer crash on large zooms in some cases.
+
+    * Combobox Plugin (combobox.swf)
+          o Fix: Update krpano-side item data structures on combobox addItem /
+            addIdItem / removeall calls.
+
+    * Soundinterface Plugin (soundinterface.js)
+          o Fix: No Javascript errors when trying to stop pending (iOS) or
+            loading-have-failed sounds.
+          o Fix: Pending sounds (iOS) will not start playing anymore on touch
+            after their were actually stopped by a stopsound() call.
+
+    * krpano Tools (all)
+          o New: All krpano tools and droplets are signed now for
+            Mac OS X 10.8.
+          o Change: krpano Protect Tool - GUI layout adjustments for Mac OS X.
+          o Change: krpano Update Tool - GUI layout adjustments for Mac OS X.
+
+    * kmakemultires Tool (Droplets) / kprotectcl Tool
+          o Fix: Allow online usage also for demo-version swf files.
+
+    * Examples
+          o Fix: Panoramic Videos - videointerface.xml - Correctly sized
+            loading-progress-bar.
+
+    * Templates / Skins
+          o Change: vtourskin.xml - Avoid gyro usage on Android devices.
+          o Fix: vtourskin.xml - Rename the 'title' variable to 'spottitle'
+            in the 'skin_addmapspots' action to avoid overwritting the tour
+            title when using the tooltips_mapspots setting.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.2 / 2013-04-12
+
+  News:
+
+    * Minor bugfixes and changes.
+    * New customizable HTML5 CORS (Cross Origin Resource Sharing) setting for
+      more control when loading images from other domains.
+
+
+  Release Notes / Changes from 1.16.1 to 1.16.2
+
+    * krpano Flash Viewer (krpano.swf)
+          o Change: The automatic xml-entity resolving for <action>, <data>
+            and <scene> elements was changed for HTML5-compatibility - now
+            only entities inside <action> elements will be automatically
+            resolved.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o New: Adjustable CORS (Cross Origin Resource Sharing) setting for
+            the image loading - security.cors=off|anonymous|use-credentials.
+          o New: Support for the Chrome 26 iPhone 'Fullscreen' mode.
+          o New: Predefined hotspot[...].point array for Flash compatibility.
+          o Fix: The domain-limitation wasn't working on 'www.' domains.
+          o Fix: Automatic xml-entity resolving for <action> elements.
+          o Fix: Correct stagescale also without the
+            'target-densitydpi=device-dpi' viewport setting in Android
+            Stock/WebView browsers.
+          o Fix: Distorted hotspots were above layers in Android Stock/WebView
+            browsers.
+          o Fix: Distorted hotspots weren't distorted in Android Firefox when
+            preferring WebGL.
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o Fix: External html5 license loading problem when the viewer-file
+            was loaded before the license-file.
+          o Fix: The onready callback works now also in IE6, IE7 and IE8.
+
+    * krpano XML / Actions Interface
+          o Fix: Wrong number-detection in if-compares for some cases.
+          o Fix: mod() with negative values.
+          o Fix: Ignore preload=true for container elements.
+
+    * ScrollArea Plugin (scrollarea.js)
+          o Fix: More stability in Android Stock/WebView browsers on HiDPI
+            devices.
+
+    * Radar Plugin (radar.swf, radar.js)
+          o Fix: Better rendering quality (Flash).
+          o Fix: Line wasn't drawn (HTML5).
+
+    * kmakemultires Tool (Droplets)
+          o Change: When some input panos are not html5-compatible and
+            html5=prefer is used as default embedding setting, then
+            automatically switch to html5=auto (when some of the pano are
+            html5-compatible) or to html5=never (when no pano is
+            html5-compatible).
+          o Fix: More informative error message when accidentally trying to
+            use too old krpano viewer files.
+
+    * Examples
+          o New: Added scenes-with-imagemap-2 example for showing how to put
+            the radar behind the spots.
+          o Change: Vidoeplayer 360 - added poster-image and show paused
+            button on pausedonstart=true (e.g. for iOS).
+
+    * Templates / Skins
+          o Change: defaultskin.xml - use the fullscreensupport devices
+            setting for showing the fullscreen buttons.
+          o Fix: vtourksin.xml - missing scene information update for the
+            first scene.
+          o Fix: vtourksin.xml - no thumbnail dragging on touch devices when
+            the thumbs_onhoverscrolling skin setting is enabled.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16.1 / 2013-03-30
+
+  News:
+
+    * Minor bugfixes and changes.
+    * Improved support for older Mac Safari versions.
+    * Customizable xml filename for the Virtual Tour Editor Plugin.
+
+
+  Release Notes / Changes from 1.16 to 1.16.1
+
+    * krpano Flash Viewer (krpano.swf)
+          o Fix: Problem when the <scene> onstart attribute contains '&' or
+            '=' characters.
+          o Fix: looktohotspot() with polygonal hotspots.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o Fix: Support for older Desktop Safari versions.
+          o Fix: Textfield shadow for older Webkit Safari versions.
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o Fix: Disable wmode=direct for older Mac Safari versions.
+
+    * krpano XML / Actions Interface
+          o Fix: Avoid endless moving when calling looktohotspot() with an
+            invalid non-numeric fov value.
+
+    * Combobox HTML5 Plugin (combobox.js)
+          o Fix: Use the <area> size as limiting screen size to avoid opening
+            the combobox out of the visible range.
+
+    * Virtual Tour Editor Plugin (vtoureditor.swf)
+          o New: Added xmlfilename setting.
+
+    * Gyro Plugin (gyro.js)
+          o Fix: Check for valid values (Android Firefox).
+
+    * Templates / Skins
+          o Change: default.xml - add fovmax setting.
+          o Change: vtourskin.xml - remove gyro usage for Firefox.
+          o Fix: vtourksin.xml - check if a scene is loaded before trying to
+            assigning the skin_thumbborder parent.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.16 / 2013-03-28
+
+  News:
+
+    * New version numbering scheme: 1.0.8.16 => 1.16
+      From now on each krpano release will gets its own unique version number
+      to avoid version differences just by the build-date as in some releases
+      before.
+
+    * Improved HTML5 Support
+          o WebGL support
+                + Better rendering performance and quality than CSS-3D
+                  in many cases.
+                + Will be used automatically (when available and better).
+                + Provides better system, browser support - WebGL is much more
+                  stable and reliable than CSS-3D.
+                + Better image / display quality due Mipmapping - less
+                  aliasing and shimmering when mapping large source images to
+                  small screen parts.
+                + WebGL also makes it possible to support Fisheye /
+                  Stereographic/ Pannini / Little-Planet projections also
+                  in HTML5.
+          o Better Android support
+                + More stable and faster rendering in Android-stock /
+                  WebView-based browsers.
+                + Better Distorted Hotspots clickability.
+                + Android Chrome support.
+                + Android Firefox support.
+                + Android Opera(Webkit) support.
+          o Better CSS-3D rendering for Chrome, IE10, iPhone 3GS with iOS6,
+            iPod Touch 4 with iOS6 and Android WebView.
+          o Better system / device / browser / feature detection.
+          o Contextmenu also for HTML5.
+          o License-Protection, Branding-Free and krpano Protect Tool support.
+          o Touch-Events also for Desktop (Chrome, Firefox, IE10).
+          o Improved Textfield plugin support.
+          o Support for Mouse-Over/Out events (for Mouse-usage only, will be
+            ignored on Touch-usage).
+          o Adjustable overall scaling via the stagescale setting.
+          o Full <area> support.
+          o parent="STAGE" and parent="BGLAYER" support.
+          o scale9grid support.
+          o BlackBerry support.
+          o Support for progress informations .
+          o Smaller viewer filesize and better internal structures.
+
+    * Improved Flash Support
+          o Updated swf-format (to swf-version 15) - this allows to use newer
+            Flashplayer-features like asynchronous image decoding and
+            right-click events. Due the new swf format the minimum Flashplayer
+            version is now 10.1 (the new embedding script cares about that
+            automatically). Therefore also the old Flashplayer-9 compatibility
+            code could be removed, which reduced the swf filesize by ~12kb.
+          o New custom (=non-native) Contextmenu - looks the same for Flash
+            and HTML5. This way also the right-click Fullscreen-option is back
+            again.
+          o Faster initial multi-resolution loading.
+          o No 'local-only' demo-limitation anymore.
+
+    * Improved Viewer (XML Interface)
+          o New layout possibilities - when using negative sizes for
+            width/height - then the resulting size will be the size of the
+            parent-element minus the given size.
+          o New delayedcall() and stopdelayedcall() actions.
+          o New escape() and unescape() actions.
+          o The scale9grid setting can now be used together with the crop
+            setting.
+          o Support for parameters (%0,%1,...) also for 'inline-actions'
+            (these are actions / action-codes that are stored in normal
+            variables/attributes).
+          o Several new devices and device settings (e.g. webgl, androidstock,
+            chrome, ...).
+          o Faster action-parsing and faster action-execution.
+          o The fisheye rendering works/looks slightly different now - it
+            allows viewing more than 180 degrees - this change was necessary
+            for Flash/HTML5 compatibility. For the same reason the
+            view.limitfov setting, that was limiting the fov in fisheye mode,
+            was removed. The stereographic rendering is not affected by these
+             changes.
+
+    * Improved Plugins
+          o All krpano HTML5 plugins are now compatible with the IE10 touch
+            events and allow mouse and touch usage at the same time (e.g. for
+            desktop touch devices).
+          o The ScrollArea Plugin has got new functions - automatic scrolling
+            via mouse-hovering and interfaces for manual-scrolling via
+            external buttons.
+
+    * Improved Tools / Droplets / Templates / Default-Skins
+          o The krpano Protect Tool supports also the krpano HTML5 viewer now
+            - that means license-embedding, domain-limitations, expire-dates,
+            private-encrypted-files and branding-free also for HTML5.
+          o New [HTML5] placeholder and htmltemplate_html5 setting.
+          o New custom html and xml template placeholders.
+          o The default virtual-tour-skin has got several new features and
+            settings.
+
+
+  Release Notes - krpano 1.16 build 2013-03-28
+  - Changes from 1.0.8.15 build 2012-10-05 to 1.16 build 2013-03-28:
+
+    * krpano XML / Actions Interface
+          o New: When using negative width/height values for plugin / layer
+            elements - then the resulting size will be the size of the
+            parent-element minus the given size.
+          o New: Additional device informations: browser.platform, webgl,
+            css3d, pixelratio, androidversion, androidstock, blackberry,
+            chrome, chromeversion, firefox, firefoxversion, ie, ieversion,
+            safari, safariversion, opera, operaversion.
+          o New: The scale9grid setting can now be used together with the
+            crop setting.
+          o New: Additional scale9grid image-scaling setting (5. parameter).
+          o New: delayedcall() action with id and stopdelayedcall() action.
+          o New: escape() and unescape() actions.
+          o New: Additional 'doneactions' parameter for the asyncloop() action
+            to call code when the looping is done.
+          o New: Support for parameters (%0,%1,...) also for 'inline-actions'
+            (these are actions / action-codes that are stored in normal
+            variables).
+          o New: There will be an error message when trying to use numeric
+            names in the static xml or in the addplugin / addlayer / addhospot
+            actions.
+          o New: Additional contextmenu settings - versioninfo and native.
+          o New: Support for simple BB-code-formated HTML code for styling the
+            contextmenu item caption (non-native contextmenu only).
+          o New: REMOVESCENES flag for the loadscene() action.
+          o Change: Actions after loadpano() calls will no longer cause a
+            skipping the onstart event from the new xml.
+          o Change: Removed view.limitfov setting for fov limiting in fisheye
+            mode.
+          o Change: Slightly different fisheye rendering to let Flash and
+            HTML5/WebGL look the same.
+          o Change: The default keycodes for zooming in/out were removed
+            because they often have interfered with the browser keyboard
+            controls.
+          o Fix: Automatic resolving of 'null' (String) parameters to a real
+            null value for all actions except for set().
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o New: The krpano embedding script was completely rewritten -
+            smaller and better code, no SWFObject 1.5 code anymore.
+          o New: Much better device / browser / feature detection.
+          o New: onready callback.
+          o New: onerror callback.
+          o New: consolelog setting for using the browsers Javascript console
+            for krpano trace logging.
+          o New: mwheel setting for disabling the mouse-wheel using/capturing.
+          o New: basepath setting for setting custom base-paths for resolving
+            paths that are relative to the krpano swf file.
+          o New: html5=only setting for HTML5-only usage.
+          o New: Additional webgl/css3d settings for the html5 setting.
+          o New: removepano(id) function for correctly removing the krpano
+            viewer from the html page.
+          o New: No 'document.write' anymore when dynamically loading the
+            HTML5 viewer.
+          o New: The order of the files when including the HTML5 viewer files
+            manually doesn't matter anymore.
+          o Change: The old SWFObject 1.5 functions / objects 'createswf' and
+            'Deconcept.*' are not available anymore.
+          o Change: The script checks now for Flashplayer version 10.1 or
+            higher for the new krpano Flash viewer version.
+
+    * krpano Flash Viewer (krpano.swf)
+          o New: Smaller swf filesize due new internal formats and structures.
+          o New: Removed Flashplayer 9 support (to be able to use new
+            Flashplayer functions), the minimum Flashplayer version is now
+            10.1.
+          o New: Using a custom-drawn contextmenu instead of the native one.
+          o New: No local-only demo-limitation anymore.
+          o New: Faster initial multi-resolution loading.
+          o New: Use more accurate 'floating-point' centering when the element
+            itself or the parent-element have set accuracy=1.
+          o New: Faster action code parsing.
+          o New: Catch and show js() Javascript errors in the krpano log.
+          o New: Support for the consolelog embedding setting.
+          o New: onloaded and loaded support also for polygonal hotspots.
+          o Change: No loading progress animations anymore by default when the
+            xml version setting is 1.16 or higher - the default value for the
+            progress.showwait and progress.showload settings is now "none" in
+            this case.
+          o Change: The progress.progress variable is now 0.0 when no image is
+            loaded.
+          o Change: When using the native contextmenu, then fullscreen item
+            will be automatically only shown when using supporting Flashplayer
+            versions.
+          o Change: Small log window adjustments for the same look in Flash
+            and HTML5.
+          o Fix: Scaling of container-elements.
+          o Fix: Rotation of container-elements and of elements with
+            maskchildren=true.
+          o Fix: Pannini-Projection nadir/zenith 'hole'.
+          o Fix: Verify valid input sizes when using the videoplayer plugin as
+            pano image.
+          o Fix: switch() action bug with numeric values.
+          o Fix: Crash of the updateobject() action in some cases.
+          o Fix: Dispatch the onnewpano event also when there is no <image>.
+          o Fix: Check image.frame for being always higher than 0 to avoid
+            crashes.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o New: Better internal js format and better code structures and
+            design - smaller filesize, no global js '_' variable anymore.
+          o New: Much better device, browser and feature detection.
+          o New: Support for license-embedding, domain-limitations,
+            expire-dates, private xml-encryption and branding-free-licenses
+            (manually via the krpano Protect Tool or automatically via the
+            kmakemultires tool).
+          o New: WebGL support.
+          o New: Fisheye, Stereographic, Pannini Projection support (WebGL).
+          o New: Automatic mipmapping support (WebGL).
+          o New: <contextmenu> support.
+          o New: Touch and gesture support also on Desktop - mouse and touch
+            can be used at the same time.
+          o New: Improved IE10 support - touch events, better CSS-3D
+            rendering, simulating support for enabled="false", detect IE10
+            ARM-devices as tablets and some other smaller adjustments.
+          o New: Mouse over/out support - onover, onhover, onout, hovering,
+            onovercrop.
+          o New: Android WebView rendering - more stable and faster.
+          o New: Android WebView - distorted hotspots are better touchable.
+          o New: Android Chrome support - better rendering and correct
+            stage-scaling.
+          o New: Android Firefox support - correct stage-scaling and prefer
+            CSS-3D over WebGL (better performance in this case).
+          o New: Android rendering - when the browsers fails to render the
+            cube-faces (due lack of memory), then automatically reduce the
+            display.hardwarelimit setting and try again (there will be also a
+            log warning in this case).
+          o New: BlackBerry support - via WebGL (but no preview images).
+          o New: Partial Opera/Presto support - via WebGL, but no mipmapping
+            and no enabled="false" elements.
+          o New: Adjustable overall scaling via the stagescale setting.
+          o New: Improved Textfield plugin support.
+          o New: Full <area> support.
+          o New: parent="STAGE" and parent="BGLAYER" support.
+          o New: Support for the scale9grid setting.
+          o New: Use the browsers 'visibility-change' event get notified when
+            the page will be hidden and stop motion frictions in this case.
+          o New: Faster action code parsing.
+          o New: Hotspot accuracy2 setting to enable position rounding.
+          o New: Support for the progress.progress variable.
+          o New: Support for <include> within loadxml() strings.
+          o New: When there is a xml loading or parsing error, then also show
+            the original error message from the browser.
+          o Change: Remove the html5-fullscreen-support for Android -
+            currently many Android browsers are reporting fullscreen-support
+            but they don't do.
+          o Change: The default value for view.fovmax is now 179 (like in the
+            Flash viewer).
+          o Change: The altscale setting is deprecated and should not be used
+            anymore.
+          o Fix: Automatic workaround for the iOS6 requestAnimationFrame bug
+            which can stop/break the correct working of the viewer.
+          o Fix: Invisible hotspots bug that happens after pano-blending when
+            the hotspot is invisible, not on the screen at startup.
+          o Fix: loadpano(null) or xml=null will load an empty pano instead of
+            showing an error (like in the Flash version).
+          o Fix: Absolute paths support for the loadpano() action.
+          o Fix: The alturl and altscale settings are independent of their xml
+            order now.
+          o Fix: Textfield autoheight bug.
+          o Fix: roundval() - store the result always as String (no type
+            conversion).
+          o Fix: txtadd() - store result always as String (no type
+            conversion).
+          o Fix: limitview=auto wasn't ignoring the hlookatmin, hlookatmax
+            settings.
+          o Fix: Handle keep=true also without any flags - use MERGE by
+            default.
+          o Fix: Reset/overwrite parent/page css styles (lineheight,
+            fontweight, fontstyle).
+          o Fix: Detect only left-mouse button clicks as clicks.
+          o Fix: keepview behavior - every pano needs to define its own
+            viewing limitations.
+          o Fix: Firefox mouse-wheel-event listening 'ordered behind' to allow
+            stopping wheel events by plugins like the Bingmaps plugin.
+
+    * Bing Maps Plugin (bingmaps.swf, bingmap.js)
+          o New: Firefox, IE10, Opera support (button graphics, touch events)
+          o Fix: After removing spots the plugin stops working correctly.
+          o Fix: Correct scaling on Hi-DPI Android devices.
+          o Fix: Changed Firefox mouse-wheel-event handling to stop pano
+            zooming.
+
+    * Combobox HTML5 Plugin (combobox.js)
+          o New: IE10 touch-events compatible.
+          o New: Dynamic stagescale change support.
+          o Fix: Correct Android scaling.
+          o Fix: Android Firefox rendering.
+          o Fix: Webkit touch deep-order of items.
+
+    * ScrollArea Plugin (scrollarea.swf, scrollarea.js)
+          o New: IE10 touch-events compatible.
+          o New: draggable setting for disabling the dragging control.
+          o New: onhover_autoscrolling setting for automatic scrolling on
+            mouse hovering.
+          o New: stopscrolling action for stopping any scrolling.
+          o New: scrollby action for manual scrolling.
+          o New: onscroll event for getting notified when the area has
+            scrolled.
+          o New: Several scroll/overflow state variables - woverflow,
+            hoverflow, loverflow, roverflow, toverflow, boverflow.
+          o New: Updated Examples.
+
+    * Snow Plugin (snow.swf, snow.js)
+          o New: HTML5 support.
+          o Note: The pre-release snow.js is not upward compatible to the
+            final version, the new snow.js need to be used!
+
+    * Videoplayer Plugin (videoplayer.swf, videoplayer.js)
+          o Fix: seek(0) + pause() could cause an invisible video when using
+            distorted hotspots (Flash).
+
+    * krpano Tools (all)
+          o New: The tools will now automatically call the 'purge' command on
+            Mac on low-memory situations to get more free system memory and
+            avoid getting into swapping.
+          o Change: Different memory-management for Mac and Linux - the tools
+            should now use more system memory before starting to swap-out
+            memory.
+
+    * kencrypt Tool
+          o New: HTML5 support for private xml-encryption.
+          o Fix: Check the filesize before loading the file - avoid crash on
+            0-byte files.
+
+    * kprotectcl Tool
+          o New: HTML5 support - create single .js files with embedded
+            licenses, domain limitations, expire dates and branding-free
+            support.
+
+    * kmakemultires Tool
+          o New: [HTML5] placeholder and htmltemplate_html5 setting.
+          o New: Support for custom html and xml template placeholders.
+          o New: Protected HTML5 license embedding support.
+          o New: Settings for custom image paths in the xml - tilepathxml,
+            previewpathxml, thumbpathxml.
+          o New: Settings for custom preview image sizes - previewspsize and
+            previewcssize.
+          o Fix: Escape [] characters for filtered basename.
+          o Fix: Avoid crash when using JPEG images with corrupt EXIF headers.
+          o Fix: Display the correct fov infos.
+
+    * krpano Protect Tool
+          o New: HTML5 support.
+          o New: Small GUI redesign, cleanup.
+          o New: Open last output folder button.
+          o Change: The krpano licenses always need to be in the krpano tools
+            folder now.
+          o Change: Embedded files sorting - the preview image will be
+            embedded after skin files by default.
+          o Fix: The xml parsing for files to embed was not complete and so
+            some files were missing in some cases.
+
+    * krpano Update Tool
+          o New: Support for the new HTML5 viewer format.
+
+    * Templates / Default Config Settings
+          o New: The HTML templates were extended with IE10-specific settings
+            (x-ua-compatible and -ms-viewport).
+          o Change: The maxcubesize setting for normal panos (normal.config,
+            vtour-normal.config) is now 2048 instead of 2200 to allow
+            automatic mipmapping in HTML5.
+          o Change: The setting html5=prefer will be used for normal panos
+            (normal.config, vtour-normal.config) by default (when a HTML5
+            license is available).
+
+    * MAKE VTOUR Default Skin (vtourskin.xml)
+          o New: More skin features and settings:
+                + thumbs_text - add the text to the thumbnails
+                + thumbs_dragging - enable/disable the dragging control for
+                  the thumbnails
+                + thumbs_onhoverscrolling - enable/disable the automatic
+                  onhover-scrolling control for the thumbnails
+                + thumbs_scrollbuttons - show thumbnail scroll-buttons
+                + thumbs_scrollindicator - show a scroll-indicator for the
+                  thumbnails
+          o New: over/out button glowing.
+          o Change: Slightly renamed skin_settings names (thumbswidth =>
+            thumbs_width, thumbsheight => thumbs_height, ...).
+          o Change: Use distorted hotspots by default.
+          o Fix: Wrong textstyle for tooltips_mapspots when there was a single
+            quote character in the scene title (fixed by using the new
+            escape() action).
+          o Fix: No overlapping buttons when Gyro and the Fullscreen-mode are
+            supported at the same time.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.0.8.15 / 2012-10-05
+
+  News:
+
+    * Improved HTML5 Support
+          o HTML5 support for Desktop Browsers - Firefox, Chrome, Safari, IE10.
+          o HTML5 Fullscreen API support.
+          o Android 4.x support.
+          o Bing Maps for HTML5 (iPhone/iPad).
+          o More HTML5 embedding / detection settings.
+          o Support for the iOS 6 Landscape Fullscreen Mode and the new
+            iOS 6 url-bar hiding.
+          o Better distorted hotspots support and better click/touch detection.
+
+    * New and Improved Plugins
+          o New Bing Maps Plugin for HTML5 (iPhone/iPad).
+          o New ScrollArea Plugin for automatic touch/drag-scrolling.
+          o New Virtual Tour Editor Plugin for editing MAKE VTOUR tours.
+          o Combobox - HTML5 Plugin with Retina support, improved rendering
+            performance and customizable graphics.
+          o Soundinterface - support for alternative audio codecs (like Ogg
+            for HTML5 Firefox).
+          o Textfield - better Flash/HTML5 compatibility (almost pixel
+            perfect), vcenter and autoheight settings, better text and
+            rounded-edge quality, advanced shadow and textshadow support.
+          o Videoplayer - support for alternative video codecs.
+
+    * Improved Viewer (XML Interface / Layout)
+          o New <layer> elements (same as the <plugin> elements, just a
+            new/different name).
+          o Automatic 'sub-layering' (parent-assignment) of elements by
+            defining elements inside other elements.
+            <layer name="container" ...>
+                <layer name="child1" ... />
+                <layer name="child2" ... />
+            </layer>
+          o New container plugin/layer elements. These elements are like
+            normal plugin/layer elements, just without any image url setting
+            and a type="container" setting instead. These container elements
+            can be used to hold or group other elements. To mask children
+            elements use the maskchildren setting. A background color can be
+            set for these container elements by the bgcolor and bgalpha
+            settings. To make the background clickable enable the bgcapture
+            setting.
+          o Performance optimized parent/child system - when moving a parent
+            element, the children elements don't need to be updated. This
+            allows an very efficient movement of several elements at once.
+          o New and updated viewer examples.
+          o And many more small fixes and improvements.
+
+    * Improved Tools / Droplets / Templates
+          o New templates / skins for the MAKE PANO / MAKE VTOUR droplets.
+          o A full featured automatic Virtual Tour Skin (example) with
+            scrolling thumbnails, an automatic Bing map, the Gyro plugin,
+            buttons and hotspots.
+          o Automatically also convert cylindrical images to cubical panos
+           (for HTML5 support).
+          o Define any additional custom image sizes with additional
+            customized xml tags (for automatically generating special sized
+            images for certain devices).
+          o EXIF GPS support - automatically transfer the GPS informations
+            from the input image to the xml. Customizable via placeholders.
+          o New automatic level sizes adjustment for multiresolution images
+            for better loading and rendering performance.
+          o Support for outputting progressive-encoded jpeg images.
+
+    * Improved Documentation
+          o New HTML5 documentation with all details about the HTML5 support.
+          o New Tools / Droplets documentation.
+          o New kmakemultires Config file documentation.
+          o Updated / refined HTML embedding documentation.
+          o Updated XML and Actions documentations.
+
+
+  Release Notes - krpano 1.0.8.15 build 2012-10-05
+  - Changes from 1.0.8.15 build 2012-08-10 to 1.0.8.15 build 2012-10-05:
+
+    * krpano Flash Viewer (krpano.swf)
+          o New: device object for checking the current device and its
+            properties. This device object is the dynamic/scripting equivalent
+            to the xml devices attribute.
+          o New: Additional device properties: fullscreensupport, ipod,
+            windows, mac, linux.
+          o New: Use the Browsers Mouse Wheel Events when available (through
+            the swfkrpano.js script) instead of the Flashplayer Wheel Event.
+            They are more accurate and have a better cross-systems /
+            cross-browser support. The non-rounded, non-integer numeric
+            wheeldelta value is available via the new wheeldelta_raw value.
+          o New: Since Flashplayer version 11.3 the Fullscreen Mode can't be
+            changed anymore from the right-click context-menu. Therefore the
+            fullscreen-item in the context-menu is disabled by default now.
+          o Fix: The click events of elements that had children elements were
+            not working correctly in some situations.
+          o Fix: Missing updates/redraws of children elements when changing
+            the parent element in some situations.
+          o Fix: Container elements were always scaled from left-top instead
+            from the edge point.
+          o Fix: Hotspot update/redraw when changing the url during loading
+            the current file.
+          o Fix: When using autorotate and usercontrol=off, then any user-input
+            is correctly ignored now and will not pause the autorotation.
+          o Fix: The system mouse cursor had become visible after the
+            context-menu usage when using custom-cursors.
+          o Fix: The style setting was wrongly 'null' after loading.
+          o Fix: The changeorigin() action works now also for children
+            elements.
+          o Fix: Explicitly verify the availability of the Flashplayer
+            External-Interface (because in some situations the Flashplayer
+            reports a wrong availability).
+          o Fix: Plugin-Interface - call the unloadplugin function before
+            removing the plugin from the Flash stage (to allow the plugin
+            accessing the stage in the unloadplugin function).
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o New: HTML5 Fullscreen API support.
+          o New: device object for checking the current device and its
+            properties.
+          o New: Support for the wheeldelta_raw variable.
+          o Fix: The style setting was wrongly 'null' after loading.
+          o Fix: The changeorigin() action works now also for children
+            elements.
+          o Fix: Wrong movements with usercontrol=off.
+          o Fix: Stop mouse panning friction during gesture zooming.
+          o Fix: Same mouse-wheel zooming speed for Flash and HTML5 on all
+            browsers.
+          o Fix: Automatic workaround (html5rendermode=2) for graphics errors
+            on iPhone 3GS and iPod Touch 4.Gen with iOS 6.0.
+          o New: Automatic urlbar hiding support iPhone 5.
+          o New: Faster urlbar hiding after start and device rotation.
+          o Fix: Android - visible cube-edges on non 256-divisible images.
+          o Fix: Chrome Linux - visible cube-edges.
+          o Fix: Urlbar hiding for iOS 3.1.
+          o Fix: Firefox - xml-parsing-error detection.
+          o Fix: Workaround for the Firefox xml-node-limit (for encrypted xml
+            files).
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o New: Completely new Mouse Wheel Events handling. Always catch and
+            pass the wheel events to the Flashplayer. Better cross-system /
+            cross-browser support. Smaller code-size.
+          o New: Automatically correct duplicate object id names.
+
+    * Bing Maps Plugin (bingmaps.swf, bingmap.js)
+          o New: Move active spot to top order.
+          o Experimental: New zoomwithmap="true" and zoombaselevel="10"
+            settings for <spot> elements to make them zoomable.
+          o New: Direct clicking on the zoomtrack control changes the zoom.
+          o Fix: Better cross-system / cross-browser mouse-wheel support.
+            Detect smooth-mouse-wheel / touchpad-scrolling for direct smooth
+            map zooming.
+          o Fix: Zoom-out from the map-center instead from the cursor position
+            on 'stepwise' mouse-wheel events.
+          o Fix: Several zooming fixes, avoid invisible tiles.
+          o Fix: Avoid crashes on 'empty' spot/spotstyle elements.
+          o Fix: Adding spot with same name again will not cause wrong working
+            spots anymore.
+
+    * Combobox HTML5 Plugin (combobox.js)
+          o Fix: Update/redraw immediately after adding an item to avoid
+            showing a wrong scaled box for a short moment.
+
+    * Editor Plugin (editor.swf)
+          o New: Added xml code highlighting (same as in vtoureditor plugin).
+          o New: Scrollbars for the xml editor.
+          o New: Small improvements (dragable and closeable infoboxes).
+          o New: XML generation - skip default values and format/sort the
+            attributes in a more compact way.
+          o Fix: Autocorrect wrong line-feeds.
+          o Fix: 'Only one hotspot' bug in the generated xml.
+          o Fix: Better Mac Support (mouse-wheel scrolling and page-up /
+            page-down keys in the xml editor).
+
+    * Textfield Plugin (textfield.swf, html5:intern)
+          o New: onautosized event for getting updated when the size of the
+            textfield will be changed (when using autoheight=true).
+          o Fix: Avoid crash when html=data:... or css=data:... without
+            existing data (Flash).
+          o Fix: The positions of children elements were slightly wrong
+            (HTML5).
+          o Fix: Slightly inaccurate border sizes and text overflow in some
+            cases (HTML5).
+          o Fix: Wrong sizes in some cases (HTML5).
+          o Fix: There was an invisible and touch-blocking element when using
+            empty textfield elements (HTML5).
+
+    * Virtual Tour Editor Plugin (vtoureditor.swf)
+          o New: Scrollbars for the xml editor.
+          o New: No 'hard-coded' tour.xml anymore - use and load the real
+            startup xml file.
+          o Fix: Autocorrect wrong line-feeds.
+          o Fix: Better Mac Support (mouse-wheel scrolling and page-up /
+            page-down keys in the xml editor).
+          o Fix: The editor buttons are now at 'stage' level above all krpano
+            xml elements.
+          o Fix: Support all unicode-characters in hotspot scene selection.
+          o Fix: Restore hotspot ondown event after hotspot editing.
+          o Fix: Dynamically removing the plugin wasn't working.
+
+    * krpano Tools (all)
+          o The Mac Droplets are Universal Binaries again and will work also
+            on PPC Macs.
+          o Dynamic file management (only for jpeg tiles at the moment) to
+            avoid opening too much files at once (important for Mac where only
+            256 files can be opened at the same time by default).
+
+    * kmakemultires Tool
+          o New: GPS support for the 'EXIF GPS Image Direction' tag => heading.
+          o New: Automatically filter or replace characters that are invalid
+            for the xml from [NAME] or [BASENAME] placeholders.
+          o Fix: Wrongly cube-converted sphere images when using them after
+            cylinder images in the same run.
+          o Fix: Inverse GPS coordinates on big-endian EXIF tags.
+          o Fix: Wrong line-feeds in the generated xml files.
+          o Fix: Relative path calculation.
+          o Fix: Warn about missing xmltemplate setting in the config.
+
+    * MAKE VTOUR Default Skin (vtourskin.xml)
+          o New: HTML5 Fullscreen Support (by using the fullscreensupport
+            setting).
+
+          o New: More skin settings:
+                + bingmaps_zoombuttons - zoom-buttons to the map
+                + thumbsopend - start with opened thumbnails
+                + tooltips_thumbs - show tooltips over the thumbnails
+                + tooltips_hotspots - show tooltips over the hotspots
+                + tooltips_mapspots - show tooltips over the map spots
+                + controlbar_offset - adjust the position of the control-bar
+          o New: Predeclared <radar> element for map with headingoffset="0"
+            for correct GPS heading support.
+          o New: Added a "skin_nextscene_loop" action for loading the next
+            scene and restart from beginning after the last scene (could be
+            used by autotour scripts).
+          o Fix: The thumbnails/map 'state' values were changed from
+            'visible'/'hidden' to 'opened'/'close' (the usage of 'visible' was
+            problematic in some cases).
+          o Fix: Use the tour title only when set, when not available show
+            only the scene title.
+          o Fix: vtour_scenetemplate.xml - use filtered [BASENAME] as scene
+            name to avoid xml problems.
+
+
+  Release Notes - krpano 1.0.8.15 build 2012-08-10
+  - Changes from 1.0.8.14 build 2012-03-16 to 1.0.8.15 build 2012-08-10:
+
+    * krpano XML / Actions Interface (the same for Flash and HTML5)
+          o New: <layer> elements. They are same as the <plugin> elements,
+            just with a new/different name. Both are internally mapped to the
+            same elements.
+          o New: Support for new container plugin/layer elements. These
+            elements can contain other plugin/layer elements. Create such
+            element by setting type="container" for the plugin/layer. A
+            background color can be set for these container elements by the
+            bgcolor and bgalpha settings. To make the background clickable
+            enable the bgcapture setting.
+          o New: Automatic parent/child system by defining children
+            plugin/layer elements in the xml inside the parent element.
+          o New: addlayer() and removelayer() actions (same as addplugin()
+            and removeplugin()).
+          o New: delete(vars) action for deleting the given variables.
+          o New: Multiple styles can be used/loaded at once now.
+          o New: The viewer exports now the screentosphere and spheretoscreen
+            functions for direct calling. They are now available in the krpano
+            HTML object and also in the new krpano plugin interface object.
+            Both functions have two Numbers as parameters and are returning
+            an Object with x and y properties.
+          o Change: A 'single variable' if() like 'if(variable, ...)' will now
+            check the given variable also for 'not null' or 'not 0' instead
+            of just comparing it to true.
+          o Change: Call the onclick events only when there was no (or
+            almost no) movement between the mouse button/touch down and up.
+          o Fix: Allow using quotes inside an array index.
+          o Fix: The onidle handling will be not interrupted by autorotate.
+
+    * krpano Flash Viewer (krpano.swf)
+          o New: Devices settings air and standalone added.
+          o New: Optimized layer/plugin parent/child performance.
+          o New: Output log console - Android Hi-DPI Support.
+          o New: Support for public-key encrypted files.
+          o Change: New default values for preview.details=16 and
+            display.details=24.
+          o Change: New demo logo style (same like in the HTML5 viewer).
+          o Change: Reset the limitview range when loading new panos.
+          o Change: The pop(var) action will now create the 'var' variable
+            when it didn't exist.
+          o Fix: Android - plugin/hotspot dragging.
+          o Fix: Android - no wrong movement after enabling the 'long press
+            fullscreen mode'.
+          o Fix: Avoid a Flashplayer crash when using numbers as name.
+          o Fix: Changing plugin/hotspots urls during loading is possible now.
+          o Fix: Crash when using removeplugin / removehotspot in the ondown
+            event of the to removing element.
+          o Fix: Delayed hotspots updates during autorotate.
+          o Fix: External embedding parameters - allow 'empty strings' as
+            variable-content.
+          o Fix: Flashplayer 11.3 'fullscreen' mode changes.
+          o Fix: No autorotate direction change during loading.
+          o Fix: Plugin/Hotspots 'keep' and redefining problems.
+          o Fix: The plugin 'crop' sizes still work after setting the crop.
+          o Fix: Workaround for the Flashplayer &nbsp; bug.
+          o Fix: Wrong warnings about non-existent elements in the
+            removeplugin / removehotspot / removelensflare actions.
+
+    * krpano HTML5 Viewer (krpanoiphone.js)
+          o New: Added support for the new iOS 6 landscape fullscreen mode.
+          o New: Added support for the new iOS 6 url bar hiding.
+          o New: Android Hi-DPI support.
+          o New: Automatic console content cutting to avoid a rendering
+            performance slow-down because of too much text (too big html
+            element) inside the log.
+          o New: CSS 3D-transforms support for Firefox 10, Chrome 20, IE 10
+            and Android 4.x.
+          o New: Full support for horizontal view limiting (by view.hlookatmin
+            and view.hlookatmax). Workarounds by XML are not necessary anymore.
+          o New: Optimized layer/plugin parent/child performance - update the
+            child elements only on parent scales.
+          o New: There is a new zorder2 setting for ordering normal and
+            distorted hotspots.
+          o New: There were a lot of internal changes to improve the
+            z-ordering and event-ordering issues of the Safari browser. Now
+            the distorted hotspots should be correctly behind the plugin
+            elements and also react correctly.
+          o New: XML CDATA support for <action> and <data> elements:
+            <action><![CDATA[ ...code... ]]></action>
+          o New: display.html5rendermode and display.hardwarelimit settings.
+          o Change: Automatically load the 'desktop' images when no other
+            images are available.
+          o Change: New log opening mode to avoid blocking any pano content
+            and new log closing mode, just click the right 'close' area.
+          o Fix: Avoid JS error when trying to call variables that were
+            pointing to JS Objects.
+          o Fix: Avoid crash when trying to call a JS-Object as action.
+          o Fix: Better console text rendering.
+          o Fix: Changing of plugin/hotspot urls during loading.
+          o Fix: Clicking through demo-logo.
+          o Fix: Clicking through disabled elements.
+          o Fix: Detect window focus loss and stop mouse movement in this case.
+          o Fix: Flying hotspot with architectural projection.
+          o Fix: No out-of-pano text-selecting during dragging in Webkit
+            Desktop Browsers.
+          o Fix: Percent-sizes and scaling and parent element together were
+            working wrong.
+          o Fix: Setting the same plugin/hotspot url after loading again work
+            now.
+          o Fix: Still show the mouse cursor on enabled=false elements on
+            Mac OSX.
+          o Fix: The clipping of normal hotspots was slightly wrong.
+          o Fix: The distorted hotspot rendering works internally now
+            different to avoid clicking / touch problems.
+          o Fix: The spheretoscreen / screentosphere actions were returning
+            wrong scaled sizes on the iPhone.
+          o Fix: The usage of loadstyle() caused strange side-effects.
+          o Fix: Workaround for Android - automatic scroll the krpano log.
+          o Fix: Workaround for the 'clickable 180° doublegangners' Safari
+            CSS 3D Bug (happening sometimes when using distorted hotspots) was
+            added by automatically disabling hotspots behind the viewing plane.
+          o Fix: Wrong percent scaling for child plugin elements.
+
+    * krpano HTML Embedding (swfkrpano.js)
+          o New: html5licenseload setting.
+          o New: passQueryParameters setting for the embedpano() /
+            createPanoViewer() function. When enabled the html5 parameter will
+            be directly setable.
+          o New: isHTML5possible function for checking the HTML5 support of
+            the browser.
+          o New: When no Flashplayer available and the Browser is HTML5
+            compatible then automatically use the krpano HTML5 viewer when
+            html5 licenses are included or embedded.
+          o New: isFlashpossible function for checking the availability of
+            the Flashplayer.
+          o New: More useHTML5() / html5 modes - 'prefer' and 'never'.
+          o Fix: Additional mouse-wheel fixes for Chrome (for the Chrome
+            embedded Flashplayer) and Opera (inverse wheel).
+          o Fix: Workaround for IE to avoid the 'out-line' border around the
+            Flashplayer.
+
+    * Bing Maps Plugin (bingmaps.swf, bingmap.js)
+          o New: HTML5 version of the plugin.
+          o New: bgcolor and bgalpha settings for defining the background
+            color.
+          o New: zoomtospotsextent() action for zooming and moving
+            automatically to view all spots at once.
+          o New: Radar headingoffset setting for defining a custom radar
+            heading offset.
+          o Fix: onmapready event timing/executing order.
+          o Fix: Set the correct active spot when adding spot dynamically.
+          o Fix: Show an error message when no network access is available.
+
+    * Combobox HTML5 Plugin (combobox.js)
+          o New: Retina compatible.
+          o New: customstyle setting for defining custom graphics and styles.
+          o Change: native=false by default.
+          o Fix: Error when removing the plugin.
+          o Fix: 'small design' detection.
+
+    * Editor Plugin (editor.swf)
+          o Fix: Avoid Flashplayer crash because of null objects when using
+            numbers as name.
+
+    * Google Maps Plugin (googlemaps.swf)
+          o New: Radar headingoffset setting for defining a custom radar
+            heading offset.
+          o Fix: Radar redrawing on spot change.
+          o Fix: Set the correct active spot when adding spot dynamically.
+
+    * Gyro Plugin
+          o New: onavailable event.
+          o New: vrelative setting.
+          o New: filter first few samples.
+          o Fix: Dynamic enabling/disabling.
+          o Fix: Better camroll support - tween to 0 on disabling.
+          o Fix: Disable gyro on Desktop (Chrome reports wrongly a gyro
+            support).
+
+    * Radar Plugin (radar.swf, radar.js)
+          o New: headingoffset setting for defining a custom radar heading
+            offset.
+          o Fix: Avoid down/click event on parent object (Flash).
+          o Fix: The invert setting wasn't working correct (HTML5).
+
+    * ScrollArea Plugin (scrollarea.swf, scrollarea.js)
+          o New plugin.
+
+    * Snow Plugin (snow.swf)
+          o Change: The type setting was renamed to mode (was necessary
+            because of the new type plugin setting).
+
+    * Soundinterface (soundinterface.swf, soundinterface.js)
+          o New: Support for different sound codec urls - 'sound.mp3|sound.ogg'.
+          o New: rootpath support (HTML5).
+          o New: mute support for iOS (=pause).
+          o Fix: Javascript crash.
+          o Fix: test for window object access before registering pagehide /
+            pageshow listeners (HTML5 issue when using the soundinteface
+            inside iframes).
+
+    * Textfield Plugin (textfield.swf, html5:intern)
+          o New: vcenter setting.
+          o New: autoheight setting as replacement for the autosize setting.
+          o New: Customizable shadow and textshadow.
+          o New: borderalpha setting.
+          o New: The [ and ] characters are now usable also inside <data>
+            elements.
+          o New: Use [[ to get < and ]] for >.
+          o Change: Use subpixel-text-antialising (works only inside Browser,
+            Flash).
+          o Change: Better border rendering quality (Flash).
+          o Change: The border of the textfield is now added 'outside' around
+            the box to look the same like in Flash (HTML5).
+          o Fix: Using 0 (=black) as background color wasn't possible (HTML5).
+          o Fix: using [] characters inside 'event:' links is working now
+            (HTML5).
+          o Fix: the imagewidth, imageheight sizes were wrong.
+          o Fix: workaround for the Flashplayer   bug
+          o Fix: No crash on html=null (Flash).
+
+    * Videoplayer Plugin (videoplayer.swf, videoplayer.js)
+          o New: Support for different videos codec urls.
+          o New: ignoremetadata setting (Flash).
+          o Fix: The loop setting was true by default (Flash).
+
+    * Virtual Tour Editor Plugin (vtoureditor.swf)
+          o New plugin.
+
+    * krpano Tools (all)
+          o New: -licpath=### parameter for setting the path to the license
+            files.
+          o New: Support for outputting progressive-encoded jpeg files.
+          o New: Show warning when trying to load layered psd / psb files.
+          o Change: Different memory usage on 64bit system to avoid getting
+            into system swapping.
+
+    * kencrypt Tool
+          o New: -p setting for public-key encryption.
+          o Fix: The HTML5 encryption setting was ignored when not specifing
+            input- and outputnames.
+
+    * kmakemultires Tool
+          o New: buildembeddedswf_files setting for customizing which files
+            to embed.
+          o New: askforxmloverwrite setting to avoid accidentally overwritting
+            xml files.
+          o New: EXIF GPS support - automatically transfer the GPS
+            informations from the input image to the xml.
+          o New: Use the Autopano Pro/Giga EXIF infos about panotype, hfov,
+            vfov and voffset.
+          o New: Define any additional custom image sizes with additional
+            customized xml tags (for automatically generating special sized
+            images for certain devices).
+          o New: adjustlevelsizes setting - automatically adjust level sizes
+            for better performance.
+          o New: html5 setting for directly enabling html5 output.
+          o New: Write the exact hfov and vfov informations into the xml (to
+            avoid the need to wait until the pano image is loaded to get the
+            real informations).
+          o New: Automatically convert also cylindrical panos to cubes.
+          o Change: New console output style / formating.
+          o Change: No default 'kmakemultires.config' anymore - a .config
+            file need to be specified now always.
+          o Change: tempcubename setting renamed to tempcubepath (but
+            tempcubename is still supported).
+          o Change: The tempcubepath syntax uses now the same placeholders
+            as all other config path settings.
+          o Fix: The number of automatic nulls in the tile-indicies were
+            wrong in some cases.
+          o Fix: Skip trying to load folders as images (no warning/error
+            about that).
+          o Fix: Copy the html additional files also in embedded licenses mode.
+
+    * krpano Protect Tool
+          o New: Public-key encryption mode.
+          o New: Drag and drop support for embed and encrypt file lists.
+          o Fix: Skip hidden files when adding folders.
+
+    * ktransform Tool
+          o New: -cylinder setting for converting also cylinder images to
+            cubical images.
+
+
+------------------------------------------------------------------------------
+
+krpano 1.0.8.14 / 2012-03-16
+
+  News:
+
+  * New Plugin Interface for Flash and HTML5
+      o There is completely new plugin interface for krpano plugins (old
+        plugins will still work of course).
+      o The new plugin interface is designed to work and look very similar for
+        Flash and Javascript plugins. In many cases the same code can be used.
+      o There are new interface functions for accessing the krpano internal
+        data structures (Arrays, Objects, Setter/Getters ...).
+      o No need for a "krpano_as3_interface.as" and no global single krpano
+        instance anymore.
+      o Documentation and Examples:
+        http://krpano.com/docu/plugininterface/
+
+  * Improved HTML5 Support
+      o Improved Plugin/Hotspot Parent/Child System
+      o Distorted Hotspots
+      o Videoplayer Plugin
+      o Sound-Interface Plugin
+      o Combobox Plugin
+      o Radar Plugin
+      o Improved Textfield Plugin
+      o Gyro Plugin from Aldo Hoeben
+      o Improved Rendering performance when moving or scaling plugin/hotspot
+        elements
+      o iPhone/iPad-Simulator for testing krpano iPhone/iPad layouts
+
+  * Improved Multi-Device Support
+      o The "devices" attribute can now be used on all xml tags.
+      o Defines on which devices this xml element should be used. When the
+        current device doesn't match with the settings in devices attribute
+        then this xml node and all its sub-nodes will be skipped.
+      o Several device options can be combined by logical operators. The '|'
+        character can be used as OR operator, the '+' character as AND
+        operator, and the '!' character as NOT operator.
+      o The supported options for the "devices" attribute are:
+        + all - use this element on all devices (default)
+        + flash - use this element only in the krpano Flashplayer viewer
+          (Desktop and Android Flashplayer)
+        + html5 - use this element only in the krpanoJS (HTML5) viewer
+        + iphone - use this element only on the iPhone (and iPod Touch)
+        + ipad - use this element only on the iPad
+        + retina - use this element only on high resolution retina displays
+        + iOS## - use this element only when the iOS version is higher than ##
+        + android - use this element only on an Android devices
+        + desktop - use this element only on Desktop (Flash and HTML5)
+        + mobile - use this element only on Mobiles
+        + tablet - use this element only on Tablets
+        + touchdevice - use this element only on Touch devices
+        + gesturedevice - use this element only on Gesture devices
+
+      o The current device can also be checked dynamically by action code by
+        these global variables:
+        + isflash - true only in the Flashplayer (Desktop and Android)
+        + ishtml5 - true only in the krpanoJS (HTML5) viewer
+        + isphone - true only on the iPhone 3/4 (and iPod Touch)
+        + ispad - true only on the iPad
+        + isandroid - true only on Android devices
+        + isdesktop - true only on Desktop (Flash and HTML5) viewer
+        + ismobile - true only on an iPhone/iPod and on Android Mobile
+        + istablet - true only on an iPad and on Android Tablet devices
+        + istouchdevice - true only on Touch devices (iPhone,iPad,Android)
+        + isgesturedevice - true only on Gesture (Multi-Touch) devices
+        + iosversion - the iOS version
+
+      o Android Mobile/Tablet Detection
+
+        On Android there is no real and reliable way to detected if an Android
+        device is a Mobile Phone or a Tablet Device - so krpano uses the
+        diagonal screen size as decision:
+
+        When the screen size is...
+        ... smaller than 6 inch then the device will be detected as Mobile.
+        ... bigger than 6 inch then the device will be detected as Tablet.
+
+        Notes About Android 3.* Tablets
+        + The krpanoJS HTML5 viewer is now also ready for Android 3.* Tablets
+          (when using the setting useHTML5("always") during embedding it could
+          be already tested). The controls (including Multi-Touch) are working
+          but the current Android Chrome Browser has still some graphic errors
+          with the CSS 3D transforms (which can be only fixed by Google), so
+          there is currently no automatic HTML5 usage on Android for the
+          moment.
+
+  * XML Encryption for Flash and HTML5
+  * XML Encryption for HTML5 Javascript Plugins
+      o There is a new encryption system available which works for the krpano
+        Flash AND for the krpano HTML5 viewer.
+      o It's possible to encrypt xml files and additionally also Javascript
+        plugin files.
+      o At the moment there is only a 'public-key' encryption available, this
+        means the encrypted files can be loaded and used by anyone, only their
+        content is protected, a 'private-key' encryption where the key is
+        binded to the license-key will come soon.
+      o To encrypt the files the "krpano Protect Tool" or the kencrypt tool
+        can be used.
+
+  * Direct support for Panoramic videos (no special viewer version anymore)
+      o Panoramic videos can now be loaded and controlled by videoplayer
+        plugin and shown by the viewer.
+      o The syntax is simple - define a normal <image> element with a sphere
+        or cylindrical image and use "plugin:video" as url, where "video" is
+        the name of the videoplayer plugin.
+
+  * New independent Event handlers (via named '<events>' elements)
+      o Additionally to the global <events> xml element it is possible to
+        define own and independent <events name="myevents" ... /> elements.
+        When a event will be dispatched then all <events> elements that have
+        this event will be called.
+      o These named <events> elements have also a "keep" attribute like
+        <plugin> or <hotspot> elements. That means without keep="true" the
+        <events> element will be removed when loading a new pano.
+      o With these named <events> it's now possible to write xml or flash/js
+        plugins that can listen to the krpano events without overwriting any
+        other events in the xml.
+
+  * New shorter xml syntax for cubical images
+      o Instead of defining the urls for all sides separately it's now also
+        possible to define the cube urls by a single line and using %s as
+        placeholder for the cube side character.
+      o Example syntax: (the "%s" will be replaced by "l,f,r,b,u,d")
+        <image>
+          <cube url="pano_%s.jpg" />
+        </image>
+
+  * New Actions, Parameters, new Events and new Variables
+      o loadpano() action
+        + The current <scene> elements will be removed when loading a new xml
+          file.
+        + To keep the scenes there is a new loading flag - KEEPSCENES.
+
+      o New actions for looping / repeating actions:
+        + for(startaction, condition, nextaction, loopaction)
+        + asyncfor(startaction, condition, nextaction, loopaction)
+        + loop(condition, loopaction)
+        + asyncloop(condition, loopaction)
+
+      o New Math object for mathematical constants and actions:
+        + Math.PI
+        + Math.abs(var) or Math.abs(result,v)
+        + Math.acos(var) or Math.acos(result,v)
+        + Math.asin(var) or Math.asin(result,v)
+        + Math.atan(var) or Math.atan(result,v)
+        + Math.atan2(result,a,b)
+        + Math.ceil(var) or Math.ceil(result,v)
+        + Math.cos(var) or Math.cos(result,v)
+        + Math.exp(var) or Math.exp(result,v)
+        + Math.floor(var) or Math.floor(result,v)
+        + Math.log(var) or Math.log(result,v)
+        + Math.max(var,var2) or Math.max(result,...vars)
+        + Math.min(var,var2) or Math.min(result,...vars)
+        + Math.pow(var,var2) or Math.pow(result,v1,v2)
+        + Math.round(var) or Math.round(result,v)
+        + Math.sin(var) or Math.sin(result,v)
+        + Math.sqrt(var) or Math.sqrt(result,v)
+        + Math.tan(var) or Math.tan(result,v)
+
+      o The InOut and OutIn tween types (except easeInOutQuad) were
+        externalized to the "moretweentypes" plugin.
+
+      o Text-processing actions:
+        + indexoftxt(dstvar,txt,searchtxt,startindex=0)
+            # look for the offset from one text inside another text
+        + subtxt(dstvar,srcvar,start,len)
+            # action for extracting a part of text / variable (like the J
+              avascript/Flash substr() function)
+
+      o Optional 'non-blocking' lookto() action:
+        + lookto(h,v,fov*,motiontype*,shortestway*,[nonblocking,donecall]*)
+            # when "nonblocking" is set to true then the lookto action will be
+              processed 'non-blocking' like a tween action
+            # and when the lookto is done then the optional "donecall" action
+              will be called
+
+      o When looktohotspot() will be called without parameters from a hotspot
+        event then automatically 'lookto' to current hotspot.
+
+      o The tween motion types are now also available for the lookto()
+        actions. Syntax: "tween(tweentype,time)"
+
+      o New tween update callback function:
+        + tween(var,dst,time,done,updatefu)
+        + the updatefu code will be called after every variable change
+
+      o The tween actions are now using the "actionintervalbase" setting (that
+        means they are more time accurate by default).
+
+      o New "autoalpha" setting for plugin and hotspot elements - when set to
+        "true", then visible will be automatically set to "false" when alpha
+        is 0.0 and set back to "true" when alpha is bigger then 0.0.
+
+      o New "debugmode" variable/setting. (true or false, default=false). The
+        trace(0,...) messages from plugins or other AS3/JS code will be only
+        shown when this variable is set to true.
+
+      o New "control.touchtype" variable for touch devices (iPhone/iPad/
+        Android). Possible values = "drag2d" or "moveto", default="drag2d".
+
+      o New "control.mouseyfriction" variable to control the sensitive of the
+        vertical movement in the moveto control mode.
+
+      o The "invalidatescreen()" action will now reset the idletime counter.
+
+      o Architectural projection - smoother architectural to normal transition
+        at nadir/zenith.
+
+      o New "control.camrollreset" variable (true or false, default=true) to
+        disable the resetting of the camroll in moveto / drag2d control mode.
+
+      o The HIGHSHARP post-processing sharpening strengh is now adjustable via
+        the "display.sharpen" variable (values from 0-14, default=12).
+
+      o The default value for the "actionintervalbase" is now "timer" (like in
+        HTML5 where no real frame-rate exists).
+
+      o New variables and actions for pixel accurate plugin or hotspot sizes:
+        + pixelwidth / pixelheight variables (read-only)
+          these variables contain the final pixel size of the element, but
+          note - they don't get updated immediately when changing the normal
+          width/height/scale variables - the update happens after a screen
+          refresh or when calling the updatepos() action of the element.
+        + imagewidth / imageheight variables (read-only)
+          these variables contain the original unscaled pixel size of the
+          loaded image, this informations are first available after the
+          onloaded event.
+        + updatepos() action for updating / recalculating the position and
+          size of the plugin/hotspot element immediately (the pixelwidth/
+          pixelheight variables will be updated after this call)
+
+      o New plugin/hotspot "pixelhittest" variable (true or false,
+        default=false) for enabling a pixel accurate hit testing which
+        respects the transparency of the image instead of using the bounding
+        box, but note - use this setting with care! this pixel hit-test is a
+        much heavier operation than the normal/default bounding box check!
+
+      o New "maskchildren" setting for plugin and hotspots elements - when set
+        to true then all child elements that are outside of the parent element
+        will be clipped/masked out.
+
+      o New Events:
+        + onviewchanged - this event will be called after the view update, in
+          difference - the "onviewchange" will be called before and allow
+          changing the view before final rendering.
+        + onnewpano - this event will be called when there is a new pano image
+          and all informations (type,imagesize,hfov,vfov) about it are
+          available.
+        + onremovepano - this event will be called when the current pano will
+          be removed (e.g. before loading a new pano).
+
+      o New "events.dispatch(eventname)" action for dispatching / calling the
+         events from all currently defined events tags. Dispatching any custom
+         events is also possible!
+
+
+
+Changes / Fixes - FLASH (krpano.swf)
+
+  * The loadpano/loadscene/loadxml action can now be called anytime
+    (no "loadpano busy" warnings anymore).
+  * Fix: the onxmlcomplete, onpreviewcomplete, onloadcomplete, onnewpano and
+    onremovepano events are now processed in the right order.
+  * Fix: the onresize events is now called in the right order when using
+    preload="true" for an element in a new loaded pano.
+  * The progress bar animations are now inside the pano area by default, to
+    get the old behavior with the progress bar at the stage level back use
+    parent="STAGE" for the <progress> element.
+  * Fix: When calling action code that was stored in variables or attributes
+    then following actions were executed in the wrong order.
+  * Fix: The action execution could be wrong in some situations after
+    loadpano/loadscene/loadxml calls.
+  * Fix: The named "onviewchange" events will now be called also without
+    global "onviewchange" event. (bug only in beta/rc versions).
+  * Show a Warning when switching to Fullscreen Mode is not possible because
+    of a missing "allowFullscreen" embedding parameter.
+  * Fix: When changing the url of a parent plugin element then the new loaded
+    image was be shown above the children elements.
+  * Better Mobile-Flashplayer detection (Android, Blackberry, ...).
+  * Fix: The default "view.fovtype" on Android is now also "MFOV" (like on
+    iPhone/iPad).
+  * Fix: When fov and range limits in partial panos cause endless updating and
+    high processor loads.
+  * Fix: When using video panos via - url="plugin:video" - and the xml was
+    located in a different folder the loading of the video failed.
+  * Fix: No crash/hang anymore when using a 0x0 sized pano area.
+  * Now there is "unknown tweentype" warning when trying to use a tweentype
+    that doesn't exist.
+  * Fix: The plugin size was wrong in the plugin register event (bug only in
+    beta/rc versions).
+  * Fix: The lookto action with an enabled shortway setting wasn't working
+    correctly for partial panos.
+  * Fix: Reloading embedded files could fail when they were removed from the
+    internal cache.
+  * The updateobject() action updates now also the prealign setting.
+  * Fix: The scene onstart actions weren't working correctly when there were
+    '&' or '=' characters in the onstart action code.
+  * Fix: Calling txtadd() with non-existent variable as destination is
+    possible now.
+  * Fix: The plugin.changeorigin() action works now also for "prop" sizes.
+  * Fix: The "qtvr.preview" setting was ignored.
+  * Fix: plugin and hotspot elements had the wrong size when their size was
+    defined with width="" or height="" in the xml.
+  * Fix: The lookto / looktohotspot / moveto action don't work correctly on
+    partial panos (they were trying to take the short way around the 360
+    degree wrap-around when possible).
+  * Fix: Problem with autorotate and partial panos or view limiting.
+  * When using a maxpixelzoom setting together with very small images which
+    would cause view limiting to extreme wide-angles then automatically
+    disable the maxpixelzoom setting and limit the view to fov=90.
+  * Fix: The HIGHSHARP display quality mode is now always working.
+  * Fix: The lookto actions were not moving right when using atv coordinates
+    outside the -90 to +90 range.
+  * Fix: Calling actions like "element[get(...)].action(...)" - that means
+    actions from an array element and using get() inside the array index were
+    not possible.
+  * Fix: When loading the same file two times at the same time and break
+    loading one file (e.g. because of removing a plugin or hotspot) then the
+    other file never completes loading.
+  * Added support for the "crop" usage also for distorted hotspots.
+  * Fix: Reset the hovering status to false when changing the url for a plugin
+    or hotspot element.
+  * Fix: When using preload="true" and changing the url of a plugin or hotspot
+    then the following actions could fail.
+  * Fix: The screentosphere and spheretoscreen actions were working wrong when
+    they are were called before the first pano rendering.
+  * Added an 'align' setting with pixel offsets to "looping()" progress
+    animation function.
+  * The default-xml will be now loaded from the same folder as the swf file,
+    instead of the folder of the html file.
+  * Fix: The if() action was working wrong when one of the comparing
+    variable-names contains a EQ,LT,LE,GT,GE strings (uppercase only).
+  * The display.currentfps variable returns now a more accurate framerate.
+  * Fix: The release of keyboard keys and mouse buttons was not detected when
+    the window loses the focus or becomes inactive.
+  * Fix: On Android the mobile/tablet image detection was not working for the
+    new <cube> syntax.
+  * New "tweenintervalbase" setting to change the intervalbase for tween
+    animations separately.
+  * Fix: Wrong license error when embedded into Adobe AIR apps.
+  * Fix: The onover, onhover, onout, onclick events for radar plugin are
+    working now (this caused also an update of the editor plugin).
+  * Fix: The "no menubar" setting is now working also after switching back
+    from fullscreen mode.
+  * Fix: Avoid viewer crashes when wrongly using numbers as names for plugin /
+    hotspot / lensflare elements.
+  * Fix: Removed the initial step in the lensflare blending.
+  * Fix: Placeholders for <cube> urls.
+  * Fix: There was no "onnewpano" event when using QTVR files.
+  * Fix: Absolute paths fix for loadpano() calls.
+  * Fix: Check the plugin/hotspot variables width, height, x, y, ox, oy for
+    valid values. Invalid values will set the variables to 'null'.
+  * Fix: Rotate normal hotspots too when 'view.camroll' is used.
+  * Allow 'flying' also for non-distorted hotspots.
+  * The old 'autopos' and 'autoscale' settings for plugin elements were
+    removed.
+  * Fix: Paths with placeholders and following /../ sub folders.
+  * Fix: 'idletime' testing also for user interaction outside the pano.
+
+
+Changes / Fixes - HTML5 (krpanoJS / krpanoiphone.js)
+
+  * Support for Distorted Hotspots
+    Notes / Limitations:
+      o The "zorder" should be between 0 and 100.
+      o The distorted hotspots are always 'behind' the normal hotspots, mixing
+        the order of distorted and normal hotspots is not possible.
+      o There might be problems on some iOS 3.* (iPod) devices. There the
+        CSS 3D transforms are partially buggy.
+  * Support for the "bgcolor" and "wmode" embedding parameters. When
+    wmode="transparent" or "opaque" then the viewer background will be
+    transparent. And with the "bgcolor" parameter it is possible to set a
+    different background color - the default color is "#000000" (=Black).
+  * New "simulatedevice" variable that must be set during embedding to allow
+    simulating an iPhone or iPad with their settings, images sizes and
+    scalings. Possible settings are "iphone", "ipad" or "useragent" - when
+    "useragent" is used then the current browser useragent will be used. This
+    setting is used in the krpano iPhone/iPad layout simulator.
+  * New "iosversion" variable to allow checking the iOS version dynamically.
+  * Fix: The loadpano/loadscene/loadxml action can now be called anytime.
+  * Fix: the onxmlcomplete, onpreviewcomplete, onloadcomplete, onnewpano and
+    onremovepano events are now processed in the right order.
+  * Fix: The action execution could be wrong in some situations after
+    loadpano/loadscene/loadxml calls.
+  * Fix: When calling action code that was stored in variables or attributes
+    then following actions were executed in the wrong order.
+  * Fix: The view was set back to the default settings when loading a new pano
+    without MERGE flag.
+  * Improved: The HTML5 'Fullscreen' (=Fullwindow) mode works now in more
+    situations.
+  * Fix: The lookto action with shortway parameter was wrong (bug only in
+    beta/rc versions).
+  * Fix: When the krpano log was opened because of an error then the area for
+    detection the closing gesture was still in 'open' detection mode.
+  * Improved: Better Textfield Plugin Support:
+      o improved css to html assignments
+      o correct autosize height calculation
+      o remove the too big margin on <p> elements
+      o avoid automatic scaling when using 0.*em font sizes
+      o correct "roundedge" scaling on iPhone/iPad
+      o improved autosize calculation
+      o more accurate font size scaling
+      o internal escaping/unescaping bugfix
+      o added supported for "backgroundalpha"
+      o parent support
+  * Fix: The "onviewchange" event was called after rendering the pano but it
+    should be called before rendering to allow changing the view.
+  * The "control.usercontrol" setting is now also support on HTML5, possible
+    settings are "all" or "mouse" or "off".
+  * Fix: Reset viewing limits when loading a new pano.
+  * Fix: The demo logo no longer click-able on desktop.
+  * When two viewer instances were trying to use the same ID (like
+    "krpanoSWFObject") then the viewer uses automatically an new ID instead of
+    failing to load.
+  * Fix: hotspot with percent (%) scaling had the wrong size.
+  * Fix: setting the parent for <plugin> elements failed when the elements
+    were defined in the wrong order.
+  * Fix: iPhone4 and iOS5 - redraw graphics issues.
+  * Fix: iOS5 floating point precision for positions and sizes.
+  * Fix: iOS5 cube-edges fixes when using a non 1:1 page scaling.
+  * Fix: The hotspot "edge" setting was ignored.
+  * Fix: wrong movements when using - touchtype="moveto" - and doing gesture
+    zooming at the same time.
+  * Fix: The hotspots were scaled wrong on the iPhone.
+  * Fix: updatescreen() and invalidatescreen() actions are now forcing a pano
+    redraw.
+  * Fix: plugin and hotspots images with parentheses characters in the url
+    name were loaded correctly without errors but were not shown.
+  * Fix: Javascript error when using if() without any parameters.
+  * Now there is "unknown tweentype" warning when trying to use a tweentype
+    that doesn't exist.
+  * Added support for architectural projection.
+  * Added support for the "showerrors" setting.
+  * Fix: Several %SWFPATH% fixes.
+  * Fix: The viewing limits when using limitview="range" were wrong.
+  * Fix: catch and report Javascript errors when calling the js() action.
+  * Increased iPod4 stability by limiting and automatically down-sampling the
+    max. cubesize to 640x640 (the iPod 4 has too few memory for a stable use
+    of 1024x1024 cube faces).
+  * Fix: Interrupting works now also when clicking plugin or hotspots
+    elements.
+  * Fix: Detect mouse releases also outside an iframe.
+  * Use automatically downscaled <tablet> images when there are no <mobil> or
+    too large <mobile> images available on iPhone 3, iPod 2/3.
+  * Fix: Crash/Hang when using the textfield plugin witout "htmlcode" setting.
+  * Textfield plugin - using the "data:dataname" syntax to load the content
+    from <data> elements is now possible for the "htmlcode" and "csscode"
+    settings (like in Flash).
+  * Fix: Problem with xml paths that contain slashes or # characters.
+  * Fix: The plugin.changeorigin() action works now also for "prop" sizes.
+  * Fix: Visible seam fix when using tiled images.
+  * Added support for KEEPVIEW flag.
+  * Support for mouse.x, mouse.y, mouse.stagex and mouse.stagey variables.
+  * Fix: The "onloaded" event was called even when the plugin/hotspot element
+    was already removed.
+  * Fix: When using "rotate" for plugin elements they rotate around the wrong
+    anchor point.
+  * Fix: In the looktohotspot() action the "fov" parameter was missing
+    internally - that means all parameters were shifted one left.
+  * Fix: The lookto actions were not moving right when using atv coordinates
+    outside the -90 to +90 range.
+  * Fix: Calling actions like "element[get(...)].action(...)" - that means
+    actions from an array element and using get() inside the array index were
+    not possible.
+  * Fix: There was a wrong loading error when changing the url of the plugin
+    or hotspot element was changeing during loading and the old url was
+    invalid.
+  * Fix: The if() action was working wrong when one of the comparing
+    variable-names contains a EQ,LT,LE,GT,GE strings (uppercase only).
+  * Fix: Double events.onmouseup calling on Desktop.
+  * The "area.pixel*" variables are there available for reading.
+  * Fix: The "events.onresize" event will now be only called when the pixel
+    size really changes.
+  * Fix: Invisible hotspots after several quick and overlapping loadpano /
+    loadscene / loadxml calls with blending.
+  * Fix: The 'vars' parameter in the loadpano / loadscene / loadxml calls was
+    causing various problems.
+  * Fix: Avoid viewer crashes when wrongly using numbers as names for plugin /
+    hotspot / lensflare elements.
+  * Fix: Avoid viewer crash when using invalid values as lookto destination.
+  * Fix: Display bug when fovmin is wrongly bigger than fovmax.
+  * Fix: combobox.js plugin - closing of the combobox when clicking outside
+    the pano frame.
+  * Fix: 'cross-domain' iframe embedding is working now. There will be one
+    "Unsafe JavaScript attempt" browser error because of the test if the top
+    window is accessible (this is not avoidable) but then will be no further
+    errors. But note - when using krpano inside a iframe on a different
+    domain, events like a button release outside the iframe can't be detected!
+  * Fix: Check the plugin/hotspot variables width, height, x, y, ox, oy for
+    valid values. Invalid values will set the variables to 'null'.
+  * Fix: Rotate normal hotspots too when 'view.camroll' is used.
+  * Fix: When using empty values for parent (e.g. parent="") settings, then
+    the child element never appeared.
+  * Fix: Many textfield plugin improvements (autosize, parent, styles).
+  * Fix: Short 'flicker' when switching hotspot distortion.
+  * Added hotspot 'inverserotation' support.
+  * New experimental "display.hardwarelimit" and "display.usedesktopimages"
+    settings for testing higher resolution images in the HTML5 viewer.
+
+
+Embedding Script (swfkrpano.js)
+
+  * Pass the User-Agent of the browser to krpano in the "browser.useragent"
+    variable.
+  * Pass the "wmode" paramater also to krpanoJS viewer (when
+    wmode="transparent" or wmode="opaque" then no background will be drawn).
+  * Added support for the "bgcolor" parameter for createkrpanoJSviewer,
+    createPanoViewer, embedPanoViewer and embedpano embedding functions.
+  * New "useHTML5" parameter for the embedpano and createPanoViewer functions.
+  * New "vars" object to pass viewer variables for the embedpano function.
+  * New "wmode" setting for the embedpano function.
+  * Embedding the krpanoJS viewer dynamically (via Javascript code) is now
+    possible when the licenses are embedded into the .js file or when the
+    krpanoJS license files were included manually into the html file.
+  * New automatic HTML5 fallback when there is no Flashplayer installed, but a
+    Safari Browser available (good for new Macs without pre-installed
+    Flashplayer).
+  * Removed useHTML5("whenpossible") support for Chrome (the CSS 3D transforms
+    are buggy in the current Chrome versions).
+  * Fix: the "addParam" function was not available in the 1.0.8.12 version and
+    caused a Javascript error when trying to use it during embedding the
+    krpanoJS viewer.
+
+
+
+Plugins
+
+  * Options Plugin Improved
+      o New settings to change partial panos (projection, hfov, vfov, voffset,
+        ...) interactively.
+      o More clean layout.
+      o Controllable (open/close views) by xml actions.
+
+  * Editor Plugin
+      o Small improvements.
+      o Hide some xml tags when they same still the default settings.
+      o Updated xml code generation.
+
+  * Bing Maps Plugin
+      o New Bing Maps plugin as replacement for the Google Maps Plugin.
+      o Same XML interfaces and same usage.
+
+  * Google Maps Plugin
+      o Complete internal redesign (but downward compatible).
+      o Now almost every attribute/setting of the plugin can be changed
+        dynamically.
+      o New external license file to allow easier and quicker updating just by
+        replacing the googlemaps.swf with the latest one.
+      o Support of custom spot images and styles.
+      o New additional controls.
+      o New '3D' view mode.
+
+  * Videoplayer Plugin
+      o HTML5 support
+      o Fix: "pausedonstart" and other loading issues - they were related to
+        different Flashplayer version behaviors and different video format
+        behaviors.
+      o Fix: The size of the video was wrong for some video formats.
+      o Fix: The "videourl" attribute will be now updated to the current video
+        url after a playvideo(url) call.
+      o Fix: The "time" attribute was not updated.
+      o Fix: Short sound sample on paused-on-start videos.
+
+  * SoundInterface Plugin
+      o HTML5 support
+      o Fix: soundinterface.js - unescape paths (bug only in beta/rc
+        versions).
+      o Fix: sounds with the same filename but different folders are working
+        now.
+
+  * Combobox Plugin
+      o HTML5 support
+      o Fix: combobox.js - missing additem() updates for native comboboxes
+        (bug only in beta/rc versions).
+
+  * Gyro Plugin (HTML5 only)
+      o The Gyro plugin from Aldo Hoeben is now a real krpanoJS plugin and
+        included in the download packages.
+
+  * Radar Plugin
+      o HTML5 support
+
+  * MoreTweenTypes Plugin
+      o To save .swf/.js file space some tween types (the most InOut and
+        OutIn) the were externalized to the "moretweentypes" plugin.
+      o Just include the plugin once to have all tween types back.
+
+  * Textfield Plugin
+      o Make it possible to use the textfield also without &lt;p&gt; html
+        and p{} css tags.
+
+  * FPS Plugin
+      o New attributes - "fontsize" and "textcolor" - for  customizing the
+        FPS text.
+
+
+
+TOOLS
+
+  * All krpano tools
+      o PSD / PSB read and write support (.psd, .psb)
+      o BigTIFF support (.btf, .tf8 or .bigtiff)
+      o Kolor Raw support (.kro)
+      o Fix: PSB writing problem with file sizes larger than 4GB.
+
+  * krpano Protect Tool (renamed kprotect tool)
+      o HTML5 compatible xml encryption.
+      o Option to backup encrypted files.
+      o Parsing/resolving of <cube> images with %s placeholder.
+      o Don't embed <tablet> and <mobile> images by default.
+      o Updated Standalone-Flashplayer versions.
+
+  * krpano Update Tool (new tool)
+      o For updating krpano swf and js files.
+      o Just the viewer code will be updated, any embedded data will be left
+        unchanged.
+
+  * kmakemultires Tool
+      o When embedding the licenses is enabled but the viewer license not
+        here/available, then automatically disable the license embedding
+        instead of generating a demo version.
+      o Allow specifying the config file also via a -config=### syntax.
+      o Enable multires/tiled paths automatically for non-cube images when the
+        maxsize setting from the config file is not large enough.
+      o Generate thumbnails for all kind of pano types.
+      o Automatically adding device="flash" to scenes that are not HTML5
+        compatible.
+      o Customizable temporary cube image format
+        (e.g. converttocubeformat=kro).
+      o Fix: The kmakemultires now returns also 'failed' (=1) as return value
+        when the sphere to cube conversion failed.
+      o New settings (tempdir,tempcubename) to customize the temporary files.
+      o Better quality of cubical preview images (cube edge joint).
+      o New 'filterbasename' setting (enabled by default) to filter
+        white-spaces and special characters out of the generated filenames.
+      o New 'include config' setting to include other config files.
+      o New customizable path and name for the scene thumb images (thumbpath).
+      o New customizable <scene> templates for VTOURs.
+
+  * kmakepreview Tool
+      o Better quality of cubical preview images (cube edge joint).
+
+  * kprotectcl Tool
+      o Allow building standalone windows exe files (when providing a
+        Flashplayer projector exe file).
+
+  * Updated Templates
+      o MAKE OBJECT skin (objectskin.xml) with automatic adding and removing
+        the object controls when loading new panos.
+      o Small xml optimizing and fixes.
+      o Fix: Add a stop check for the 'delayedcall' hotspot animation.
+
+  * kencrypt Tool
+      o Fix: Memleak.
+      o Fix: Show error message when writing a file failed.
+
+  * More settings for the "SPHERE to CUBE" and "CUBE to SPHERE" droplets by
+    using new config file (convertdroplets.config).
+
+
+------------------------------------------------------------------------------
+
+1.0.8.12
+
+krpano.swf
+- new <area> mode "border" for aligning the area by defining borders
+- new txtadd(var,addtxt) action
+- HIGHSHARP with Flash10 should work now always
+- fix for dynamic url changing in onover/onout events
+- fix for dynamic url changing between static and animated image in a
+  distorted hotspot with refreshrate > 0
+- fixed roundval(val,0) rounding bug
+- KEEPVIEW behavior change:
+	- the KEEPVIEW flags works a bit different now
+	- the current view will be saved before parsing the new xml
+	  the limitview and *lookatmin/max settings will NOT be saved
+	- the <view> tag will be parsed always now to get new viewing limit
+	  settings if there are defined
+	- restore the previously saved view after parsing
+	- in previous krpano versions the parsing of the new <view> tag
+	  was completely skipped when using the KEEPVIEW flag,
+	  this has made it impossible to use new viewing limits for a new
+	  pano when using that flag
+- new control.trackpadzoom setting for Android trackpad zooming
+- new control.touchfirction setting for touch control friction
+- the debug keys TAB and 9/0 are be disabled by default now, they are
+  now only available when the krpano log is open
+- zoomify level calculation for different zoomify versions
+- decrypting encrypted files bugfix
+- include resolving order bugfix - the included content was inserted at
+  the wrong place in the xml
+- fix for the IE browser where the mouse was hidden when using a custom
+  cursor and the context menu
+- 'prop' and percent sizes for distorted hotspots
+- fixed tween/stoptween conflict between 'local' attributes and 'fullpath'
+  attributes (e.g. tween(alpha,1); AND tween(hotspot[.].alpha,0); from the
+  same hotspot)
+- new multireslevel variable to get the current multires level
+- the "network.retrycount" variable can be set from external (html/js)
+  to set a higher value if nesecery already at startup
+- new hotspot.getcenter(h,v) action for returing the center to variables
+- Mac Flashplayer fullscreen hanging zoom key fix
+- parallelized xml include loading for speedup loading
+- new contextmenu.enterfs / exitfs settings for customizing the automatic
+  fullscreen item
+- new "devices" setting for plugin and hotspot elements for controlling
+  where the element should appear
+- new "alturl/altscale/altonloaded" setting for plugin and hotspot elements
+  for defining alternatives for the HTML5/krpanoJS usage
+- new "xml.scene" variable that holds the name of the current scene
+- new parameters for the "updateobject(updateall*,updatefov*)" action
+- the get() resolving for parameter works now also for the js() action
+- changed "progress.showload" setting, now "auto" by default
+  => auto = "none" for multires panos, "bar()" for normal panos
+- now it's possible to add custom attributes to action, data, scene tags
+- optimized for the Android Flashplayer:
+  - it uses the <tablet> or <mobile> tags when available
+  - drag2d will be used always as controlmode
+  - pano zooming via trackpad possible
+  - no mouse cursor will be displayed
+- new isphone/ispad/isandroid/ishtml5/isflash variables to check
+  dynamically for the current device
+
+videoplayer plugin
+- fix for Flashplayer 10.1 video loading behavior
+- fix for local loading with pausedonstart=true
+
+soundinterface plugin
+- changed behavior: stopallsounds(stopexternalsoundstoo=false)
+
+textfield plugin
+- new border setting
+
+html templates
+- html5 valid
+
+swfkrpano.js
+- createPanoViewer function
+- createkrpanoJSviewer function
+- createkrpanoSWFviewer function
+- embedpano / embedPanoViewer function
+- isHTML5possible function
+- useHTML5 function
+- embedding of krpanoiphone.js is possible
+
+
+krpanoJS / krpanoiphone.js
+- almost full xml/actions support
+- much more stable on the iPhone and iPad
+- sharper rendering on Desktop
+- uses the normal images on Desktop
+- the panos edges are fit correctly togehter
+- panos blending is possible but only with preview images
+- tiled panos are supported
+- cubestrip panos are supported
+- there is an automatic internal textfield plugin replacement
+- url bar hidding improved
+- not dot button anymore
+- more details on: http://krpano.com/iphone/
+
+
+updated online documenations:
+
+	http://krpano.com/docu/xml/
+	http://krpano.com/docu/actions/
+	http://krpano.com/docu/quickref/
+	http://krpano.com/docu/swfkrpanojs/
+	http://krpano.com/iphone/
+	http://krpano.com/docu/tutorials/
+
+
+TOOLS
+
+droplets:
+- new MAKE VTOUR droplets for automatically building virtual tours
+- all droplets are using now the new embedlicenses=true setting
+  to generate ready to use swf and js files with embedded liceneses
+- the swfkrpano.js html templates are all HTML5/iPhone/iPad compatible
+
+kmakemultires tool / new .config settings:
+- makescenes setting for automatic building virtual tours
+- makethumb settings for automatic building thumb images
+- multires setting for enabling building normal panos
+- leveldownload/leveldecode settings
+- progressiveloading setting
+- [NAME] placeholder for the xml template
+- [SCENES] placeholder for the xml template for makescene=true
+- xmltemplate_view for using a xml file as view template
+- xmltemplate_hotspot for using a xml file as hotspots template
+- copyiphonejs setting for enabling/disabling the krpanoJS usage
+- embedlicenses setting for automatically generating swf and js
+  files with embedded licenses
+- [NAME] placeholder for the html template
+- [JS] placeholder for the html template (for using embedlicenses)
+- htmltemplate_js setting (for using embedlicenses)
+- all paths in the .config files are made relative to the .config
+  file itself (before the paths were relative to the tool)
+
+kcube2sphere tool
+- added a -jpegoptimize=false option to disable the jpeg optimizing
+
+ktransform tool
+- added cube32 / cube23 modes for generating 3x2 or 2x3 cubestrips
+
+naming changes:
+- "CUBE to SPHERE" droplet renamed to "Convert CUBE to SPHERE"
+- "SPHERE to CUBE (TIFF)" droplet renamed to "Convert SPHERE to CUBE (TIFF)"
+- "SPHERE to CUBE (JPEG)" droplet renamed to "Convert SPHERE to CUBE (JPEG)"
+- "MAKE MULTIFRAME (MULTIRES) droplet renamed to "MAKE MULTI FRAME PANO"
+- "MAKE OBJET (MULTIRES)" droplet renamed to "MAKE OBJECT"
+
+small fixes:
+- removed wait for keypress on fatal libjpeg error
+
+
+------------------------------------------------------------------------------
+
+1.0.8.11
+
+krpano.swf:
+- plugin/hotspot 'static' effect bugfix
+- qtvr - fovtype="VFOV" bugfix
+- start frame bugfix
+- 'decode_complete' error message bugfix (happens when removing a plugin
+  before it has been loaded)
+- embedded files with ../ paths bugfix
+- parent="BGLAYER" (like parent="STAGE" at stage level but behind the pano)
+- added pow(var,byvar) and pow(dst,var,byvar) actions
+- new defaults: downloadqueues=4 and decodequeues=2
+
+swfkrpano.js:
+- swfobject 1.5 copyright notice
+
+krpanoiphone.js
+- iPad 60 fps
+- xml parser syntax error message
+- hide the Safari url-bar on the iPhone
+- query parameters passing
+
+
+TOOLS
+
+kmakemultires
+- intelligent number sorting (1,2,..,10,11,.. and NOT 1,10,11,..,2,20,21,...)
+- swfobject 2.2 template (replaces the 2.1 template)
+- objectskin.xml - 'zoomed-out' detection improved
+
+kprotect:
+- reset swfpath/htmlpath/basedir on startup-xml selection
+- skip moible/tablet files
+
+
+------------------------------------------------------------------------------
+
+1.0.8.10 (state 2010-05-06, compared to beta 9)
+
+- beta state removed (1.0.8 beta 10 => 1.0.8.10)
+- added a Javascript/CSS based krpano viewer for the iPhone/iPad
+  (krpanoiphone.js)
+
+swfkrpano.js
+- added automatic loading of iphone/ipad viewer (krpanoiphone.js)
+- passQueryParameters() function added
+- xhtml example
+
+swfkrpano.js / swfkrpanomousewheel (swfobject 1.5 and swfobject 2.2)
+- several fixes
+- allow mousewheel usage with wmode transparent/opaque
+- new test cases / examples
+
+swfobject 2.1 examples updated to swfobject 2.2
+
+krpano.swf
+- get() can be used inside array indices's ('full variable paths' also allowed
+  inside get())
+- added Flashplayer 10 "colorcorrection" setting
+- added control.touchfriction setting (for the krpanoJS iPhone/iPad viewer)
+- added <image> - <mobile>/<tablet> tags (for the krpanoJS iPhone/iPad viewer)
+- added "haveexternalinterface" variable (see usage in mousewheel examples)
+- action parameter placeholders range increased to %0 - %99
+- 'embeddedstartup' interface for loading krpano into other flash apps
+  (experimental!)
+- add/sub/mul/div/mod actions with just two parameters:
+  - add(var1,var2)  => var1 = var1 + var2
+  - sub(var1,var2)  => var1 = var1 - var2
+  - mul(var1,var2)  => var1 = var1 * var2
+  - div(var1,var2)  => var1 = var1 / var2
+  - mod(var1,var2)  => var1 = var1 % var2
+- IE/Flashplayer recursive resize bug workaround
+- empty <image> urls endless loading bugfix
+- video hotspot width/height settings bugfix
+- soundinterface - paused sound looping fix
+
+
+TOOLS
+
+Droplets: (available for Windows and Mac)
+
+- MAKE PANO (MULTIRES)
+  - build automatic multi-resolution panoramas
+  - spherical images will be automatically converted to cubical
+  - used config file: kmakemultires.config
+
+- MAKE PANO (NORMAL)
+  - build non-tiled, non-multi-resolution, 'normal' panoramas
+  - spherical images will be automatically converted to cubical
+  - the default maximum cubesize is 2200 pixels
+  - used config file: templates/normal.config
+
+- MAKE PANO (TILED)
+  - only tile the panoramic images, no multi-resolution
+  - spherical images will be automatically converted to cubical
+  - used config file: templates/tiled.config
+
+- MAKE PANO (FLAT)
+  - a especially for flat images optimized config/template
+  - build flat multi-resolution, zoom-able images
+  - full image view at the beginning
+  - drag2D, drag-cursor and zoomtocursor enabled by default
+  - the 'star' button will 'zoomout' to return to the initial view
+  - used config file: templates/flat.config
+
+- MAKE PANO (SINGLE-SWF)
+  - build a single all-in-one swf file
+  - spherical images will be automatically converted to cubical
+  - the default maximum cubesize is 2200 pixels
+  - used config file: templates/singleswf.config
+
+- MAKE PANO (SINGLE-SWF-TILED)
+  - build a single all-in-one swf
+  - the panoramic image will be tiled for progressive loading
+  - spherical images will be automatically converted to cubical
+  - used config file: templates/singleswftiled.config
+
+- MAKE PANO (SINGLE-SWF-MULTIRES)
+  - build a single all-in-one swf
+  - the  panoramic image will be tiled for progressive loading,
+  - the number of levels will be limited to 2, more levels make
+    more sense for dynamic (not embedded) loading,
+  - spherical images will be automatically converted to cubical
+  - used config file: templates/singleswfmultires.config
+
+- MAKE OBJECT (MULTIRES)
+  - build a multi-resolution object movie
+  - just drop a numbered collection of images on the droplet
+  - used config file: templates/object.config
+
+- MAKE MULTIFRAME (MULTIRES)
+  - build a multi-resolution and multi-frame pano
+  - just drop a numbered collection of pano (spherical or cubical ones)
+    on the droplet
+  - spherical images will be automatically converted to cubical
+  - used config file: templates/multiframe.config
+
+- MAKE PREVIEW (CUBESTRIP)
+  - build a cubestrip preview image
+  - support 1 spherical image or the 6 cubical faces as input
+
+- SPHERE to CUBE (JPEG)
+  - convert spherical images to the 6 cube faces (saved as jpeg)
+  - edit the droplet (with any text editor in Windows, or with the
+    Apple Scripteditor in Mac) to change the jpeg compression settings
+
+- SPHERE to CUBE (TIFF)
+  - convert spherical images to the 6 cube faces (saved as tiff)
+
+- CUBE to SPHERE (TIFF)
+  - convert the 6 cubical faces back to a spherical image
+
+
+better quality for the ktransform and kcube2sphere tools
+- bicubic interpolation is used now by default
+- as result the transformed images are sharper but the
+  processing is a bit slower, to get the old speed use
+  the "-fast" command line parameter
+
+64bit versions of all command line tools
+- faster image processing
+- especially on large images when more than 2gb ram is installed
+
+new html/js templates:
+- swfkrpano.html and swfkrpano.js (the default now)
+  - it's a combination of the swfobject 1.5 and swfkrpanomouse.js script
+    plus a small addition for easier swf->html embedding
+  - advantages:
+    - only one external script file (faster loading)
+    - easier embedding (the flash, fullscreen, mousewheel
+      settings will be automatically set)
+- inlinejs.html
+  - the same like swfkrpano.html and swfkrpano.js but the script
+    is in-lined into the html file
+  - no external js file
+  - easier handling (only the html and the swf file)
+
+kcube2sphere tool
+- better transforming quality
+- fewer memory need
+- memory management (can process images that don't fit in memory)
+
+ktransfrom tool
+- better transforming quality
+- support also partial panoramic images (360x*)
+
+kencrypt tool (new)
+- a command line tool to encrypt external files
+- more details on "encryption"
+
+kprotectcl tool (new)
+- kprotect command line tool
+- build protected swf files with embedded files from command line or a script
+
+kmakemultires tool
+- integrated sphere-to-cube conversion (optional,customizable)
+- integrated files to swf embedding (with automatic lookat depending
+  tiles sorting)
+- automatic license/swf copying
+- automatic license/swf renaming
+- filename/cubeside detection bugfixes
+- manual "-panotype=partialsphere" setting (hfov setting needed too)
+- optimized automatic tilesize calculation
+- new xml/html templates
+- new html template placeholders: [NAME], [SWF], [XML]
+- new xml template placeholders: [PREVIEW], [IMAGE], [HLOOKAT], [VLOOKAT],
+ [PARTIALPANO]
+
+kprotect gui tool
+- reworked gui
+- improved xml parsing and better file reference detection
+- improved automatic file sorting
+- more options for embedded files
+- project loading/saving
+- file encryption
+- standalone size customizable
+
+all tools
+- support for tiff files from Photoshop that are larger than 2gb
+- support for 16bit tiff files (read/write)
+- jpeg reading bugfixes
+
+encryption
+- encrypt external files with kencrypt or the kprotect tools
+- only a 'protected' swf can load these encrypted files
+- how does it work?
+  - the encryption key is generated from the tools license
+  - note - the krpano/tools licenses are personalized and individually for
+    every user,
+    so every key is individually too
+  - the key is divided into two parts
+    - one part is stored in the protected swf file
+    - and one part in the encrypted file
+  - so only the protected swf can decrypt the files
+
+
+------------------------------------------------------------------------------
+
+1.0.8 beta 9
+
+VIEWER:
+
+ - Flash10 support
+   - automatically use of the new Flash10 rendering possibilities
+   - without a Flashplayer 10 the standard Flash9 rendering is used
+   - Flash10 allows a perfect 3D distorted drawing of "flat/linear" 3D images
+   - for optimal quality and performance use cubical panorama images
+   - the usage of Flash10 can be set/switched dynamically
+   - for spherical and fisheye distorted panoramas the usage of Flash9
+     rendering is recommended for better performance
+   - new parameters for <display>
+     - flash10="on|off" - enable/disable Flash10 usage
+     - movequality10="HIGH" - move quality setting for Flash10
+     - stillquality10="HIGH" - still quality setting for Flash10
+     - these parameters have no effect when using Flashplayer9
+
+
+ - direct support for QUICKTIME QTVR (.mov) files (at the moment only cubical)
+
+   - xml usage:
+     <image type="QTVR">
+       <qtvr url="pano.mov" setview="true" />
+     </image>
+
+   - the "setview" attribute can be used to enable the using of the view
+     settings from the mov file
+
+
+ - direct support of ZOOMIFY images (ImageProperties.xml)
+
+    - xml usage:
+     <image type="ZOOMIFY">
+       <zoomify url="pano/ImageProperties.xml" setview="true" />
+     </image>
+
+   - with setview="true" the default view parameters are changed to
+     fisheye="0" and view.maxpixelzoom="0.95"
+
+
+ - new '%g' (=group) parameter for the tiles paths,
+   this allows using zoomify tiles manually
+
+
+ - supports PARTIAL and CYLINDER panorama images
+   - new <image> attributes
+     - hfov - horizontal field of view of the pano image (default=360)
+     - vfov - vertical field of view of the pano image (
+              (default=automatically calculated)
+     - voffset - vertical offset to align a not centered partial pano
+
+   - note - the preview image can/will be also partial
+
+
+ - support for 2x3 or 3x2 cubestrip images
+   - "strip" attribute - ordering from lefttop to rightbottom
+
+
+ - Pannini Projection
+   - view.pannini="true|false"
+   - view.stereographic and view.fisheye must be also set to get an effect
+
+
+ - new "progressive" loading
+   - for multi-resolution / Zoomify panoramas
+   - one level after the other will be loaded down to the current view
+   - the image becomes sharper and sharped with each level
+   - the loading can be slower because more tiles must be loaded
+   - enable/disable it in the <image> tag with the "progressive" attribute
+   - default="false", only for Zoomify it's "true" by default
+
+
+ - "view.maxpixelzoom"
+   - can be used instead of "view.fovmin"
+   - the limitation of the zoom will depend of the image size of the panorama
+   - "maxpixelzoom" set the maximum zoom of the original image that is allowed
+     e.g. maxpixelzoom="1.0" will allow a maximum zooming to an 1:1 view
+
+  - "view.fovtype"
+    - sets the type of the fov value:
+    - VFOV - vertical field of view (default)
+    - HFOV - horizontal field of view
+    - DFOV - diagonal field of view
+    - MFOV - max. field of view (either vertical or horizontal fov)
+
+  - "view.limitview"
+    - new limitview modes: "fullrange" and "offrange"
+    - "fullranges" - limits the zooming and moving range to the full image
+    - "offrange"   - limits only the moving range to the full image
+    - e.g.
+      <view limitview="fullrange" maxpixelzoom="1.0" />
+      <view limitview="offrange"  maxpixelzoom="1.0" fovmax="2" />
+
+
+
+ - xml parsing changes:
+   - all attributes that begin or end with "url" are now automatically
+     parsed as urls,
+   - if the url was relative, it was made relative to the xml in which
+     it was declared
+
+
+ - new internal caching
+   - all elements will be automatically cached
+   - e.g. when one image is used several times it will be downloaded only once
+   - variables:
+     - network.caching = true|false
+     - network.cachesize = 7 (MB)
+   - as xml:
+     <network caching="true" cachesize="7" />
+
+
+ - logkey="false" - disables now also the debugging keys
+   (note - these keys are only available in the beta version)
+
+
+
+ - "prealign" <image> parameter to rotate/align the panoramic image,
+   - usage: <image prealign="X|Y|Z">
+   - example: <image prealign="0|-90|0">
+
+
+ - auto-detection of preview image type when no "type" was defined
+   - "SPHERE","CYLINDER" or "CUBESTRIP"
+
+
+ - a new concept to store more panoramas in one xml file:
+   - there can be more <scene> nodes in one xml
+   - a scene will be identified by it's name
+   - in every <scene> node all krpano sub nodes can be used
+     e.g. <image>, <plugin>, <hotspot>, <events>, ...
+   - a scene is handled like a new external xml file
+
+   - load a scene via loadscene():
+      - loadscene(scenename,parameters*,flags*,blend*,onstart*)
+      - scenename - the name of the scene
+      - * all other optional parameters are the same like in the
+          loadpano/loadxml actions
+
+   - with using the "keep" attribute and the MERGE load flag it is possible
+     to mix global and local parts (e.g. plugins)
+
+   - a <scene> can have it's own onstart event
+     e.g. <scene name="..." onstart="..">
+
+
+ - new <style> node for parameter sharing
+   - this can be used to reduce the xml code size
+   - the same attributes for plugins or hotspots can be stored at one place
+     (very well suitable for textfield plugins and (polygonal) hotspots)
+   - note - the parameters can NOT be overwritten in the plugin/hotspots
+     definition!
+
+   - usage:
+     <style name="style1" alpha="0.5" scale="0.5" ... />
+     <plugin name="p1" ... style="style1" />
+     <plugin name="p2" ... style="style1" />
+     <plugin name="h1" ... style="style1" />
+
+   - a style can be also loaded dynamically via - loadstyle(name)
+     e.g.
+       plugin[pname].loadstyle(stylename);
+
+
+
+ - mouse cursors
+   - user defined mouse cursors
+   - can be set and changed statically or dynamically
+
+
+ - plugin "preload"
+   - new "preload" parameter for plugins - force loading before pano,
+   - e.g. can be used for the soundinterface plugin for example to make sure
+     that the soundinterfaces is already loaded before making calls to it
+   example usage:
+   <krpano onstart="playsound(...);">
+     <plugin url="soundinterface.swf" preload="true" />
+     ...
+
+
+ - parent/child system:
+    - parent attribute for all plugins/hotspots
+    - usage:
+        parent="pluginname"           or
+        parent="plugin[pluginname]"   or
+        parent="hotspot[hotspotname]"
+    - the alignment of a child refers then to the parent
+    - can be changed dynamically
+    - "scalechildren" attribute - to scale also child plugins on parent
+       scaling, default="false"
+
+
+ - plugin/hotspot - "ox" / "oy"
+    - additional x/y offset
+    - % values can be used and they are relative to the own size
+
+ - plugin/hotspot - "rotate"
+    - rotation in degrees, default="0"
+
+ - "plugin.enabled" / "hotspot.enabled"
+    - enable/disable all plugins or hotspots globally
+
+ - plugin/hotspot - "scale9grid"
+    - scaling only a middle area of an image and let the borders unscaled
+    - usage;  scale9grid="x|y|width|height"
+
+ - plugin/hotspot "crop" / "onovercrop" / "ondowncrop"
+    - crop an area of an image
+    - can be used to put several images into one single image
+    - onovercrop and ondowncrop for cropping dynamically other parts on
+      over/down state changes
+    - usage:  crop="x|y|width|height"
+
+ - plugin/hotspot "mask"
+   - use a other plugin/hotspot to mask out an current plugin/hotspot
+   - if the mask contains an alpha channel it will be used for masking
+     otherwise only the rectangle shape of it
+   - usage:
+        mask="pluginname"           or
+        mask="plugin[pluginname]"   or
+        mask="hotspot[hotspotname]"
+
+ - plugin/hotspot "effect"
+   - same "effect" parameter as in textstyle
+
+
+ - 3D distorted hotspots
+   - "distorted" parameter for hotspots (true or false)
+   - "rx","ry","rz" parameters for the 3D rotation about the X/Y/Z axis
+     (in degrees)
+   - the size can be controlled via "width","height" and "scale"
+   - "refreshrate" parameter for animated images (swf hotspots)
+     can be 0-60, default is "auto" - this will automatically detect the
+     frame rate for swf movies
+   - for videos it's recommended to use the videoplayer plugin
+
+
+ - hotspot "flying" parameter
+   - for "fly-out" images
+   - possible values from 0.0 to 1.0 (for tweening)
+   - 0.0 = normal view
+   - 1.0 = makes the hotspot independent from the panorama rotation and
+           scaling (locked to screen)
+
+
+ - <textstyle>
+    - new "fadetime" parameter
+      - set the time for a fadeout in seconds
+      - default="0" - no fadeout
+   - new "fadeintime" parameter
+      - set the time for a fadein in seconds
+      - default="0" - no fadein
+
+
+ - <progress>
+   - new "showreloads" parameter (possible values - "true" or "false")
+   - controls if the progress bar should also be shown after the
+     first complete loading, default="false"
+   - e.g. <progress showreloads="false" />
+
+
+ - action parameters - use 'parameter' or "parameter" to mark everything
+   between the quotes as a "together connected string"
+    - this allows the usage of commas (,) and blanks in parameters
+    - e.g. showtext('string, 123') or showtext("string, string");
+
+
+ - user defined actions (<action>) can now be called "direct",
+   e.g. instead of "action(actionname, parameters...);"
+   now also just "actionname(parameters...);" is possible
+
+
+ - tween() action
+   - can now be used also with percents(%) values
+   - use 'get(var)' to tween to the value of a other variable,
+     e.g. tween(varA, get(varB));
+
+
+ - WAIT flag for tween()
+   - waiting until this tween has been finished before the next action
+     command will be executed
+   - usage:
+        tween(variable,destitionvalue,time,tweentype,WAIT);
+        nextaction();
+        ...
+
+ - stoptween(var1,var2,var3,...) action
+   - stop one or more tweens
+
+
+ - new "tweentypes": (with optional parameters)
+   - easeInElastic(amplitude,period)	(defaults: automatic)
+   - easeOutElastic(amplitude,period)	(defaults: automatic)
+   - easeInBack(overshoot)              (defaults: overshoot=1.70158)
+   - easeOutBack(overshoot)             (defaults: overshoot=1.70158)
+   usage:
+       tween(var,value,0.5,easeOutElastic);
+     or:
+       tween(var,value,0.5,easeOutElastic(5,2));
+
+
+
+ - copy(dst,src) action
+   - copy variable value
+   - is the same like - set(dst,get(src));
+
+
+ - add/sub/mul/div/mod math operators
+   - usage:
+
+     with 2 parameters:
+      - add(dst,val1)  =>  dst = dst + val1 (like +=)
+      - sub(dst,val1)  =>  dst = dst - val1 (like -=)
+      - mul(dst,val1)  =>  dst = dst * val1 (like *=)
+      - div(dst,val1)  =>  dst = dst / val1 (like /=)
+      - mod(dst,val1)  =>  dst = dst % val1 (modulate)
+
+     with 3 parameters:
+      - add(dst,val1,val2)  =>  dst = val1 + val2
+      - sub(dst,val1,val2)  =>  dst = val1 - val2
+      - mul(dst,val1,val2)  =>  dst = val1 * val2
+      - div(dst,val1,val2)  =>  dst = val1 / val2
+      - mod(dst,val1,val2)  =>  dst = val1 % val2 (modulate)
+
+    - val1/val2 can be values or variables
+
+
+ - txtadd(dest, txt1, txt2, txt3, ...)
+   - this actions adds strings together
+   - dest = txt1 + txt2 + txt3 + ...
+
+
+ - inc(var,byvalue*,max*,min*)
+ - dec(var,byvalue*,min*,max*)
+    - increase/decrease values (with saturation)
+    - byvalue - add/sub this value to the var, default=1
+    - max     - max limit, when reaching it, the var will be set to min
+    - min     - min limit, when reaching it, the var will be set to max
+
+
+ - trace(a,b,c,...); - traces variables or any text
+
+
+ - extended switch() action
+    - switch(var, a,b,c,d, ...)
+    - switch "var" through all given values (from left to right)
+
+
+ - if/ifnot(condition, trueaction, falseaction) action
+   - condition:
+     - varA
+       - only one variable as parameter
+       - this variable will be compared against "true"
+     - varA OPERATOR varB
+       - compare two variables
+       - the below for all possible operators
+   - trueaction - actions that will be called on true
+   - falseaction - actions that will be called on false
+   - usage examples:
+      if(fullscreen, action(fullscreen_setup), action(windowmode_setup) );
+      if(view.vlookat GE 45, set(view.vlookat, 45) );
+      if(plugin[xyz].visible == true, set(plugin[xyz].visible,false) );
+
+ - supported if operators:
+   - "==" - equal
+   - "!=" - not equal
+   - "<"  - lower than
+   - "<"  - greater than
+   - "<=" - lower or equal than
+   - ">=" - greater or equal than
+   - "===" - strict equal (compare only existent variables)
+   - "!==" - strict not equal (compare only existent variables)
+   - because of the XML limitation of the usage of the '<' and '>' characters
+     also these operators are supported:
+     - "GT" - greater than,
+     - "LT" - lower than
+     - "LE" - lower or equal
+     - "GE" - greater or equal
+
+
+  - adjusthlookat(desthlookat)
+    - adjusts the hlookat value for manual tweening
+    - it fixes the 360 wrap around for the shortest way to "desthlookat"
+    - usage example:
+        adjusthlookat(140);
+        tween(view.hlookat,140);
+
+
+   - screentosphere(x,y,h,v);
+   - spheretoscreen(h,v,x,y);
+     - actions for converting between screen and spherical coordinates
+
+
+ - "fscommand" action for controlling the standalone projector
+   (.exe/.app files from the kprotect tool)
+    usage examples:
+     - fscommand(quit)                 - quits the standalone flashplayer
+     - fscommand(showmenu,false)       - hides the menubar of the standalone
+                                         flashplayer
+     - fscommand(exec,application.exe) - starts an external application
+                                        (NOTE - this application must be in a
+                                         subfolder named "fscommand")
+
+  - new <area> tag
+    - set the size and position of the pano area
+    - in absolute pixels or relative values (%)
+
+    - attributes with default values:
+      <area x="0" y="0" width="100%" height="100%" />
+
+    - when the area attributes will be changed dynamically
+     (e.g. via set or tween)  then the "onresize" event will be called,
+
+    - to get dynamically the current size and position in absolute pixels
+      these variables can be used: (read only)
+      "area.pixelx"
+      "area.pixely"
+      "area.pixelwidth"
+      "area.pixelheight"
+
+    - plugins will be places inside the area by default
+    - to get them outside of it use - parent="STAGE" - for the plugin
+      e.g.
+        <plugin ... parent="STAGE" .. />
+
+
+  - roundval(var,dp*) action
+    - round the given variable 'var' to 'dp' decimal  places
+    - dp is '0' when not given
+
+
+  - "random" variable
+    - a global variable
+    - it returns on every get a different random value between 0.0 and 1.0
+    - an example to get a integer number between 0 and 10:
+      mul(rnd10, random, 10);
+      roundval(rnd10, 0);
+
+
+  - "timertick" variable
+    - it returns the current time since start in milliseconds
+
+
+
+  - "bgcolor" variable
+    - when set to a valid color number (e.g. 0xFFFFFF for white),
+      a background shape with the color will be rendered behind the pano,
+    - when not set or set to an invalid value no background shape
+      will be used, and it behave 'transparent' and shows the flashplayer
+      background color or the html page when using the "transparent" wmode
+      setting
+    - when set it allows using the mouse 'outside' the pano to navigate
+      when using partial panos
+    - and it allows correct blending between partial panos
+
+
+ - CHANGES
+   - the "stop()" action was removed (now used by the videplayer plugin)
+     "stopall()" (which is the same) is still working
+
+
+
+ - EVENTS:
+
+    - onxmlcomplete
+      - called when the loading and parsing of an panorama xml is complete
+      - can(should) be used additionally or instead of "onstart"
+      - note - when loading via loadscene() this is also called
+        (internally a scene is like a new pano xml)
+
+    - onpreviewcomplete
+      - called when the loading of the preview pano is finished
+
+    - onloadcomplete
+      - called when the loading of the pano is finished
+      - note for multi-resolution panorams this is only called once
+        when the first view loading is finished
+
+    - onkeydown / onkeyup
+       - keyboard events
+       - check the current press key via the "keycode" variable
+
+    - onclick
+      - will be called on a mouse click
+
+    - onmousedown
+      - mouse button down
+      - get the current mouse position via the "mouse.x" and "mouse.y"
+        variables
+
+    - onmouseup
+      - mouse button up
+
+    - onmousewheel
+      - mouse wheel change
+      - get the current change from the "wheeldelta" variable
+
+    - onloaderror / "lasterror"
+      - user defined error handling
+      - no error message will be shown
+      - the last error message in stored in the "lasterror" variable
+
+
+    - onviewchange
+      - is called on every view change
+      - note - this event should be used carefully, don't make "heavy"
+        operations/changes here
+      - this events will be called every frame on moving
+
+    - onidle / "idletime"
+      - will be called after some time of no user interaction/moving
+      - the "idletime" can be set in the <krpano> node or via
+        set(idletime, 0.5);
+      - default "idletime" is "0.5" seconds
+
+    - onresize / "stagewidth" / "stageheight"
+      - will be called on resize of the window
+      - note - also will be also called on fullscreen/window switches
+      - the "stagewidth", "stageheight" variables are set to the current
+        window/stage size
+
+
+ - INTERFACES:
+
+   - use the "image.layer" variable to the get AS3 Sprite object of the
+     pano image layer (for adding filters or postprocess effects...)
+     e.g.: (as3 code)
+       var panoimage:Sprite = krpano.get("image.layer");
+
+   - file loading interface for krpano swf plugins:
+     - loadfile(url:String,donefunction:Function,errorfunction:Function=null,cacheit:Boolean=true);
+       - donefunfcion(ld:Object) - ld.data:ByteArray
+     - loadobject(url:String,donefunction:Function,errorfunction:Function=null,cacheit:Boolean=true);
+       - donefunfcion(ld:Object) - ld.loader:Loader
+
+
+ - OTHERS CHANGES:
+
+   - automatic download retry on server busy errors
+   - changed default network settings - downloadqueues/decodequeues
+   - default Flash background color changed to black (#000000)
+   - optimized krpano.swf loading
+   - <krpano> - showerrors="false" to disable opening the log on errors
+   - new IGNOREKEEP loadpano() flag to ignore "keep" attributes
+
+
+
+PLUGINS:
+
+
+all plugins:
+ - use a new updated version management
+ - check the version of each plugin by opening it the swf with the
+   standalone Flashplayer or opening it direct in the web browser
+
+
+editor plugin:
+ - xml generator only partially updated for the new attributes
+ - but not all at the moment!!!
+ - bugfix - "blackout" on HIGHSHARP quality
+ - bugfix - lensflares <flare> duplicates
+ - image and polygon hotspots can be moved now
+ - 3D distorted image hotspots can be moved/rotated/scaled
+ - bufix - architectural projection is now disabled while drawing hotspots
+ - xml generator partially updated for the new attributes
+
+
+
+
+soundinterface:
+ - added functions for 3D directional sound
+ - bugfix - added check for the possibility to play sound
+ - bugfix - correct error message when a file could be found
+ - bugfix - sound directions
+
+
+
+googlemaps plugin:
+ - debug traces removed
+ - onhover was also done on visible="false"
+ - resetspots() (main bugfix done in viewer)
+ - new control for the map type:
+   <maptypecontrol visible="true" anchor="rightbottom" x="2" y="2" buttonalign="v" />
+ - "maptypes" parameter
+   set possible map types
+   example:
+     maptypes="NORMAL|SATELLITE|PHYSICAL|HYBRID"
+ - "onmaptypechanged" event
+   will be called when the map type changes
+
+
+videoplayer plugin: (new)
+ - attributes:
+   * videourl
+     - url of the video
+       can be any FLV Flash video (.flv) or any H.264 coded video (.mp4, .m4v,
+        .mov, .3gp)
+       (for H.264 coded videos Flash Player 9.0.115 or higher is needed)
+     - NOTE - the video url must be always relative to the main krpano swf
+       file!!!
+       this is a flashplayer bug and there unfortuneatly no way to fix it,
+       read here:
+         http://bugs.adobe.com/jira/browse/FP-1194
+
+   * pausedonstart (true or false)
+     - video is paused on start
+     - default=false
+   * loop (true or false)
+     - loop video or stop at end
+   * volume (0 .. 1)
+     - sound volume
+     - default=1.0
+   * directionalsound (true or false)
+     - use directional sound when the video is played as hotspots
+     - default=true
+   * range (1-360)
+     - range of the directional sound
+     - default=90
+   * buffertime
+     - time in seconds that should be buffered before starting playing
+     - default=0.1
+   * updateeveryframe (true or false)
+     - default=true
+     - for performance optimiations
+     - only the video is used as distored hotspot
+     - when set to false it refreshes the video only
+       when flash reports there is a new frame
+     - this reduces the cpu load but:
+     - in situations where the flashplayer has much
+       work to do, this can cause frame skipping
+       (e.g. while moving in the pano)
+     - use with care!
+
+ - read only attributes/states
+   * ispaused (true or false)
+     - check the state of the video
+
+ - events:
+   * onvideocomplete
+     - will be called when the video is played completely
+     - only when "loop" is set to "false"
+
+ - interface actions/functions:
+   * playvideo(url)
+     - starts and new video
+   * closevideo()
+     - stops and cloes the video stream
+   * stop()
+     - stops the video and moves to the first frame and pauses there
+     - the video can be resumed via play() or resume()
+   * pause()
+     - pauses the video at the current frame
+     - the video can be resumed via play() or resume()
+   * play() / resume()
+     - resumes a paused video
+   * togglepause()
+     - pauses or resumes a video
+
+	XML example:
+	<hotspot name="video"
+	         url="videoplayer.swf"
+	         videourl="video.flv"
+	         ath="12" atv="10"
+	         scale="0.5" rx="0" ry="0" rz="0"
+	         distorted="true"
+
+	         pausedonstart="false"
+	         loop="true"
+	         volume="0.7"
+	         directionalsound="true"
+	         range="120"
+	         onclick="togglepause();"
+	         />
+
+
+	some action calling examples:
+
+	<action name="playothervideo">
+		hotspot[video].playvideo(othervideo.flv);
+	</action>
+
+	<action name="stopbutton">
+		hotspot[video].stop();
+	</action>
+
+	<action name="playbutton">
+		hotspot[video].play();
+	</action>
+
+	<action name="pausebutton">
+		hotspot[video].togglepause();
+	</action>
+
+
+ textfield:
+ - "wordwarp" attribute (default="true")
+
+ combobox:
+ - debug traces removed
+ - label now have correct case again
+
+
+TOOLS
+
+
+kprotect:
+ - allow embedding of any additional file
+ - automatic analyzing and resolving of xml files
+ - show xml parsers errors
+ - updated standalone players
+ - bugfix - domain limiting in "Embedded XML" mode
+
+kmaketiles:
+ - added the "-keepaspect" parameter for resizing,
+   with "-resize=WIDTHxHEIGHT -keepaspect" a image will be resized
+   to the maximum image size of WIDTHxHEIGHT and the original aspect will be
+   kept
+
+
+kmakemultires:
+ - bugfix - "indexbase"
+ - bugfix - building of a too large previews on partial panos
+ - bugfix - "xmltemplate_additional_file" parsing fixed
+ - bugfix - wrong jpeg imagesize
+ - new - "tilename" adjustable
+
+
+ - support of tiles inputs
+    - new parameters for this case:
+      - intilesize  - size of the input tiles (format: SIZE or WIDTHxHEIGHT)
+      - insize      - size of the input image (format: WIDTHxHEIGHT)
+      - inindexbase - indexbase for input (default=1)
+  usage: (similar to kmaketiles)
+    kmakemultires tiledimage_%v_%u.jpg -intilesize=1000 -insize=10000x5000 -inindexbase=1
+
+ - support for automatic creating of partial panos
+    - panotype (new parameter)
+      - type of the input pano
+      - possible values:
+         - autodetect - the type will be detected by it's imagesize/aspect
+           - 2:1 aspect for a spherical pano
+           - 1:1 aspect and six similar named images for a cubical pano
+           - other aspects - ask the user
+         - sphere   - force assuming that the input is a sphere
+         - cylinder - force assuming that the input is a cylinder
+         - flat     - force assuming that the input is a flat image
+      - hfov (new parameter)
+      - hfov value for partial spherical/cylinder panos
+        (the vfov value will be calculated automatically)
+
+ - updated "kmakemultires.config"
+
+ - new xml templates:
+   - simple.xml
+     - only the pano with no additional elements
+
+   - standard_skin.xml
+     - some standard panoramic controls
+     - a changeable custom mouse cursor (moving, dragging)
+
+   - qtvr - qtvr_style_skin.xml
+     - a qtvr styled skin
+     - zoom buttons, qtvr cursor
+
+
+kcube2sphere:
+ - bugfix - wrong jpeg imagesize
+ - bugfix - "-size" parameter was ignored
+
+
+===============================================================================
+                                                 Copyright (c) 2013 krpano GmbH

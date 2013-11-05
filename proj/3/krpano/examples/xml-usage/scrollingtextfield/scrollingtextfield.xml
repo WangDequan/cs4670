@@ -1,0 +1,76 @@
+<!--
+	krpano - scrolling textfield example
+-->
+
+<krpano>
+	
+	<!-- use a grid preview pano as background -->
+	<preview type="grid(cube,16,16,512,0xCCCCCC,0xF6F6F6,0x999999);" details="16" />
+	
+	<!-- view settings -->
+	<view hlookat="0" vlookat="0" fovtype="VFOV" fov="100" fovmin="60" fovmax="150" />
+
+
+	<!-- the textfield with a scrollbar and scroll buttons -->
+	<layer name="textbox" url="textfield.png" align="center" x="0" y="0" width="280" height="200">
+		
+		<layer name="textmask" type="container" align="lefttop" x="5" y="5" width="240" height="190" maskchildren="true">
+			<layer name="text" url="%SWFPATH%/plugins/textfield.swf" handcursor="false" children="false" align="lefttop" x="10" y="10" width="220" autoheight="true" background="false" border="false" html="data:testtext" css="color:#000000; font-family:Arial; font-size:12;" />
+		</layer>
+		
+		<layer name="scrollbar" type="container" bgcolor="0x000000" bgalpha="0.3" align="righttop" x="5" y="5" zorder="1" width="19" height="190" />
+		
+		<layer name="scrollup" url="dirbutton.png" align="righttop" x="24" y="5" zorder="2" rotate="-90" crop="0|0|19|19" onovercrop="0|19|19|19" ondowncrop="0|38|19|19"
+		       ondown="asyncloop(pressed, sub(ny,layer[text].y,10); add(ny,+8); sub(th,170,layer[text].pixelheight); if(ny GT 0, set(ny,0)); div(sy,ny,th); mul(sy,133); add(sy,24); copy(layer[scrollslider].y,sy); add(ny,10); copy(layer[text].y,ny); );"
+		       />
+
+		<layer name="scrolldown" url="dirbutton.png" align="rightbottom" x="24" y="5" zorder="2" rotate="+90" crop="0|0|19|19" onovercrop="0|19|19|19" ondowncrop="0|38|19|19"
+		       ondown="asyncloop(pressed, sub(ny,layer[text].y,10); add(ny,-8); sub(th,170,layer[text].pixelheight); if(ny LT th, copy(ny,th)); div(sy,ny,th); mul(sy,133); add(sy,24); copy(layer[scrollslider].y,sy); add(ny,10); copy(layer[text].y,ny); );"
+		       />
+
+		<layer name="scrollslider" url="sliderbutton.png" align="righttop" x="5" y="24" zorder="2" crop="0|0|19|19" onovercrop="0|19|19|19" ondowncrop="0|38|19|19" 
+		       ondown="copy(cy,y);copy(sy,mouse.stagey);dragging();" 
+		       dragging="if(pressed, sub(dy,mouse.stagey,sy); add(ny,cy,dy); if(ny LT 24, set(ny,24)); if(ny GT 157, set(ny,157)); copy(y,ny); sub(ty,ny,24); div(ty,133); sub(th,170,layer[text].pixelheight); mul(ty,th); add(ty,10); copy(layer[text].y,ty); delayedcall(0,dragging()); );"
+		       />
+
+	</layer>
+	
+
+	<!-- test text -->
+	<data name="testtext">
+		start text test text test text test text test[br/]
+		text test text test text test text[br/]
+		test text test text test text test text test text[br/]
+		test text test text test text[br/]
+		test text test text test text test text test text test[br/]
+		text test text test text[br/]
+		test text test text test text test text test[br/]
+		text test text test text test text[br/]
+		test text test text test text test text test[br/]
+		[br/]
+		text test text test text test text[br/]
+		test text test text test text test text test[br/]
+		text test text test text test text[br/]
+		test text test text test text test text test[br/]
+		text test text test text test text test text[br/]
+		middle text test text test text test text test text test[br/]
+		text test text[br/]
+		test text test text test text test text test text[br/]
+		test text test text test text test text test[br/]
+		text test text test text test text test text[br/]
+		test text test text[br/]
+		[br/]
+		test text test text test text[br/]
+		[br/]
+		test text test text test[br/]
+		text test text test
+		[br/]
+		text test[br/]
+		text test text test text test[br/]
+		text test text[br/]
+		end test text test text test text[br/]
+	</data>
+
+
+</krpano>
+

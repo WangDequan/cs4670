@@ -1,0 +1,9 @@
+<krpano onstart="ifnot(haveexternalinterface, error('ExternalInterface (Javascript Interface) not avaiable! 
+check your Flashplayer security settings
+see: http://krpano.com/docu/localaccess/'));">
+
+	<image>
+		<cubestrip  url="pano.jpg" />
+	</image>
+
+</krpano>

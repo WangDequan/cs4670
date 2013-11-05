@@ -1,0 +1,169 @@
+<krpano>
+
+	<!-- add a right-click context menu for changing the viewing settings -->
+	<contextmenu>
+		<item caption="KRPANO"     />
+		<item caption="FULLSCREEN" />
+		<item caption="Flat View"                 onclick="view_flat();"   separator="true" />
+		<item caption="Normal View"               onclick="view_normal();" separator="true" />
+		<item caption="Wide View"                 onclick="view_wide();"          />
+		<item caption="Fisheye View"              onclick="view_fisheye();"       />
+		<item caption="Architectural View"        onclick="view_architectural();" />
+		<item caption="Stereographic View"        onclick="view_stereographic();" />
+		<item caption="Pannini View"              onclick="view_pannini();"       />
+		<item caption="Little Planet View"        onclick="view_littleplanet();"  />
+	</contextmenu>
+
+
+	<action name="view_flat">
+		if(isflat !== true,
+			set(isflat,true);
+			stoptween(view.fov);
+			set(view.limitview,off);
+			set(view.fovmin, 0.01);
+			set(view.fovmax, 179.0);
+			set(control.usercontrol,off);
+			set(control.mousetype,drag2d);
+	
+			copy(h, image.hfov);
+			copy(startfov, view.fov);
+			
+			tween(h, 1.0, 3.0, linear, 
+				<!-- donecall -->
+				set(control.usercontrol,all);
+				set(view.fovmin, 0.25);
+				set(view.fovmax, 2.0);
+				set(view.hlookatmin, -1);
+				set(view.hlookatmax, +1);
+				set(view.vlookatmin, -0.5);
+				set(view.vlookatmax, +0.5);
+				set(view.limitview, range);
+			  ,
+				<!-- updatecall -->
+				if(h LT 90, 
+					mul(view.fov,h,1.1);
+				  ,
+					sub(hr,h,90);
+					div(hr,270);
+					sub(hr2,1,hr);
+					mul(a, startfov, hr);
+					mul(b, 99, hr2);
+					add(view.fov, a,b);
+				  ); 
+				copy(image.hfov,h); 
+				set(image.vfov,0); 
+				updateobject(true,true); 
+			  );
+
+			adjusthlookat(0);
+			tween(view.hlookat, 0, 1.5);
+			tween(view.vlookat, 0, 1.5);
+		 );
+	</action>
+	
+	<action name="view_nonflat">
+		if(isflat === true,
+			set(isflat,false);
+			set(view.limitview,off);
+			set(control.usercontrol,all);
+			set(control.mousetype,moveto);
+			
+			copy(h, image.hfov);
+			
+			tween(h, 360.0, 3.0, linear, 
+				<!-- donecall -->
+				set(view.fovmin, 20.0);
+				set(view.fovmax, 170.0);
+				set(view.limitview, auto);
+				set(view.hlookatmin, -180);
+				set(view.hlookatmax, +180);
+				set(view.vlookatmin, -90);
+				set(view.vlookatmax, +90);
+			  ,
+				<!-- updatecall -->
+				copy(image.hfov,h); 
+				set(image.vfov,0); 
+				updateobject(true,true); 
+			  );
+			
+			tween(view.fov, 120, 1.5);
+		  );
+	</action>
+		
+	
+	<action name="view_normal">
+		view_nonflat();
+		tween(view.fovmax,       150.0, distance(179, 1.00), easeoutquad);
+		tween(view.architectural,  0.0, distance(1.0, 0.45), easeoutquad);
+		tween(view.fisheye,        0.0, distance(1.0, 0.45), easeoutquad, set(view.stereographic,false); if(view.pannini, set(view.pannini,false); delayedcall(0,updateobject(true,true)); ); );
+	</action>
+
+	<action name="view_wide">
+		view_nonflat();
+		set(backtonormalfirst,false);
+		if(view.pannini       == false, set(backtonormalfirst,true) );
+		if(view.stereographic == false, set(backtonormalfirst,true) );
+		if(backtonormalfirst, tween(view.fisheye, 0.0, 0.3, easeoutquad, WAIT); );
+		set(view.pannini, true);
+		set(view.stereographic, true);
+		set(view.fovmax, 150);
+		tween(view.fisheye,        1.0, 0.5);
+		tween(view.fov,          100.0, 0.5);
+		tween(view.architectural, 0.33, 0.5);
+	</action>
+
+	<action name="view_fisheye">
+		view_nonflat();
+		tween(view.architectural, 0.0, distance(1.0, 0.30), easeoutquad);
+		tween(view.fisheye,       0.0 ,distance(1.0, 0.30), easeoutquad, set(view.stereographic,false); if(view.pannini, set(view.pannini,false); delayedcall(0,updateobject(true,true)); ); set(view.fovmax,179); tween(view.fisheye, 0.35, distance(1.0,1.25)); );
+	</action>
+
+	<action name="view_architectural">
+		view_nonflat();
+		tween(view.fovmax,       150.0, distance(179, 1.00), easeoutquad);
+		tween(view.architectural,  1.0, distance(1.0, 0.45), easeoutquad);
+		tween(view.fisheye,        0.0, distance(1.0, 0.45), easeoutquad, set(view.stereographic,false); if(view.pannini, set(view.pannini,false); delayedcall(0,updateobject(true,true)); ); );
+	</action>
+
+	<action name="view_stereographic">
+		view_nonflat();
+		tween(view.architectural, 0.0, 0.25);
+		set(backtonormalfirst,false);
+		if(view.pannini       == true,  set(backtonormalfirst,true) );
+		if(view.stereographic == false, set(backtonormalfirst,true) );
+		if(backtonormalfirst, tween(view.fisheye, 0.0 ,distance(1.0, 0.25), easeoutquad, WAIT); );
+		if(view.pannini, set(view.pannini,false); delayedcall(0,updateobject(true,true)); );
+		set(view.stereographic, true);
+		set(view.fovmax, 150);
+		tween(view.fisheye, 1.0, distance(1.0, 0.75), easeoutquad);
+	</action>
+
+	<action name="view_pannini">
+		view_nonflat();
+		tween(view.architectural, 0.0, 0.25);
+		set(backtonormalfirst,false);
+		if(view.pannini       == false, set(backtonormalfirst,true) );
+		if(view.stereographic == false, set(backtonormalfirst,true) );
+		if(backtonormalfirst, tween(view.fisheye, 0.0 ,distance(1.0, 0.25), easeoutquad, WAIT); );
+		set(view.pannini, true);
+		set(view.stereographic, true);
+		set(view.fovmax, 150);
+		tween(view.fisheye, 1.0, distance(1.0, 0.75), easeoutquad);
+	</action>
+
+	<action name="view_littleplanet">
+		view_nonflat();
+		tween(view.architectural, 0.0, 0.25);
+		tween(view.vlookat,  90, distance(179, 1.50), easeoutquad);
+		set(backtonormalfirst,false);
+		if(view.pannini       == true,  set(backtonormalfirst,true) );
+		if(view.stereographic == false, set(backtonormalfirst,true) );
+		if(backtonormalfirst, tween(view.fisheye, 0.0 ,distance(1.0, 0.25), easeoutquad, WAIT); );
+		if(view.pannini, set(view.pannini,false); delayedcall(0,updateobject(true,true)); );
+		set(view.stereographic, true);
+		set(view.fovmax, 150);
+		tween(view.fisheye, 1.0, distance(1.0, 0.75), easeoutquad);
+		tween(view.fov,     150, distance(179, 0.75), easeoutquad);
+	</action>
+
+</krpano>

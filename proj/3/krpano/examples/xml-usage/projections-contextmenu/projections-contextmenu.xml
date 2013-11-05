@@ -1,0 +1,91 @@
+<krpano>
+
+	<!-- info text -->
+	<layer name="infotext" url="%SWFPATH%/plugins/textfield.swf" enabled="false" border="false" background="false"
+		align="top" x="0" y="10" width="90%" autoheight="true"
+		css="text-align:center; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:14px;"
+		html="use the right-click context-menu to change the projection..."
+		/>
+
+
+	<!-- startup view -->
+	<view hlookat="0" vlookat="10" fov="110" />
+
+	<!-- pano image -->
+	<preview url="../../panos/p2/preview.jpg" />
+	<image>
+		<cube url="../../panos/p2/pano_%s.jpg" />
+	</image>
+
+
+	<!-- right-click context menu to change the viewing settings -->
+	<contextmenu>
+		<item name="kr" caption="KRPANO" />
+		<item name="fs" caption="FULLSCREEN" />
+		<item name="np" caption="Normal Projection"        onclick="view_normal_projection();"        separator="true" />
+		<item name="ap" caption="Architectural Projection" onclick="view_architectural_projection();" />
+		<item name="fp" caption="Fisheye Projection"       onclick="view_fisheye_projection();"       devices="flash|webgl" />
+		<item name="sp" caption="Stereographic Projection" onclick="view_stereographic_projection();" devices="flash|webgl" />
+		<item name="pp" caption="Pannini Projection"       onclick="view_pannini_projection();"       devices="flash|webgl" />
+		<item name="lp" caption="Little Planet"            onclick="view_littleplanet_projection();"  devices="flash|webgl" />
+	</contextmenu>
+
+
+
+
+	<!-- Projection Actions -->
+
+	<action name="view_normal_projection">
+		if(backup_fovmax,
+			if(view.fov GT backup_fovmax, tween(view.fov,get(backup_fovmax),0.25,default,WAIT); );
+			copy(view.fovmax,backup_fovmax);
+			delete(backup_fovmax);
+		);
+		tween(view.fisheye, 0.0, 0.5, default, set(view.stereographic,false); );
+		tween(view.architectural, 0.0);
+		if(view.vlookat GT 80, tween(view.vlookat, 0); );
+	</action>
+
+	<action name="view_architectural_projection">
+		view_normal_projection();
+		tween(view.architectural, 1.0);
+	</action>
+
+	<action name="view_fisheye_projection">
+		tween(view.architectural, 0.0);
+		if(view.pannini == true, if(view.fisheye GT 0, tween(view.fisheye,0,0.25,default,WAIT); set(view.pannini,false); ); );
+		if(view.stereographic == true, if(view.fisheye GT 0, tween(view.fisheye,0,0.25,default,WAIT); set(view.stereographic,false); ); );
+		set(view.pannini,false);
+		ifnot(backup_fovmax, copy(backup_fovmax, view.fovmax); );
+		tween(view.fovmax, 179, 0.25);
+		tween(view.fisheye, 0.35);
+	</action>
+
+	<action name="view_stereographic_projection">
+		tween(view.architectural, 0.0);
+		if(view.pannini == true, if(view.fisheye GT 0, tween(view.fisheye,0,0.25,default,WAIT); set(view.pannini,false); ); );
+		if(view.stereographic == false, if(view.fisheye GT 0, tween(view.fisheye,0,0.25,default,WAIT); ); );
+		set(view.stereographic,true);
+		set(view.pannini,false);
+		ifnot(backup_fovmax, copy(backup_fovmax, view.fovmax); );
+		tween(view.fovmax, 160, 0.25);
+		tween(view.fisheye, 1.0);
+	</action>
+
+	<action name="view_pannini_projection">
+		tween(view.architectural, 0.0);
+		if(view.fisheye GT 0, tween(view.fisheye,0,0.25,default,WAIT); );
+		set(view.stereographic,true);
+		set(view.pannini,true);
+		ifnot(backup_fovmax, copy(backup_fovmax, view.fovmax); );
+		tween(view.fovmax, 160, 0.25);
+		tween(view.fisheye, 1.0);
+	</action>
+
+	<action name="view_littleplanet_projection">
+		view_stereographic_projection();
+		tween(view.vlookat, 90);
+		tween(view.fov, 150);
+	</action>
+
+</krpano>
