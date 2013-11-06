@@ -105,7 +105,7 @@ static void AccumulateBlend(CByteImage& img, CFloatImage& acc, CTransform3x3 M, 
 
             if (y < 0.0 || y > height - 1 || x < 0 || x > width - 1){ continue; }
 
-            int bDist = min(min(x, width-x), min(y, width-y));
+            int bDist = min(min(x, width-x-1), min(y, width-y-1));
 
             double w;
             if (bDist < blendWidth){
