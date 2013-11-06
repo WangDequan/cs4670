@@ -3,6 +3,8 @@
 <!-- <script src="swfkrpano.js"></script> -->
 </head>
 <body>
+<p>Josh Hagins and Will Bartlett (jdh298 and wab73)</p>
+
 <h1>Panorama 1: Botlab (handheld)</h1>
 <div>
 <div style="width:500px;height:300px;">
@@ -53,17 +55,17 @@
 </p>
 </div>
 
-<h1>Panorama 2: Quad</h1>
+<h1>Panorama 2: Quad Homography No Warp</h1>
 <div>
 <div style="width:500px;height:300px">
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
     codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0"
     width="100%" height="100%" title="Hello, Panorama">
     <param name="allowFullScreen" value="true" />
-    <param name="movie" value="pan0.swf?panoSrc=quad.jpg" />
+    <param name="movie" value="pan0.swf?panoSrc=quad_unwarp.jpg" />
     <param name="quality" value="high" />
     <param name="BGCOLOR" value="#AAAAAA" />
-    <embed src="pan0.swf?panoSrc=quad.jpg" allowFullScreen="true"
+    <embed src="pan0.swf?panoSrc=quad_unwarp.jpg" allowFullScreen="true"
         width="100%" height="100%" quality="high"
         pluginspage="http://www.macromedia.com/go/getflashplayer"
         type="application/x-shockwave-flash" bgcolor="#DDDDDD">
@@ -72,12 +74,23 @@
 </div>
 <br/>
 <p>
-<a href="quad.png"><img src="quad_small.png" alt="quad panorama image"/></a>
+<a href="quad_unwarp.png"><img src="quad_unwarp_small.png" alt="quad panorama image"/></a>
 <br/>
 <small>Click on image for full size</small>
 </p>
 </div>
 
+<h1>What we learned</h1>
+<p>We learned a lot of things about panorama stiching from this project, though our code wasn't perfect.
+
+<ul>
+<li>SIFT showed little improvement over our other feature matching strategy.</li>
+<li>Blendwidth has significant impact over the Panorama.  Lower blendwidth (~10-20) yield much more ghosting and lower quality images.  Too high blendwidth results in a very blurry image with much fewer ghosts and artifacts.</li>
+<li>Complex computer vision algorithms need not be slow, we were happily surprised at the performance</li>
+<li>The homographies were very powerful, but did not perform quite as well as the spherical warping, especially at the top or bottom of the image where radial artifacts are visible</li>
+<li>Though we ran out of time to implement exposure correcting code, we discussed how to do it with average brightness values, or brightness values in the immediate area around matched features.  We also dicussed equating the brightness in the overlapped region after feature matching and aligning had been done.</li>
+
+</ul>
 
 
 <!-- <iframe title="pannellum panorama viewer" width="600" height="200" webkitAllowFullScreen mozallowfullscreen allowFullScreen style="border-style:none;" id="pannellum_0psMUSP7gX" src="pannellum.html?panorama=image.tga&amp;title=Image%20Title&amp;author=Will%20and%20Josh&amp;autoload=yes"></iframe> -->
