@@ -3,16 +3,17 @@ FEATURES=../Features.exe
 PANORAMA=../Panorama.exe
 
 # Parameters
-FOCAL=595
+FOCAL=925
 K1=-0.15
 K2=0.0
-BLENDWIDTH=100.0
+BLENDWIDTH=20.0
 
 # Warp images
 for d in *.[Jj][Pp][Gg]
 do
     echo Warping image $d
-    $PANORAMA sphrWarp $d `echo $d | sed 's/.[Jj][Pp][Gg]//'`.warp.tga $FOCAL $K1 $K2
+    convert $d `echo $d | sed 's/.[Jj][Pp][Gg]//'`.warp.tga
+    #$PANORAMA sphrWarp $d `echo $d | sed 's/.[Jj][Pp][Gg]//'`.warp.tga $FOCAL $K1 $K2
 done
 
 # Extract features

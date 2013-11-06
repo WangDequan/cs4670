@@ -6,7 +6,7 @@ PANORAMA=../Panorama.exe
 FOCAL=925
 K1=-0.15
 K2=0.0
-BLENDWIDTH=100.0
+BLENDWIDTH=200.0
 
 # Warp images
 for d in *.[Jj][Pp][Gg]
