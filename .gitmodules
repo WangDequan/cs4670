@@ -10,3 +10,6 @@
 [submodule "proj/3/skeleton"]
 	path = proj/3/skeleton
 	url = http://www.cs.cornell.edu/courses/cs4670/2013fa/projects/p3/skeleton.git
+[submodule "proj/4/skeleton"]
+	path = proj/4/skeleton
+	url = http://www.cs.cornell.edu/courses/cs4670/2013fa/projects/p4/skeleton.git
