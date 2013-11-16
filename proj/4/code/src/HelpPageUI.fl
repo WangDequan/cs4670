@@ -1,0 +1,35 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0011 
+header_name {.h} 
+code_name {.cpp} 
+gridx 4 
+gridy 4 
+snap 4
+class HelpPageUI {open
+} {
+  Function {HelpPageUI()} {open
+  } {
+    Fl_Window mainWindow {
+      label {About my image filter :)} open selected
+      xywh {743 305 390 366} visible
+    } {
+      Fl_Output helpText {
+        label {     How to ...}
+        xywh {0 25 390 305} type Multiline align 5
+      }
+      Fl_Button {} {
+        label OK
+        callback {hide();}
+        xywh {130 335 135 25}
+      }
+    }
+  }
+  Function {show()} {open
+  } {
+    code {mainWindow->show();} {}
+  }
+  Function {hide()} {open
+  } {
+    code {mainWindow->hide();} {}
+  }
+} 
