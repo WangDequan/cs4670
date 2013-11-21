@@ -45,11 +45,12 @@ void ImgView::computeCameraParameters()
     Mat3d matH = Mat3d( H[0][0], H[0][1], H[0][2],
                         H[1][0], H[1][1], H[1][2],
                         H[2][0], H[2][1], H[2][2]);
-    Vec3d rOP = matH * Vec3d(refPointOffPlane->X, refPointOffPlane->Y, 1);
+//    Vec3d rOP = matH * Vec3d(refPointOffPlane->X, refPointOffPlane->Y, 1);
+    Vec3d rOP = matH * rP;
     NORMALIZE(rOP);
-    NORMALIZE(rP);
     Vec3d hP = cross(cross(xV,yV), cross(rP, rOP));
-
+    NORMALIZE(rP);
+ 
     SVMPoint hPoint(hP[0], hP[1]);
     SVMPoint rOPoint(rOP[0], rOP[1]);
     rOPoint.X = refPointOffPlane->X;

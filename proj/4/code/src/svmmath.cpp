@@ -80,7 +80,7 @@ SVMPoint BestFitIntersect(const std::list<SVMLine> &lines, int imgWidth, int img
         Vec3d ex = cross(e1, e2);
         for (int i=0;i<3;i++){
           for (int j=0;j<3;j++){
-            A(i,j) += ex[MIN(i, j)] * ex[MAX(i,j)];
+            A(i,j) += ex[MIN(i,j)] * ex[MAX(i,j)];
           }
         }
       }
@@ -108,18 +108,16 @@ void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& bas
     printf("%d points\n", points.size());
     assert(numPoints > 2); // in order to define a plane, we need three points
     /******** BEGIN TODO ********/
-    Vec4d p = Vec4d(points[0].X, points[0].Y, points[0].Z, points[0].W);
-    Vec4d r = Vec4d(points[1].X, points[1].Y, points[1].Z, points[1].W);
-    Vec4d prnorm = (p - r);
-    prnorm.normalize();
+    Vec4d r = Vec4d(points[0].X, points[0].Y, points[0].Z, points[0].W);
+    Vec4d p = Vec4d(points[1].X, points[1].Y, points[1].Z, points[1].W);
+    Vec4d pr = (p - r);
     double bestcos = 5; // too high value will always be thrown away on first point
     int bestq = -1;
 // p and r chosen arbitrarily, but lets find the best q
     for (int i=2;i<numPoints;i++){
         Vec4d q = Vec4d(points[i].X, points[i].Y, points[i].Z, points[i].W);
-        Vec4d qrnorm = (q - r);
-        qrnorm.normalize();
-        double cosine = abs(DOT(prnorm, qrnorm));
+        Vec4d qr = (q - r);
+        double cosine = abs(DOT(pr, qr) / (pr.length() * qr.length()));
         if (cosine < bestcos){
           bestcos = cosine;
           bestq = i;
@@ -127,11 +125,12 @@ void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& bas
     }
     assert(bestq > 1); // something would have to be horribly wrong for this to fail
     Vec4d q = Vec4d(points[bestq].X, points[bestq].Y, points[bestq].Z, points[bestq].W);
-    Vec4d ex = prnorm;
-    double sum = DOT(q - r, ex);
+    Vec4d ex = p - r;
+    ex.normalize();
+    Vec4d qr = q - r;
+    double sum = DOT(qr, ex);
     Vec4d s = Vec4d(ex[0] * sum, ex[1] * sum, ex[2] * sum, ex[3] * sum);
-    Vec4d t = (q - r) - s;
-    Vec4d ey = t;
+    Vec4d ey = (q - r) - s;
     ey.normalize();
 
     double umin;
@@ -139,9 +138,13 @@ void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& bas
     double umax;
     double vmax;
 
+    printf("ex %d %d %d\ney %d %d %d\n", ex[0], ex[1], ex[2], ey[0], ey[1], ey[2]);
+
     for (int i=0;i<numPoints;i++){
       Vec4d a = Vec4d(points[i].X, points[i].Y, points[i].Z, points[i].W);
-      Vec3d p = Vec3d(DOT(a - r, ex), DOT(a - r, ey), 1);
+      Vec4d ar = a-r;
+      Vec3d p = Vec3d(DOT(ar, ex), DOT(ar, ey), 1);
+      printf("mapping %d %d %d %d to %d %d %d\n", a[0], a[1], a[2], a[3], p[0], p[1], p[2]);
       basisPts.push_back(p);
       umin = (i == 0 ? p[0] : MIN(umin, p[0]));
       umax = (i == 0 ? p[0] : MAX(umax, p[0]));
