@@ -105,6 +105,7 @@ SVMPoint BestFitIntersect(const std::list<SVMLine> &lines, int imgWidth, int img
 void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& basisPts, double &uScale, double &vScale)
 {
     int numPoints = points.size();
+    printf("%d points\n", points.size());
     assert(numPoints > 2); // in order to define a plane, we need three points
     /******** BEGIN TODO ********/
     Vec4d p = Vec4d(points[0].X, points[0].Y, points[0].Z, points[0].W);
@@ -140,6 +141,7 @@ void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& bas
     for (int i=0;i<numPoints;i++){
       Vec4d a = Vec4d(points[i].X, points[i].Y, points[i].Z, points[i].W);
       Vec3d p = Vec3d(DOT(a - r, prnorm), DOT(a - r, ey), 1);
+      printf("%d %d %d %d to %d %d %d\n", points[i].X, points[i].Y, points[i].Z, points[i].W, p[0],p[1],p[2]);
       basisPts.push_back(p);
       umin = (i == 0 ? p[0] : MIN(umin, p[0]));
       umax = (i == 0 ? p[0] : MAX(umax, p[0]));
@@ -201,13 +203,13 @@ void ComputeHomography(CTransform3x3 &H, CTransform3x3 &Hinv, const vector<SVMPo
     for (i=0;i<numPoints; i++){
       double x1 = basisPts[i][0], y1 = basisPts[i][1];
       double x1p = -points[i].u, y1p = -points[i].v;
-      A(2*i,0) = x1;        A(2*i,0) = y1;          A(2*i,2) = 1;
+      A(2*i,0) = x1;        A(2*i,1) = y1;          A(2*i,2) = 1;
       A(2*i,3) = 0;         A(2*i,4) = 0;           A(2*i,5) = 0;
       A(2*i,6) = x1p * x1;  A(2*i,7) = x1p * y1;    A(2*i,8) = x1p;
 
       A(2*i+1,0) = 0;       A(2*i+1,1) = 0;         A(2*i+1,2) = 0;
       A(2*i+1,3) = x1;      A(2*i+1,4) = y1;        A(2*i+1,5) = 1;
-      A(2*i+1,6) = y1p*x1;  A(2*i+1,7) = y1p*x1;    A(2*i+1,8) = y1p;
+      A(2*i+1,6) = y1p*x1;  A(2*i+1,7) = y1p*y1;    A(2*i+1,8) = y1p;
     }
 
     double eval, h[9];
