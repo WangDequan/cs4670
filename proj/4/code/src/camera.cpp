@@ -11,6 +11,8 @@
 
 #include "svmCMath.h"
 
+#define NORMALIZE(x) (x)[0] = (x)[0]/(x)[2]; (x)[1] = (x)[1]/(x)[2]; (x)[2] = 1;
+
 //
 // TODO 9: computeCameraParameters()
 // Compute the camera position
@@ -36,7 +38,42 @@ void ImgView::computeCameraParameters()
     double z_cam = 0.0;
     double x_cam = 0.0, y_cam = 0.0;
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    Vec3d xV = Vec3d(xVanish.u, xVanish.v, xVanish.w);
+    Vec3d yV = Vec3d(yVanish.u, yVanish.v, yVanish.w);
+    Vec3d zV = Vec3d(zVanish.u, zVanish.v, zVanish.w);
+    Vec3d rP = Vec3d(refPointOffPlane->u / refPointOffPlane->w, refPointOffPlane->v / refPointOffPlane->w, 1);
+    Mat3d matH = Mat3d( H[0][0], H[0][1], H[0][2],
+                        H[1][0], H[1][1], H[1][2],
+                        H[2][0], H[2][1], H[2][2]);
+    Vec3d rOP = matH * Vec3d(refPointOffPlane->X, refPointOffPlane->Y, 1);
+    NORMALIZE(rOP);
+    NORMALIZE(rP);
+    Vec3d hP = cross(cross(xV,yV), cross(rP, rOP));
+
+    SVMPoint hPoint(hP[0], hP[1]);
+    SVMPoint rOPoint(rOP[0], rOP[1]);
+    rOPoint.X = refPointOffPlane->X;
+    rOPoint.Y = refPointOffPlane->Y;
+    rOPoint.Z = 0;
+    rOPoint.known(true);
+
+    SVMPoint cameraPoint(zV[0]/zV[2], zV[1]/zV[2]);
+
+    pntSelStack.push_back(&rOPoint);
+    pntSelStack.push_back(&hPoint);
+    sameXY();
+    pntSelStack.pop_back();
+    pntSelStack.pop_back();
+
+    pntSelStack.push_back(&rOPoint);
+    pntSelStack.push_back(&cameraPoint);
+    sameZPlane();
+    pntSelStack.pop_back();
+    pntSelStack.pop_back();
+
+    x_cam = cameraPoint.X;
+    y_cam = cameraPoint.Y;
+    z_cam = hPoint.Z;
 
 
     /******** END TODO Part 1 ********/
