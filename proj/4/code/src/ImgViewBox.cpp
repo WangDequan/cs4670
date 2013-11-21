@@ -71,10 +71,14 @@ void ImgView::solveForOppositeFace(SVMSweep *sweep, double imgX, double imgY,
     // and the vanishing points.
     // The line through points p4 and p5 will go through the mouse position, pMouse
     // Store the results in variables p4, p5, p6, and p7.
-	Vec3d p4, p5, p6, p7;
+    Vec3d xV = Vec3d(xVanish.u, xVanish.v, xVanish.w);
+    Vec3d yV = Vec3d(yVanish.u, yVanish.v, yVanish.w);
+    Vec3d zV = Vec3d(zVanish.u, zVanish.v, zVanish.w);
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
+    Vec3d p4 = cross(cross(p0, yV), cross(pMouse, xV));
+    Vec3d p5 = cross(cross(p1, yV), cross(pMouse, xV));
+    Vec3d p6 = cross(cross(p2, yV), cross(p5, zV));
+    Vec3d p7 = cross(cross(p3, yV), cross(p4, zV));
 
     /******** END TODO ********/
 
