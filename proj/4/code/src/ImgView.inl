@@ -51,7 +51,7 @@ void ImgView::sameXY()
 
     double t_b = (newP-knownP)*(newP-knownP);
     double r_b = (knownP-refP)*(knownP-refP);
-    double v_n = (vanish-newP)*(vanish-newP);
+    double v_t = (vanish-newP)*(vanish-newP);
     double v_r = (vanish-refP)*(vanish-refP);
 
     newPoint.X = knownPoint.X;
