@@ -128,10 +128,8 @@ void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& bas
     Vec4d q = Vec4d(points[bestq].X, points[bestq].Y, points[bestq].Z, points[bestq].W);
 
     Vec4d qr = q - r;
-
     double sum = DOT(prnorm, qr );
-    Vec4d s = Vec4d(qr[0] * sum, qr[1] * sum, qr[2] * sum, qr[3] * sum);
-    Vec4d ey = qr - s;
+    Vec4d ey = qr - Vec4d(qr[0] * sum, qr[1] * sum, qr[2] * sum, qr[3] * sum);
     ey.normalize();
 
     double umin;
