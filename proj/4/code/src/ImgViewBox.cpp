@@ -88,6 +88,19 @@ void ImgView::solveForOppositeFace(SVMSweep *sweep, double imgX, double imgY,
     p7_out = p7;
 }
 
+inline void pushZ(SVMPoint p){
+    pntSelStack.push_back(p);
+    sameZ();
+    pntSelStack.pop();
+}
+
+inline void pushXY(SVMPoint p1, p2){
+    pntSelStack.push_back(p1);
+    pntSelStack.push_back(p2);
+    sameXY();
+    pntSelStack.pop();
+    pntSelStack.pop();
+}
 //
 // TODO 8: find3DPositionsBox()
 //    Find the 3D positions of the 8 corners of the box.  The 3D position of points[0] is known.
@@ -100,8 +113,16 @@ void ImgView::find3DPositionsBox(SVMPoint *points[8])
 	// you need to implement.  For that to work, you will need to push and pop points from
 	// pntSelStack.  There are multiple ways to implement this function.
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    pntSelStack.push_back(points[0]);
+    pushZ(points[1]);
+    pushZ(points[4]);
+    pushZ(points[5]);
+    pntSelStack.pop();
 
+    pushXY(points[0], points[3]);
+    pushXY(points[1], points[2]);
+    pushXY(points[5], points[6]);
+    pushXY(points[4], points[7]);
 
 	/********* END TODO ********/
 }
