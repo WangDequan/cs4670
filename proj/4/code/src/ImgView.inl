@@ -97,7 +97,34 @@ void ImgView::sameZPlane()
 	}
 
 	/******** BEGIN TODO ********/
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    // form conversions, are there helper functions?  if only i knew...
+    Mat3d matH =    Mat3d(  H[0][0],H[0][1],H[0][2],
+                            H[1][0],H[1][1],H[1][2],
+                            H[2][0],H[2][1],H[2][2]);
+    Mat3d matHinv = Mat3d(  Hinv[0][0],Hinv[0][1],Hinv[0][2],
+                            Hinv[1][0],Hinv[1][1],Hinv[1][2],
+                            Hinv[2][0],Hinv[2][1],Hinv[2][2]);
+    Vec3d newP = Vec3d(newPoint.u, newPoint.v, newPoint.w);
+    Vec3d knownP = Vec3d(knownPoint.u, knownPoint.v, knownPoint.w);
+    Vec3d b1 = newP;
+    if (knownPoint.Z != 0) { // ie real points
+        Vec3d vLine = cross(knownP, Vec3d(zVanish.u, zVanish.v, zVanish.w));
+        Vec3d hLine = cross(Vec3d(xVanish.u, xVanish.v, xVanish.w),
+                            Vec3d(yVanish.u, yVanish.v, yVanish.w));
+        Vec3d vL = cross(cross(newP, knownP), hLine);
+        Vec3d b0 = matH * Vec3d(knownPoint.X, knownPoint.Y, 1);
+        b1 = (vL*vL == 0 ? cross(hLine,vLine) : cross(cross(b0, vL), vLine));
+    }
+
+    b1[0] = b1[0] / b1[2];
+    b1[1] = b1[1] / b1[2];
+    b1[2] = 1;
+
+    newP = matHinv * b1;
+    newPoint.X = newP[0] / newP[2];
+    newPoint.Y = newP[1] / newP[2];
+    newPoint.Z = knownPoint.Z;
+    newPoint.W = 1;
 
 	/******** END TODO ********/
 
