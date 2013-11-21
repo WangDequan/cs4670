@@ -43,10 +43,21 @@ void ImgView::sameXY()
 	// See the lecture note on measuring heights
 	// using a known point directly below the new point.
 
-	// printf("sameXY() to be implemented!\n");
+    // first, scale the points to 2d and vectorize
+    Vec3d newP = Vec3d(newPoint.u/newPoint.w, newPoint.v/newPoint.w, 1);
+    Vec3d knownP = Vec3d(knownPoint.u/knownPoint.w, knownPoint.v/knownPoint.w, 1);
+    Vec3d refP = Vec3d(refPointOffPlane->u / refPointOffPlane->w, refPointOffPlane->v / refPointOffPlane->w, 1);
+    Vec3d vanish = Vec3d(zVanish.u / zVanish.w, zVanish.v / zVanish.w, 1);
 
+    double t_b = (newP-knownP)*(newP-knownP);
+    double r_b = (knownP-refP)*(knownP-refP);
+    double v_n = (vanish-newP)*(vanish-newP);
+    double v_r = (vanish-refP)*(vanish-refP);
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    newPoint.X = knownPoint.X;
+    newPoint.Y = knownPoint.Y;
+    newPoint.Z = sqrt(t_b/r_b * v_r/v_t) * referenceHeight;
+    newPoint.W = 1;
 
 	/******** END TODO ********/
 
