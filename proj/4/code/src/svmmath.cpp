@@ -23,6 +23,8 @@
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
+#define DOT(x,y) ((x)[0]*(y)[0]+(x)[1]*(y)[1]+(x)[2]*(y)[2])
+#define PI 3.14159265358979
 
 using namespace Eigen;
 using namespace std;
@@ -87,8 +89,6 @@ SVMPoint BestFitIntersect(const std::list<SVMLine> &lines, int imgWidth, int img
       free_nrvector(eigenvector, 0, 2);
     }
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
     /******** END TODO ********/
 	
     return bestfit;
@@ -105,9 +105,52 @@ printf("TODO: %s:%d\n", __FILE__, __LINE__);
 void ConvertToPlaneCoordinate(const vector<SVMPoint>& points, vector<Vec3d>& basisPts, double &uScale, double &vScale)
 {
     int numPoints = points.size();
-
+    assert(numPoints > 2); // in order to define a plane, we need three points
     /******** BEGIN TODO ********/
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    Vec4d p = Vec4d(points[0].X, points[0].Y, points[0].Z, points[0].W);
+    Vec4d r = Vec4d(points[1].X, points[1].Y, points[1].Z, points[1].W);
+    Vec4d prnorm = (p - r); // aka ex
+    prnorm.normalize();
+    double bestAngle = 1000; // too high value will always be thrown away on first point
+    int bestq = -1;
+// p and r chosen arbitrarily, but lets find the best q
+    for (int i=2;i<numPoints;i++){
+        Vec4d q = Vec4d(points[i].X, points[i].Y, points[i].Z, points[i].W);
+        Vec4d qrnorm = (q - r);
+        qrnorm.normalize();
+        double angle = acos(MIN(DOT(prnorm, qrnorm), 1)) * 180 / PI;
+        if (abs(angle - 90) < abs(bestAngle - 90)){
+          bestAngle = angle;
+          bestq = i;
+        }
+    }
+    assert(bestq > 1); // something would have to be horribly wrong for this to fail
+    Vec4d q = Vec4d(points[bestq].X, points[bestq].Y, points[bestq].Z, points[bestq].W);
+
+    Vec4d qr = q - r;
+
+    double sum = DOT(prnorm, qr );
+    Vec4d s = Vec4d(qr[0] * sum, qr[1] * sum, qr[2] * sum, qr[3] * sum);
+    Vec4d ey = qr - s;
+    ey.normalize();
+
+    double umin;
+    double vmin;
+    double umax;
+    double vmax;
+
+    for (int i=0;i<numPoints;i++){
+      Vec4d a = Vec4d(points[i].X, points[i].Y, points[i].Z, points[i].W);
+      Vec3d p = Vec3d(DOT(a - r, prnorm), DOT(a - r, ey), 1);
+      basisPts.push_back(p);
+      umin = (i == 0 ? p[0] : MIN(umin, p[0]));
+      umax = (i == 0 ? p[0] : MAX(umax, p[0]));
+      vmin = (i == 0 ? p[1] : MIN(vmin, p[1]));
+      vmax = (i == 0 ? p[1] : MAX(vmax, p[1]));
+    }
+
+    uScale = umax - umin;
+    vScale = vmax - vmin;
 
     /******** END TODO ********/
 }
