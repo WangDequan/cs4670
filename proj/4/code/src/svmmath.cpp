@@ -21,6 +21,9 @@
 #include <assert.h>
 #include <iostream>
 
+#define MIN(x,y) ((x) < (y) ? (x) : (y))
+#define MAX(x,y) ((x) > (y) ? (x) : (y))
+
 using namespace Eigen;
 using namespace std;
 
@@ -57,6 +60,32 @@ SVMPoint BestFitIntersect(const std::list<SVMLine> &lines, int imgWidth, int img
     // Note: Function to find eigenvector with smallest eigenvalue is MinEig(A, eval, evec)
     //
     /******** BEGIN TODO ********/
+    double w = ((double)(imgWidth + imgHeight)) / 4;
+
+    if (numLines == 2){
+      SVMLine l1 = lines.front(), l2 = lines.back();
+      Vec3d e1 = cross(Vec3d(l1.pnt1->u, l1.pnt1->v, w), Vec3d(l1.pnt2->u, l1.pnt2->v, w));
+      Vec3d e2 = cross(Vec3d(l2.pnt1->u, l2.pnt1->v, w), Vec3d(l2.pnt2->u, l2.pnt2->v, w));
+      Vec3d ex = cross(e1, e2);
+      bestfit = SVMPoint(w * ex[0]/ex[2], w * ex[1]/ex[2]); // w to scale back up
+    } else {
+      double eigenvalue = 0.0;
+      double &eigref = eigenvalue;
+      double *eigenvector = nrvector(0,2);
+      for (iter = lines.begin(); iter != lines.end(); iter++) {
+        Vec3d e1 = Vec3d(iter->pnt1->u, iter->pnt1->v, w);
+        Vec3d e2 = Vec3d(iter->pnt2->u, iter->pnt2->v, w);
+        Vec3d ex = cross(e1, e2);
+        for (int i=0;i<3;i++){
+          for (int j=0;j<3;j++){
+            A(i,j) += ex[MIN(i, j)] * ex[MAX(i,j)];
+          }
+        }
+      }
+      MinEig(A, eigref, eigenvector);
+      bestfit = SVMPoint(w*eigenvector[0]/eigenvector[2], w*eigenvector[1]/eigenvector[2]);
+      free_nrvector(eigenvector, 0, 2);
+    }
 
 printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
@@ -127,8 +156,18 @@ void ComputeHomography(CTransform3x3 &H, CTransform3x3 &Hinv, const vector<SVMPo
 
     /******** BEGIN TODO ********/
     /* Fill in the A matrix for the call to MinEig */
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
+    for (i=0;i<numPoints; i++){
+      double x1 = basisPts[i][0], y1 = basisPts[i][1];
+      double x1p = -points[i].u, y1p = -points[i].v;
+      A(2*i,0) = x1;        A(2*i,0) = y1;          A(2*i,2) = 1;
+      A(2*i,3) = 0;         A(2*i,4) = 0;           A(2*i,5) = 0;
+      A(2*i,6) = x1p * x1;  A(2*i,7) = x1p * y1;    A(2*i,8) = x1p;
+
+      A(2*i+1,0) = 0;       A(2*i+1,1) = 0;         A(2*i+1,2) = 0;
+      A(2*i+1,3) = x1;      A(2*i+1,4) = y1;        A(2*i+1,5) = 1;
+      A(2*i+1,6) = y1p*x1;  A(2*i+1,7) = y1p*x1;    A(2*i+1,8) = y1p;
+    }
 
     double eval, h[9];
     MinEig(A, eval, h);
