@@ -1,0 +1,44 @@
+<html><head><title>Orbisnap - Command Line Options</title>
+<!-- $Revision: 1.1.6.2 $  $Date: 2008/11/22 22:22:12 $ -->
+
+<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+<body bgcolor=#ffffff>
+
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+<td valign=baseline bgcolor="#e7ebf7"><b>Orbisnap</b></td>
+<td valign=baseline bgcolor="#e7ebf7" align=right><A href="index.html"><img src="home.gif" alt="Home Page" border=0></a>&nbsp;&nbsp;&nbsp;<a href="ch_virt_wrl_view_std13.html"><img src="b_prev.gif" alt="Previous page" border=0></a>&nbsp;&nbsp;&nbsp;</a></td>
+</tr>
+</table>
+
+<a name="orbisnap_command_line"></a><!-- H1 --><a name="52638"></a><p><font size=+2 color="#990000"><b>Orbisnap Command Line</b></font><br class="hdr">
+<p><a name="53271"></a>You can start the Orbisnap command from any command line with the following</p>
+<ul class=continued><li class=continued><pre><a name="53267"></a>orbisnap
+<a name="53300"></a>orbisnap -f vr_filename
+<a name="53377"></a>orbisnap -c hostname -w "vrworld" -t http -v vrport
+<a name="53459"></a>orbisnap -t http -v vrport vr_filename_or_hostname
+orbisnap -q=end_time
+<a name="53488"></a>orbisnap -h
+</pre></li></ul>
+<p><a name="53327"></a>No arguments -- Starts the default Orbisnap. There is no loaded <code>vrworld</code> file and no connection to a Simulink 3D Animation server.</p>
+<p><a name="53337"></a><code>-f vr_filename</code> -- (Optional) Orbisnap starts and loads the <code>vrworld</code> contained in <code>vr_filename</code>. If you do not provide <code>vr_filename</code>, Orbisnap prompts you for the file name.</p>
+<p><a name="53354"></a><code>-c hostname</code> -- (Optional) Orbisnap starts and connects to the Simulink 3D Animation server located at <code>hostname</code>. <code>hostname</code> can be a host name or IP address. If you do not provide <code>hostname</code>, Orbisnap prompts you for the host name.</p>
+<p><a name="53338"></a><code>-w vrworld</code> -- (Optional) Orbisnap starts, connects to the Simulink 3D Animation server, and loads the virtual world associated with the title <code>"vrworld"</code>. If <code>"vrworld"</code> is not currently active in the Simulink 3D Animation server, the connection to the server does not succeed and the default Orbisnap starts.</p>
+<p><a name="53427"></a><code>-t http</code> -- (Optional) Orbisnap starts and connects to the Simulink 3D Animation server at this HTTP port (default 8123).</p>
+<p><a name="53432"></a><code>-t vrport</code> -- (Optional) Orbisnap starts and connects to the Simulink 3D Animation server listening at this port (default 8124).</p>
+<p><a name="53339"></a><code>vr_filename_or_hostname</code> -- (Optional) Orbisnap starts and interprets this string first as a <code>vrworld</code> filename (for example, <code>vrbounce.wrl</code>). If the string is not a valid <code>vrworld</code> filename, Orbisnap tries to interpret the string as the name of the host that is running the Simulink 3D Animation server.</p>
+<p><code>-q=end_time</code> -- (Optional) Orbisnap ends when scene time equals <code>end_time</code>.</p>
+<p><a name="53492"></a><code>-h</code> -- (Optional) Orbisnap displays the Orbisnap command line help.</p>
+<p><a name="53484"></a></p>
+
+<br>
+
+
+<p><table bgcolor="#e7ebf7" border=0 width="100%" cellpadding=0 cellspacing=0><tr valign=top><td align=left width=22><a href="ch_virt_wrl_view_std13.html"><img src="b_prev.gif" alt="Previous page" border=0 align=bottom></a>&nbsp;</td><td align=left>&nbsp;Navigation Panel</td><td>&nbsp;</td><td align=right width=22></td></tr></table>
+
+<br>
+
+</body>
+</html>
+
+

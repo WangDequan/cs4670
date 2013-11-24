@@ -1,0 +1,130 @@
+#!/bin/sh
+#*****************************************************************************
+#*****************************************************************************
+#
+#               Script file to run Orbisnap
+#
+#               $Revision: 1.1.6.4 $
+#               $Date: 2011/02/09 19:34:16 $
+#               $Author: batserve $
+#
+#   		Copyright 1998-2011 HUMUSOFT s.r.o.
+#
+#*****************************************************************************
+#*****************************************************************************
+
+
+
+########################
+# process some arguments
+########################
+
+ARGS=""
+ARCH=""
+while [ $# -gt 0 ]; do
+
+# -a ARCH   architecture override
+  case "$1" in
+  -a|--arch)
+    shift
+    ARCH=$1
+  ;;
+
+# -L PATH   additional path for dynamic libraries
+  -L|--library-path)
+    shift
+    ORBISNAPLIBPATH=$1
+  ;;
+
+# otherwise pass to the binary
+  *)
+    ARGS="$ARGS $1"
+  ;;
+
+  esac
+  shift
+done
+
+
+
+#####################
+# detect the platform
+#####################
+if [ "$ARCH" = "" ]; then case "`uname -s`" in
+
+# Linux
+  Linux)
+    case "`uname -m`" in
+    i?86)
+      ARCH="glnx86"
+    ;;
+    x86_64)
+      ARCH="glnxa64"
+    ;;
+    esac
+  ;;
+
+# Mac OS X
+  Darwin)
+    ARCH="maci64"
+  ;;
+
+esac fi
+
+
+
+#################################
+# set architecture-specific stuff
+#################################
+
+case "$ARCH" in
+  glnx86|glnxa64)
+    LIBPATHNAME=LD_LIBRARY_PATH
+  ;;
+  maci64)
+    LIBPATHNAME=DYLD_LIBRARY_PATH
+    INCLUDELIBTOPATH=1
+  ;;
+  *)
+    echo "Error: unsupported machine architecture \"$ARCH\"."
+    exit
+  ;;
+esac
+
+
+
+###############################
+# get the binary directory name
+###############################
+ORBISNAPDIR=`echo $0 | sed "s/orbisnap\$/$ARCH/"`
+
+
+
+#############################################
+# add Orbisnap path to library path if needed
+#############################################
+eval LIBPATHVALORIG=\$$LIBPATHNAME
+LIBPATHVAL=$LIBPATHVALORIG
+
+if [ "$INCLUDELIBTOPATH" != "" ]; then
+  if [ "$LIBPATHVALORIG" = "" ]; then
+    LIBPATHVAL=$ORBISNAPDIR;
+  else
+    LIBPATHVAL=$ORBISNAPDIR:$LIBPATHVAL;
+  fi
+fi
+
+if [ "$ORBISNAPLIBPATH" != "" ]; then
+  LIBPATHVAL=$ORBISNAPLIBPATH:$LIBPATHVAL;
+fi
+
+if [ "LIBPATHVAL" != "$LIBPATHVALORIG" ]; then
+  eval $LIBPATHNAME=$LIBPATHVAL;
+  export $LIBPATHNAME
+fi
+
+
+########
+# run it
+########
+eval exec $ORBISNAPDIR/orbisnap $ARGS
