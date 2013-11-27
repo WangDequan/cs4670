@@ -1,0 +1,3 @@
+Will Bartlett and Josh Hagins
+
+Our source code doesn't work perfectly, thus making out VRML models somewhat questionable.  We do have a directory with vrml models which seem to be mostly correct and some models with polygons for both image vfiles.  I have also copied our vrml viewer into this folder.  These combine should make up the requirements for the artifact.

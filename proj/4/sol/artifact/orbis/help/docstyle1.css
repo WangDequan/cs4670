@@ -1,0 +1,25 @@
+<html>
+<!-- $Revision: 1.1.6.1 $  $Date: 2008/10/31 07:08:36 $ -->
+<style type="text/css">
+
+li.continued {margin-top: 0.0ex; margin-bottom: 0.0ex; }
+li.continued:before {display: marker; content: ""; }
+ul.continued {list-style: none; margin-top: 1.0ex; }
+ol.continued {list-style: none; margin-top: 1.0ex; }
+ul + ul.continued {list-style: none; margin-top: -1.2ex; margin-bottom: 0.0ex}
+ol + ol.continued {list-style: none; margin-top: -1.2ex; margin-bottom: 0.0ex}
+ul ul>li:before {display: marker; content: "-"; font-weight: bold; }
+ul pre {margin-top: 0.0ex; margin-bottom: 0.0ex; }
+ul ul pre {margin-top: -0.4ex; margin-bottom: 1.0ex; }
+ul.continued + ul {margin-top: -0.3ex; margin-bottom: 0.8ex;}
+ol.continued + ol {margin-top: -0.3ex; margin-bottom: 0.8ex;}
+li {margin-top: 0.0ex; margin-bottom: 0.7ex;}
+dl[compact=compact] dt { display: block; }
+dl[compact=compact] dd { display: block; margin-top: -2.4ex;  margin-left: 2.5em; }
+dl dd { display: block; margin-bottom: 1.0ex; }
+caption { text-align: left; }
+pre.indent1 { margin-left: 0.42in; }
+
+</style>
+<body></body>
+</html>

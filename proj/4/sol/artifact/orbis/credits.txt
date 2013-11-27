@@ -1,0 +1,38 @@
+Orbisnap - Credits
+==================
+
+Orbisnap is developed at HUMUSOFT s.r.o. (http://www.humusoft.com) 
+
+Orbisnap team would like to thank the following projects and organisations:
+
+-------------------------------------------------------------------------------
+OpenVRML
+http://www.openvrml.org
+
+Orbisnap in its initial version had been heavily inspired by OpenVRML.
+
+OpenVRML is a free cross-platform runtime for VRML available under the 
+GNU Lesser General Public License: http://www.gnu.org/copyleft/lesser.html
+
+Further information and source code of modified OpenVRML library can be
+found at the following web page:
+
+http://www.orbisnap.com/developer/openvrml.html
+-------------------------------------------------------------------------------
+wxWidgets
+http://www.wxwidgets.org
+
+Orbisnap GUI uses wxWidgets API.
+
+wxWidgets is an open source C++ multiple patform GUI framework available under
+a modified L-GPL license: http://www.wxwidgets.org/licence3.txt
+-------------------------------------------------------------------------------
+Mozilla
+http://www.mozilla.org
+
+Orbisnap uses Mozilla JavaScript.
+
+Mozilla JavaScript is available under the NPL 1.1 license:
+http://www.mozilla.org/MPL/NPL-1.1.txt
+-------------------------------------------------------------------------------
+ 

@@ -1,0 +1,87 @@
+<html><head><title>Orbisnap - Viewing the Simulink 3D Animation Server Virtual Worlds Remotely</title>
+<!-- $Revision: 1.1.6.2 $  $Date: 2008/11/22 22:22:20 $ -->
+
+<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+<body bgcolor=#ffffff>
+
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+<td valign=baseline bgcolor="#e7ebf7"><b>Orbisnap</b></td>
+<td valign=baseline bgcolor="#e7ebf7" align=right><A href="index.html"><img src="home.gif" alt="Home Page" border=0></a>&nbsp;&nbsp;&nbsp;<a href="ch_virt_wrl_view_std8.html"><img src="b_prev.gif" alt="Previous page" border=0></a>&nbsp;&nbsp;&nbsp;<a href="ch_virt_wrl_view_std10.html"><img src="b_next.gif" alt="Next Page" border=0></a></td>
+</tr>
+</table>
+
+<a name="viewing_the_virtual_reality_toolbox_server_virtual_worlds_remotely"></a><!-- H2 --><a name="51101"></a><p><font size=+1 color="#990000"><b>Viewing the Simulink 3D Animation Server Virtual Worlds Remotely</b></font><br class="hdr">
+<p><a name="51427"></a>To view virtual worlds from the Simulink 3D Animation server in Orbisnap, you must have</p>
+<ul><li><a name="51429"></a>MATLAB running a Simulink 3D Animation server session
+</li>
+<li><a name="51553"></a>The version of the Simulink 3D Animation server to which you want to connect must be compatible with the Orbisnap version you are running. For example, you cannot connect Orbisnap to the Simulink 3D Animation version 3.1.
+</li>
+<li><a name="51437"></a>Network access between the client computer (running Orbisnap) and host computer (running MATLAB and Simulink 3D Animation server)
+</li>
+</ul>
+<p><ul><table border=1 cellspacing=0 cellpadding=5><tr width="90%"><td bgcolor="#e7ebf7"><a name="51702"></a><b>Note  </b>&nbsp;&nbsp;
+Note that if you expect Orbisnap to access a virtual world on the Simulink 3D Animation server from a remote computer, you must make that virtual world available for Internet viewing. In the Simulink 3D Animation viewer for the virtual world you want to make available, select <strong>Simulation-&gt;Block Parameters</strong>, select the <strong>Allow viewing from the Internet</strong> checkbox, then click <strong>OK</strong>.
+</td></tr></table></ul></p>
+<p><a name="53499"></a>Note the following when using Orbisnap remotely</p>
+<ul><li><a name="52933"></a>Although you can visualize a virtual world from the Simulink 3D Animation server in Orbisnap, any navigation or rendering in one viewer is not reflected in the other. For example, any navigation you do on the virtual world in Orbisnap does not reflect in the virtual world in the Simulink 3D Animation viewer and vice versa.
+</li>
+<li><a name="52929"></a>You cannot start or stop a simulation of the virtual world in Orbisnap. You can see a simulation on Orbisnap only if the virtual world simulates in the Simulink 3D Animation server.
+</li>
+<li><a name="52927"></a>The simulation might slow when you connect Orbisnap remotely to the Simulink 3D Animation server.
+</li>
+</ul>
+<br>
+<ol start="1">
+<li><a name="51456"></a>Start Orbisnap. For example, in Windows, double-click <code>orbisnap.bat</code> .
+</li>
+</ol>
+<ol class=continued><li class=continued><a name="51454"></a>Orbisnap is displayed.</p>
+</li>
+</ol>
+<ol start="2">
+<li><a name="51470"></a>In Orbisnap, select <strong>File -&gt; Connect to Server</strong>.
+</li>
+</ol>
+<ol class=continued><li class=continued><a name="51498"></a>The <strong>Connect to Server</strong> dialog is displayed.</p>
+</li>
+</ol>
+<ol start="3">
+<li><a name="51506"></a>Enter the IP address or host name of the host computer running the Simulink 3D Animation server (<code>127.0.0.1</code> by default), the HTTP port number (8123 by default), and the port number at which the Simulink 3D Animation server is listening (8124 by default).
+<p><a name="51502"></a>
+<img src="orbisnap_connect.gif" alt="" align=bottom></p>
+</li>
+</ol>
+<ol class=continued><li class=continued><a name="51649"></a>The <strong>Choose a world</strong> dialog is displayed. This dialog lists all the virtual worlds that are currently active on the Simulink 3D Animation server.</p>
+<p><a name="51656"></a>
+<img src="orbisnap_worlds.gif" alt="" align=bottom></p>
+<p><a name="51794"></a>If no virtual world has ever been opened in this session of the Simulink 3D Animation server, Orbisnap displays a message. If you see this message, contact your counterpart running the Simulink 3D Animation server to better synchronize your activities. A virtual world must be fully active on the Simulink 3D Animation server for Orbisnap to remotely access it.</p>
+<p><a name="53568"></a>
+<img src="orbisnap_noworld.gif" alt="" align=bottom></p>
+</li>
+</ol>
+<ol start="4">
+<li><a name="51507"></a>Select a virtual world.
+</li>
+<li><a name="52921"></a>Click <strong>OK</strong>.
+</li>
+</ol>
+<ol class=continued><li class=continued><a name="51514"></a>Orbisnap displays the selected virtual world of the remote Simulink 3D Animation server.</p>
+</li>
+</ol>
+<ol start="6">
+<li><a name="51715"></a>Navigate and render the virtual world as you wish.
+</li>
+<li><a name="52802"></a>To close Orbisnap, select <strong>File -&gt; Close</strong>.
+</li>
+</ol>
+<p><a name="53192"></a>Using the menus, toolbar, and navigation panel, you can perform many of the same operations on the virtual world that you can with the Simulink 3D Animation viewer. See <a href="ch_virt_wrl_view_std10.html#52061">Orbisnap Interface</a> for a description of the Orbisnap interface. See <a href="ch_virt_wrl_view_std14.html#52638">Orbisnap Command Line</a> for a description of the Orbisnap command-line options.</p>
+
+<br>
+
+<p><table bgcolor="#e7ebf7" border=0 width="100%" cellpadding=0 cellspacing=0><tr valign=top><td align=left width=22><a href="ch_virt_wrl_view_std8.html"><img src="b_prev.gif" alt="Previous page" border=0 align=bottom></a>&nbsp;</td><td align=left>&nbsp;Viewing Prerecorded WRL Animations or Virtual Worlds</td><td>&nbsp;</td><td align=right>Orbisnap Interface&nbsp;</td><td align=right width=22><a href="ch_virt_wrl_view_std10.html"><img src="b_next.gif" alt="Next page" border=0 align=bottom></a></td></tr></table>
+
+<br>
+
+</body>
+</html>
