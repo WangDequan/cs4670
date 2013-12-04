@@ -8,7 +8,7 @@
 #include "Detection.h"
 #include "FileIO.h"
 
-#include <Fl/Fl_Shared_Image.H>
+#include <FL/Fl_Shared_Image.H>
 
 class GUIController;
 
