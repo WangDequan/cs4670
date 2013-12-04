@@ -1,0 +1,2 @@
+/usr/bin/ar cr libjpegrw.a  CMakeFiles/jpegrw.dir/JPEGReader.cpp.o CMakeFiles/jpegrw.dir/JPEGWriter.cpp.o
+/usr/bin/ranlib libjpegrw.a

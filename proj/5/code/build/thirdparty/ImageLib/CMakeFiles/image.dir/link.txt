@@ -1,0 +1,2 @@
+/usr/bin/ar cr libimage.a  CMakeFiles/image.dir/Convolve.cpp.o CMakeFiles/image.dir/FileIO.cpp.o CMakeFiles/image.dir/Image.cpp.o CMakeFiles/image.dir/ImageProc.cpp.o CMakeFiles/image.dir/RefCntMem.cpp.o CMakeFiles/image.dir/Transform.cpp.o
+/usr/bin/ranlib libimage.a

@@ -1,0 +1,5 @@
+/home/will/git/cs4670/proj/5/code/build/thirdparty/ImageLib/CMakeFiles/image.dir
+/home/will/git/cs4670/proj/5/code/build/thirdparty/ImageLib/thirdparty/JPEG/CMakeFiles/jpegrw.dir
+/home/will/git/cs4670/proj/5/code/build/CMakeFiles/objdet.dir
+/home/will/git/cs4670/proj/5/code/build/CMakeFiles/od.dir
+/home/will/git/cs4670/proj/5/code/build/thirdparty/libsvm-3.14/CMakeFiles/svm.dir
