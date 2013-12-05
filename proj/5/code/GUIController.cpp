@@ -161,7 +161,6 @@ GUIController::GUIController():
                                              "Non Maxima Suppression", GUIController::_cbNonMaximaSuppression, this);
 
                 _nmsParams->setFields(ObjectDetector::getDefaultParameters());
-
             }
             detsGrp->end();
 
@@ -299,7 +298,11 @@ GUIController::showSVMWeights(const CByteImage &img)
 {
     if(_svmWeightsView == NULL) {
         _svmWeightsView = new ImageViewGL(0, 0, img.Shape().width, img.Shape().height, "SVM Weights");
+        _svmWeightsView->resizable(_svmWeightsView);
     }
+
+    double targetW = 400;
+    _svmWeightsView->resize(0, 0, targetW, img.Shape().height * targetW / img.Shape().width);
 
     _svmWeightsView->show();
     _svmWeightsView->setImage(img);
@@ -310,7 +313,11 @@ GUIController::showSVMDotProd(const CByteImage &img)
 {
     if(_svmDotProdView == NULL) {
         _svmDotProdView = new ImageViewGL(0, 0, img.Shape().width, img.Shape().height, "SVM Dot product");
+        _svmDotProdView->resizable(_svmDotProdView);
     }
+
+    double targetW = 400;
+    _svmDotProdView->resize(0, 0, targetW, img.Shape().height * targetW / img.Shape().width);
 
     _svmDotProdView->show();
     _svmDotProdView->setImage(img);

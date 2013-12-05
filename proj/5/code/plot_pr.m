@@ -35,22 +35,22 @@ for k = 1:2:length(varargin)
     switch varargin{k}
         case 'output'
             output_fname = varargin{k + 1};
-
+            
         otherwise
             % it's pair of the form (pr_fname, pr_name)
             pr_fname = varargin{k};
             pr_name = varargin{k + 1};
             
             pr_names{end + 1} = pr_name;
-                        
+            
             if ~exist(pr_fname, 'file')
                 sd_log(1, sprintf('WARNING: Skipping non-existing file %s', pr_fname));
                 plot(0, 0);
                 continue;
             end
             
-            pr =  dlmread(pr_fname, ' ', 1, 0);                        
-                
+            pr =  dlmread(pr_fname, ' ', 1, 0);
+            
             if size(pr, 1) == 0
                 fprintf('WARNING: Skipping empty file %s', deteval_fname);
                 plot(0, 0);
@@ -71,17 +71,10 @@ for k = 1:2:length(varargin)
                 end
             end
             
+            plot(X, Y, '-', 'Color', colors(plot_num,:));
             
-            %plot(X, Y, 'LineWidth', 1.5);
+            pr_names{plot_num} = sprintf('%s (AUC: %.4f)', pr_names{plot_num}, trapz(X, Y)); 
             
-            sel = linspace(plot_num/100.0, 1, 10);
-            for ii = 1:length(sel)
-                sel(ii) = find(sel(ii) <= X, 1 );
-            end
-            
-            plot(X, Y, '-', 'Color', colors(plot_num,:), 'LineWidth', 2);
-            %plot(X(sel), Y(sel), linestyles{plot_num}, 'Color', colors(plot_num,:), 'MarkerFaceColor', [1 1 1]);
-
             plot_num = plot_num + 1;
     end
 end
@@ -89,7 +82,7 @@ end
 title(plot_title);
 xlabel('Recall');
 ylabel('Precision');
-legend(pr_names, 'Location', 'SouthWest');
+legend(pr_names, 'Location', 'NorthEast');
 legend('boxoff');
 daspect([1 1 1]);
 

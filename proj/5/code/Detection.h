@@ -32,6 +32,6 @@ void computeLabels(const std::vector<Detection> &gt, const std::vector<Detection
                    std::vector<float> &label, std::vector<float> &response);
 
 void computeLabels(const std::vector<std::vector<Detection> > &gt, const std::vector<std::vector<Detection> > &found,
-                   std::vector<float> &label, std::vector<float> &response);
+                   std::vector<float> &label, std::vector<float> &response, int& nDets);
 
 #endif // DETECTION_H

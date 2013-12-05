@@ -18,7 +18,7 @@ private:
 public:
 	// Computes precision recall given a set of gound truth labels in gt and
 	// a set of predictions made by our classifier in preds.
-	PrecisionRecall(const std::vector<float>& gt, const std::vector<float>& preds);
+	PrecisionRecall(const std::vector<float>& gt, const std::vector<float>& preds, int nGroundTruthDetections = -1);
 
 	// Returns area under the curve
 	double getAveragePrecision() const { return _averagePrecision; }

@@ -3,7 +3,7 @@
 static
 void
 computePrecisionRecallForThreshold(const std::vector<float> &gt, const std::vector<float>& preds, 
-	                               float threshold, float& precision, float& recall)
+	                               float threshold, int nGroundTruthDetections, float& precision, float& recall)
 {
 	// Compute tp, fp, fn, tn
 	int truePos = 0, trueNeg = 0, falsePos = 0, falseNeg = 0;
@@ -20,8 +20,10 @@ computePrecisionRecallForThreshold(const std::vector<float> &gt, const std::vect
 	if(truePos + falsePos == 0) precision = 1.0;
 	else precision = float(truePos) / (truePos + falsePos);
 
+	int nGt = (nGroundTruthDetections >= 0)? nGroundTruthDetections:(truePos + falseNeg);
+
 	if(truePos + falseNeg == 0) recall = 1.0;
-	else recall = float(truePos) / (truePos + falseNeg);
+	else recall = float(truePos) / nGt;
 }
 
 bool
@@ -30,7 +32,7 @@ sortByRecall(const PecisionRecallPoint& a, const PecisionRecallPoint& b)
 	return a.recall < b.recall;
 }
 
-PrecisionRecall::PrecisionRecall(const std::vector<float> &gt, const std::vector<float>& preds)
+PrecisionRecall::PrecisionRecall(const std::vector<float> &gt, const std::vector<float>& preds, int nGroundTruthDetections)
 {
 	std::set<float> thresholds;
 	for (int i = 0; i < preds.size(); ++i) {
@@ -41,7 +43,7 @@ PrecisionRecall::PrecisionRecall(const std::vector<float> &gt, const std::vector
 
 	for(std::set<float>::iterator th = thresholds.begin(); th != thresholds.end(); th++) {
 		PecisionRecallPoint pr;
-		computePrecisionRecallForThreshold(gt, preds, *th, pr.precision, pr.recall); 
+		computePrecisionRecallForThreshold(gt, preds, *th, nGroundTruthDetections, pr.precision, pr.recall); 
 		pr.threshold = *th;
 
 		_data.push_back(pr);
