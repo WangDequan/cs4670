@@ -90,7 +90,23 @@ SupportVectorMachine::train(const std::vector<float> &labels, const FeatureColle
     // entry to -1
     _data = new svm_node[nVecs * (dim + 1)];
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    for (int i=0;i<nVecs;i++){
+        problem.y[i] = labels[i];
+        int v = 0;
+        for (int x=0;x<shape.width;x++){
+            for (int y=0;y<shape.height;y++){
+                for (int band=0; band<shape.nBands; band++){
+                    int ind = i * (dim+1) + v;
+                    _data[ind].index = v;
+                    _data[ind].value = fset[i].Pixel(x,y,band);
+                    v++;
+                }
+            }
+        }
+        problem.x[i] = &_data[i*(dim+1)];
+        _data[i*(dim+1)+dim].index = -1;
+        _data[i*(dim+1)+dim].value = -1;
+    }
 
     /******** END TODO ********/
 
