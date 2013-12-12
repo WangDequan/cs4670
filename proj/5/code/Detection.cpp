@@ -1,4 +1,6 @@
 #include "Detection.h"
+#define MIN(x,y) ((x) < (y) ? (x) : (y))
+#define MAX(x,y) ((x) < (y) ? (y) : (x))
 
 Detection::Detection():
     x(0), y(0), response(0), width(0), height(0)
@@ -30,9 +32,16 @@ Detection::relativeOverlap(const Detection &other) const
     // of the two rectangles.
 
     double relOver = 0.0;
+    double x1min = MIN(this->x - this->width / 2, other.x - other.width / 2);
+    double x1max = MAX(this->x - this->width / 2, other.x - other.width / 2);
+    double x2min = MIN(this->x + this->width / 2, other.x + other.width / 2);
+    double x2max = MAX(this->x + this->width / 2, other.x + other.width / 2);
+    double y1min = MIN(this->y - this->height / 2, other.y - other.height / 2);
+    double y1max = MAX(this->y - this->height / 2, other.y - other.height / 2);
+    double y2min = MIN(this->y + this->height / 2, other.y + other.height / 2);
+    double y2max = MAX(this->y + this->height / 2, other.y + other.height / 2);
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
+    relOver = ((x2min - x1max) * (y2min - y1max)) / ((x2max - x1min) * (y2max - y1min));
     /******** END TODO ********/
     return relOver;
 }
