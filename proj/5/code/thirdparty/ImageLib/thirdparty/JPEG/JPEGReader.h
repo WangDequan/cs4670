@@ -272,7 +272,10 @@ void JPEGReader::load(RowPtrIter rows) {
     
     // Get the initial row pointers
 
-#if defined(_WIN32) || defined(_WIN64) 
+#if defined(_WIN32) || defined(_WIN64)
+#ifndef min
+#define min(a,b)    (((a) < (b)) ? (a) : (b))
+#endif
     const unsigned num_row_ptrs = min(unsigned(max_row_ptrs), unsigned(numRecommendedRowPtrs()));
 #else
 	const unsigned num_row_ptrs = std::min(unsigned(max_row_ptrs), unsigned(numRecommendedRowPtrs()));
