@@ -314,7 +314,7 @@ TinyImageGradFeatureExtractor::operator()(const CFloatImage &imgRGB_, Feature &f
         for (int y = 0; y < targetH; y++) {
             dx = xGrad.Pixel(x,y,0);
             dy = yGrad.Pixel(x,y,0);
-            tinyImg.Pixel(x,y,0) = sqrt(dx^2 + dy^2);
+            tinyImg.Pixel(x,y,0) = sqrt(dx*dx + dy*dy);
         }
     }
 
@@ -452,7 +452,7 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
     //     for (int y = 0; y < height; y++) {
     //         dx = xGrad.Pixel(x,y,0);
     //         dy = yGrad.Pixel(x,y,0);
-    //         gradMag.Pixel(x,y,0) = sqrt(dx^2 + dy^2);
+    //         gradMag.Pixel(x,y,0) = sqrt(dx*dx + dy*dy);
     //         gradOr.Pixel(x,y,0) = atan2(dy / dx);
     //     }
     // }
