@@ -292,7 +292,34 @@ TinyImageGradFeatureExtractor::operator()(const CFloatImage &imgRGB_, Feature &f
     // Useful functions:
     // convertRGB2GrayImage, TypeConvert, WarpGlobal, Convolve
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    // Initialize output
+    CFloatImage tinyImg(targetW, targetH, 1);
+
+    // Generate grayscale image from RGB input
+    CFloatImage imgG;
+    convertRGB2GrayImage(imgRGB_, imgG);
+
+    // Resize grayscale image
+    CTransform3x3 s = CTransform3x3::Scale( 1. / _scale, 1. / _scale);
+    WarpGlobal(imgG, tinyImg, s, eWarpInterpLinear);
+
+    // Generate gradient images
+    CFloatImage xGrad, yGrad;
+    Convolve(tinyImg, xGrad, _kernelDx);
+    Convolve(tinyImg, yGrad, _kernelDy);
+
+    // Compute gradient magnitudes
+    float dx, dy;
+    for (int x = 0; x < targetW; x++) {
+        for (int y = 0; y < targetH; y++) {
+            dx = xGrad.Pixel(x,y,0);
+            dy = yGrad.Pixel(x,y,0);
+            tinyImg.Pixel(x,y,0) = sqrt(dx*dx + dy*dy);
+        }
+    }
+
+    // Convert output features to desired type
+    TypeConvert(tinyImg, feat);
 
     /******** END TODO ********/
 }
@@ -407,7 +434,28 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
     // Useful functions:
     // convertRGB2GrayImage, TypeConvert, WarpGlobal, Convolve
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    // CFloatImage imgG;
+    // convertRGB2GrayImage(imgG, img);
+
+    // CFloatImage xGrad, yGrad;
+    // Convolve(imgG, xGrad, _kernelDx);
+    // Convolve(imgG, yGrad, _kernelDy);
+
+    // int width  = imgG.Shape().width;
+    // int height = imgG.Shape().height;
+
+    // CFloatImage gradMag(width, height, 1);
+    // CFloatImage gradOr(width, height, 1);
+
+    // float dx, dy;
+    // for (int x = 0; x < width; x++) {
+    //     for (int y = 0; y < height; y++) {
+    //         dx = xGrad.Pixel(x,y,0);
+    //         dy = yGrad.Pixel(x,y,0);
+    //         gradMag.Pixel(x,y,0) = sqrt(dx*dx + dy*dy);
+    //         gradOr.Pixel(x,y,0) = atan2(dy / dx);
+    //     }
+    // }
 
     /******** END TODO ********/
 }
