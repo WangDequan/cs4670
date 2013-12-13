@@ -55,6 +55,31 @@ ObjectDetector::operator()( const CFloatImage &svmResp, const Size &roiSize,
     // that is a function of featureScaleFactor and imScale.
 
     dets.resize(0);
+    int h = svmResp.Shape().height;
+    int w = svmResp.Shape().width; 
+    double scale = 1;
+
+    for (int x=0;x<w;x++){
+        for (int y=0;y<h;y++){
+            int s = _winSizeNMS / 2;
+            double max = 0;
+            for (int dx = -s; dx < s; dx++){
+                if ((x+dx < 0) || (x + dx >= w))
+                    continue;
+
+                for (int dy = -s; dy < s; dy++){
+                    if ((y + dy < 0) || (y + dy >= h))
+                        continue;
+                    if (svmResp.Pixel(x+dx, y+dy, 0) > max)
+                        max = svmResp.Pixel(x+dx, y+dy, 0);
+                }
+            }
+            if (max == svmResp.Pixel(x, y, 0) && max > _respThresh){
+                Detection d(x, y, max, roiSize.width * scale, roiSize.height * scale);
+                dets.push_back(d);
+            }
+        }
+    }
 
 printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
