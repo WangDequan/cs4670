@@ -81,8 +81,6 @@ ObjectDetector::operator()( const CFloatImage &svmResp, const Size &roiSize,
         }
     }
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
-
     /******** END TODO ********/
 }
 
@@ -128,7 +126,22 @@ ObjectDetector::operator()( const SBFloatPyramid &svmRespPyr, const Size &roiSiz
         allDets.insert(allDets.end(), levelDets.begin(), levelDets.end());
     }
 
-printf("TODO: %s:%d\n", __FILE__, __LINE__); 
+    for (int i = 0; i < allDets.size(); i++){
+        int add = 1;
+        for (int j = 0; j < dets.size(); j++){
+            if (dets[j].relativeOverlap(allDets[i]) > _overlapThresh){
+                if (sortByResponse(allDets[i], dets[j])){
+                    dets.erase(dets.begin() + j);
+                    j--;
+                } else
+                    add = 0;
+            }
+        }
+        if (add)
+            dets.push_back(allDets[i]);
+    }
+
+//printf("TODO: %s:%d\n", __FILE__, __LINE__); 
 
     /******** END TODO ********/
 }
