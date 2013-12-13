@@ -57,7 +57,7 @@ ObjectDetector::operator()( const CFloatImage &svmResp, const Size &roiSize,
     dets.resize(0);
     int h = svmResp.Shape().height;
     int w = svmResp.Shape().width; 
-    double scale = 1;
+    double scale = imScale / featureScaleFactor;
 
     for (int x=0;x<w;x++){
         for (int y=0;y<h;y++){
