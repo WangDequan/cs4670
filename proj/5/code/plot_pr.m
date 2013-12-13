@@ -35,34 +35,34 @@ for k = 1:2:length(varargin)
     switch varargin{k}
         case 'output'
             output_fname = varargin{k + 1};
-            
+
         otherwise
             % it's pair of the form (pr_fname, pr_name)
             pr_fname = varargin{k};
             pr_name = varargin{k + 1};
-            
+
             pr_names{end + 1} = pr_name;
-            
+
             if ~exist(pr_fname, 'file')
-                sd_log(1, sprintf('WARNING: Skipping non-existing file %s', pr_fname));
+                fprintf('WARNING: Skipping non-existing file %s\n', pr_fname);
                 plot(0, 0);
                 continue;
             end
-            
+
             pr =  dlmread(pr_fname, ' ', 1, 0);
-            
+
             if size(pr, 1) == 0
-                fprintf('WARNING: Skipping empty file %s', deteval_fname);
+                fprintf('WARNING: Skipping empty file %s\n', deteval_fname);
                 plot(0, 0);
                 continue
             end
-            
+
             X = pr(:,2);
             Y = pr(:,1);
-            
+
             [X, idxs] = sort(X);
             Y = Y(idxs);
-            
+
             all_idxs = (1:length(Y))';
             for i = 2:length(Y)
                 sel = all_idxs < i & Y < Y(i);
@@ -70,11 +70,11 @@ for k = 1:2:length(varargin)
                     Y(sel) = Y(i);
                 end
             end
-            
+
             plot(X, Y, '-', 'Color', colors(plot_num,:));
-            
-            pr_names{plot_num} = sprintf('%s (AUC: %.4f)', pr_names{plot_num}, trapz(X, Y)); 
-            
+
+            pr_names{plot_num} = sprintf('%s (AUC: %.4f)', pr_names{plot_num}, trapz(X, Y));
+
             plot_num = plot_num + 1;
     end
 end

@@ -89,6 +89,7 @@ mainSVMTrain(const std::vector<std::string> &args, const std::map<std::string, s
     PRINT_MSG("Extracting features");
     FeatureCollection features;
     (*featExtractor)(db, features);
+    printf("No segfault?\n");
 
     PRINT_MSG("Training SVM");
     SupportVectorMachine svm;
@@ -127,6 +128,7 @@ mainSVMPredict(const std::vector<std::string> &args, const std::map<std::string,
     PRINT_MSG("Extracting features");
     FeatureCollection features;
     (*featExtractor)(db, features);
+    printf("No segfault?\n");
 
     PRINT_MSG("Predicting");
     std::vector<float> preds = svm.predict(features);

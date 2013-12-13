@@ -7,6 +7,10 @@ _round(double d)
     return floor(d + 0.5);
 }
 
+// static int tinyCount = 0;
+// static int tinyGradCount = 0;
+static int hogCount = 0;
+
 CByteImage
 FeatureExtractor::renderPosNegComponents(const Feature &feat) const
 {
@@ -73,6 +77,7 @@ FeatureExtractor::operator()(const CroppedImageDatabase &db, FeatureCollection &
 
         (*this)(img, feats[i]);
     }
+    printf("Done extracting from database\n");
 }
 
 void
@@ -84,6 +89,7 @@ FeatureExtractor::operator()(const SBFloatPyramid &imPyr, FeaturePyramid &featPy
     for (int i = 0; i < imPyr.getNLevels(); i++) {
         this->operator()(imPyr[i], featPyr[i]);
     }
+    printf("Done extracting from pyramid\n");
 }
 
 CByteImage
@@ -217,6 +223,8 @@ TinyImageFeatureExtractor::TinyImageFeatureExtractor(const ParametersMap &params
 void
 TinyImageFeatureExtractor::operator()(const CFloatImage &imgRGB, Feature &feat) const
 {
+    // printf("%d Extracting TinyImage features...\n", ++tinyCount);
+
     int targetW = _round(imgRGB.Shape().width * _scale);
     int targetH = _round(imgRGB.Shape().height * _scale);
 
@@ -230,6 +238,8 @@ TinyImageFeatureExtractor::operator()(const CFloatImage &imgRGB, Feature &feat) 
     WarpGlobal(imgG, tinyImg, s, eWarpInterpLinear);
 
     feat = tinyImg;
+
+    // printf("%d Done extracting TinyImage features\n", tinyCount);
 }
 
 CByteImage
@@ -292,6 +302,8 @@ TinyImageGradFeatureExtractor::operator()(const CFloatImage &imgRGB_, Feature &f
     // Useful functions:
     // convertRGB2GrayImage, TypeConvert, WarpGlobal, Convolve
 
+    // printf("%d Extracting TinyImageGrad features...\n", ++tinyGradCount);
+
     // Initialize output
     CFloatImage tinyImg(targetW, targetH, 1);
 
@@ -312,14 +324,16 @@ TinyImageGradFeatureExtractor::operator()(const CFloatImage &imgRGB_, Feature &f
     float dx, dy;
     for (int x = 0; x < targetW; x++) {
         for (int y = 0; y < targetH; y++) {
-            dx = xGrad.Pixel(x,y,0);
-            dy = yGrad.Pixel(x,y,0);
-            tinyImg.Pixel(x,y,0) = sqrt(dx*dx + dy*dy);
+            dx = xGrad.Pixel(x, y, 0);
+            dy = yGrad.Pixel(x, y, 0);
+            tinyImg.Pixel(x, y, 0) = sqrt(dx * dx + dy * dy);
         }
     }
 
     // Convert output features to desired type
     TypeConvert(tinyImg, feat);
+
+    // printf("%d Done extracting TinyImageGrad features\n", tinyGradCount);
 
     /******** END TODO ********/
 }
@@ -434,6 +448,8 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 	// Useful functions:
 	// convertRGB2GrayImage, TypeConvert, WarpGlobal, Convolve
 
+    printf("%d Extracting HOG features...\n", ++hogCount);
+
 	CFloatImage imgG;
 	convertRGB2GrayImage(img, imgG);
 
@@ -452,7 +468,7 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 	/*int cellOffsetX = (width - nCellsX * _cellSize) / 2;
 	int cellOffsetY = (height - nCellsY * _cellSize) / 2;*/
 
-	float angleMax = _unsignedGradients ? M_PI : 2.f * M_PI;
+	float angleMax = _unsignedGradients ? M_PI : 2 * M_PI;
 	float angBinWidth = angleMax / (float)_nAngularBins;
 
 	CFloatImage gradMagImg(width, height, 1);
@@ -467,9 +483,10 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 			gradMagImg.Pixel(x, y, 0) = gradMag;
 
 			float gradOr = atan2(dy, dx);
+            gradOr = gradOr < 0 ? 2 * M_PI - gradOr : gradOr;
 			gradOr = _unsignedGradients ? fmod(gradOr, M_PI) : gradOr;
 			gradOrImg.Pixel(x, y, 0) = gradOr;
-			
+
 			// No contribution for pixels outside cell range
 			if (x >= nCellsX * _cellSize || y >= nCellsY * _cellSize) {
 				continue;
@@ -492,7 +509,7 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 					// Get relative cell coords
 					int cellI = cellX + i;
 					int cellJ = cellY + j;
-					
+
 					// Do not include cells outside image boundaries
 					if (cellI < 0 || cellJ < 0 || cellI > width || cellJ > height) {
 						continue;
@@ -508,14 +525,18 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 					float distEucl = sqrt(distX*distX + distY*distY);
 					float distGaus = exp(-distEucl / (2 * sigmaSq)) / (2 * M_PI * sigmaSq);
 
-					featImg.Pixel(cellX, cellY, angBin) += distGaus * gradMag;
+					featImg.Pixel(cellI, cellJ, angBin) += distGaus * gradMag;
 				}
 			}
 		}
 	}
 
-	float eps = 0.1;    // Smoothing constant to prevent division by zero
-	float thresh = 0.2; // Threshold for bin values as suggested on Wikipedia
+    // Smoothing constant to prevent division by zero
+	float eps = 1e-5;
+
+    // Threshold for bin values as suggested on Wikipedia
+	float thresh = 0.2;
+
 	for (int cellX = 0; cellX < nCellsX; cellX++) {
 		for (int cellY = 0; cellY < nCellsY; cellY++) {
 			// Use L2-norm with smoothing constant to normalize bins
@@ -535,11 +556,14 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 			// Renormalize thresholded bins
 			for (int bin = 0; bin < _nAngularBins; bin++) {
 				featImg.Pixel(cellX, cellY, bin) /= sqrt(threshSum);
+                printf("(%d,%d,%d) : %10.9f\n", cellX, cellY, bin, featImg.Pixel(cellX, cellY, bin));
 			}
 		}
 	}
 
 	TypeConvert(featImg, feat);
+
+    printf("%d Done extracting HOG features\n", hogCount);
 
 	/******** END TODO ********/
 }
