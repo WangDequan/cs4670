@@ -408,56 +408,140 @@ HOGFeatureExtractor::HOGFeatureExtractor(const ParametersMap &params)
 void
 HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 {
-    /******** BEGIN TODO ********/
-    // Compute the Histogram of Oriented Gradients feature
-    //
-    // Steps are:
-    // 1) Compute gradients in x and y directions. We provide the
-    //    derivative kernel proposed in the paper in _kernelDx and
-    //    _kernelDy.
-    // 2) Compute gradient magnitude and orientation
-    // 3) Add contribution each pixel to HOG cells whose
-    //    support overlaps with pixel. The contribution should
-    //    be weighted by a gaussian centered at the corresponding
-    //    HOG cell. Each cell has a support of size
-    //    _cellSize and each histogram has _nAngularBins. Note that
-    //    pixels away from the borders of the image should contribute to
-    //    at least four HOG cells.
-    // 4) Normalize HOG for each cell. One simple strategy that is
-    //    is also used in the SIFT descriptor is to first threshold
-    //    the bin values so that no bin value is larger than some
-    //    threshold (we leave it up to you do find this value) and
-    //    then re-normalize the histogram so that it has norm 1. A more
-    //    elaborate normalization scheme is proposed in Dalal & Triggs
-    //    paper but we leave that as extra credit.
-    //
-    // Useful functions:
-    // convertRGB2GrayImage, TypeConvert, WarpGlobal, Convolve
+	/******** BEGIN TODO ********/
+	// Compute the Histogram of Oriented Gradients feature
+	//
+	// Steps are:
+	// 1) Compute gradients in x and y directions. We provide the
+	//    derivative kernel proposed in the paper in _kernelDx and
+	//    _kernelDy.
+	// 2) Compute gradient magnitude and orientation
+	// 3) Add contribution each pixel to HOG cells whose
+	//    support overlaps with pixel. The contribution should
+	//    be weighted by a gaussian centered at the corresponding
+	//    HOG cell. Each cell has a support of size
+	//    _cellSize and each histogram has _nAngularBins. Note that
+	//    pixels away from the borders of the image should contribute to
+	//    at least four HOG cells.
+	// 4) Normalize HOG for each cell. One simple strategy that is
+	//    is also used in the SIFT descriptor is to first threshold
+	//    the bin values so that no bin value is larger than some
+	//    threshold (we leave it up to you do find this value) and
+	//    then re-normalize the histogram so that it has norm 1. A more
+	//    elaborate normalization scheme is proposed in Dalal & Triggs
+	//    paper but we leave that as extra credit.
+	//
+	// Useful functions:
+	// convertRGB2GrayImage, TypeConvert, WarpGlobal, Convolve
 
-    // CFloatImage imgG;
-    // convertRGB2GrayImage(imgG, img);
+	CFloatImage imgG;
+	convertRGB2GrayImage(img, imgG);
 
-    // CFloatImage xGrad, yGrad;
-    // Convolve(imgG, xGrad, _kernelDx);
-    // Convolve(imgG, yGrad, _kernelDy);
+	CFloatImage xGrad, yGrad;
+	Convolve(imgG, xGrad, _kernelDx);
+	Convolve(imgG, yGrad, _kernelDy);
 
-    // int width  = imgG.Shape().width;
-    // int height = imgG.Shape().height;
+	int width = imgG.Shape().width;
+	int height = imgG.Shape().height;
 
-    // CFloatImage gradMag(width, height, 1);
-    // CFloatImage gradOr(width, height, 1);
+	int nCellsX = width / _cellSize;
+	int nCellsY = height / _cellSize;
 
-    // float dx, dy;
-    // for (int x = 0; x < width; x++) {
-    //     for (int y = 0; y < height; y++) {
-    //         dx = xGrad.Pixel(x,y,0);
-    //         dy = yGrad.Pixel(x,y,0);
-    //         gradMag.Pixel(x,y,0) = sqrt(dx*dx + dy*dy);
-    //         gradOr.Pixel(x,y,0) = atan2(dy / dx);
-    //     }
-    // }
+	CFloatImage featImg(nCellsX, nCellsY, _nAngularBins);
 
-    /******** END TODO ********/
+	/*int cellOffsetX = (width - nCellsX * _cellSize) / 2;
+	int cellOffsetY = (height - nCellsY * _cellSize) / 2;*/
+
+	float angleMax = _unsignedGradients ? M_PI : 2.f * M_PI;
+	float angBinWidth = angleMax / (float)_nAngularBins;
+
+	CFloatImage gradMagImg(width, height, 1);
+	CFloatImage gradOrImg(width, height, 1);
+
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			float dx = xGrad.Pixel(x, y, 0);
+			float dy = yGrad.Pixel(x, y, 0);
+
+			float gradMag = sqrt(dx*dx + dy*dy);
+			gradMagImg.Pixel(x, y, 0) = gradMag;
+
+			float gradOr = atan2(dy, dx);
+			gradOr = _unsignedGradients ? fmod(gradOr, M_PI) : gradOr;
+			gradOrImg.Pixel(x, y, 0) = gradOr;
+			
+			// No contribution for pixels outside cell range
+			if (x >= nCellsX * _cellSize || y >= nCellsY * _cellSize) {
+				continue;
+			}
+
+			int cellX = x / _cellSize;
+			int cellY = y / _cellSize;
+
+			int angBin = floor(gradOr / angBinWidth);
+
+			float sigma = _cellSize;
+
+			for (int i = -1; i < 1; i++) {
+				for (int j = -1; j < 1; j++) {
+					// Do not include corner cells
+					if (abs(i) + abs(j) == 2) {
+						continue;
+					}
+
+					// Get relative cell coords
+					int cellI = cellX + i;
+					int cellJ = cellY + j;
+					
+					// Do not include cells outside image boundaries
+					if (cellI < 0 || cellJ < 0 || cellI > width || cellJ > height) {
+						continue;
+					}
+
+					int centerX = cellI * _cellSize + _cellSize / 2;
+					int centerY = cellJ * _cellSize + _cellSize / 2;
+
+					int distX = abs(x - centerX);
+					int distY = abs(y - centerY);
+
+					float sigmaSq = pow(sigma, 2);
+					float distEucl = sqrt(distX*distX + distY*distY);
+					float distGaus = exp(-distEucl / (2 * sigmaSq)) / (2 * M_PI * sigmaSq);
+
+					featImg.Pixel(cellX, cellY, angBin) += distGaus * gradMag;
+				}
+			}
+		}
+	}
+
+	float eps = 0.1;    // Smoothing constant to prevent division by zero
+	float thresh = 0.2; // Threshold for bin values as suggested on Wikipedia
+	for (int cellX = 0; cellX < nCellsX; cellX++) {
+		for (int cellY = 0; cellY < nCellsY; cellY++) {
+			// Use L2-norm with smoothing constant to normalize bins
+			float binSum = eps * eps;
+			for (int bin = 0; bin < _nAngularBins; bin++) {
+				binSum += pow(featImg.Pixel(cellX, cellY, bin), 2);
+			}
+
+			// Threshold bins
+			float threshSum = eps * eps;
+			for (int bin = 0; bin < _nAngularBins; bin++) {
+				float threshBinVal = min(thresh, featImg.Pixel(cellX, cellY, bin) / sqrt(binSum));
+				featImg.Pixel(cellX, cellY, bin) = threshBinVal;
+				threshSum += pow(threshBinVal, 2);
+			}
+
+			// Renormalize thresholded bins
+			for (int bin = 0; bin < _nAngularBins; bin++) {
+				featImg.Pixel(cellX, cellY, bin) /= sqrt(threshSum);
+			}
+		}
+	}
+
+	TypeConvert(featImg, feat);
+
+	/******** END TODO ********/
 }
 
 CByteImage
