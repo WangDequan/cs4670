@@ -1,0 +1,15 @@
+3
+FeatureExtractor
+2
+feature_type tig
+scale 0.200000
+ImagePyramid
+3
+min_top_size 105
+n_octaves 2
+n_sub_octaves 1
+ObjectDetector
+3
+detection_overlap_threshold 0.350000
+nms_win_size 15
+sv_response_threshold 0.100000

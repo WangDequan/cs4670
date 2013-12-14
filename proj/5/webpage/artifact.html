@@ -1,0 +1,49 @@
+<html>
+<head>
+</head>
+<body>
+  <p>Will Bartlett (wab73), Josh Hagins (jdh298)</p>
+  <h1>Our Test Image</h1>
+  <div>
+    <img src="pedImg.png" alt="test image"/>
+  </div>
+  <h1>Visualizations of Features</h1>
+  <div>
+    <img src="tigFeatures.png" alt="tig features"/>
+    <p>TinyImageGrad Features</p>
+  </div>
+  <div>
+    <img src="hogFeatures.png" alt="hog features"/>
+    <p>HOG Features</p>
+  </div>
+  <h1>Visualizations of SVM Weights</h1>
+  <div>
+    <img src="tigWeights.png" alt="tig weights"/>
+    <p>TinyImageGrad Weights</p>
+  </div>
+  <div>
+    <img src="hogWeights.png" alt="hog weights"/>
+    <p>HOG Weights</p>
+  </div>
+  <h1>Precision Recall Curves</h1>
+  <div>
+    <img src="cropped_pr.png" alt="cropped pedestrians pr curve"/>
+    <p>Cropped Pedestrians PR Curves</p>
+  </div>
+  <div>
+    <img src="slide_pr.png" alt="full pedestrian slide window pr curve"/>
+    <p>Full Pedestrians (Slide Window Detection) PR Curves</p>
+  </div>
+  <h1>Extra Credit</h1>
+  <div>
+    <ul>
+      <li>
+        Our extra credit was implementing overlapping cells in the HOG
+        feature extractor. Rectangular cells overlapped with each other
+        by half, such that any non-border pixel contributed to the bins
+        of 4 cells. Each pixel's contributions to its cells were weighted
+        by a gaussian centered at the corresponding cells, with the cell
+        size as sigma.
+      </li>
+    </ul>
+  </div>

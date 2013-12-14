@@ -1,0 +1,17 @@
+3
+FeatureExtractor
+4
+cell_size 6
+feature_type hog
+n_angular_bins 18
+unsigned_gradients 1
+ImagePyramid
+3
+min_top_size 150
+n_octaves 4
+n_sub_octaves 2
+ObjectDetector
+3
+detection_overlap_threshold 0.180000
+nms_win_size 12
+sv_response_threshold 0.020000
