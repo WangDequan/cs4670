@@ -9,7 +9,7 @@ _round(double d)
 
 // static int tinyCount = 0;
 // static int tinyGradCount = 0;
-static int hogCount = 0;
+// static int hogCount = 0;
 
 CByteImage
 FeatureExtractor::renderPosNegComponents(const Feature &feat) const
@@ -460,19 +460,12 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 	int width = imgG.Shape().width;
 	int height = imgG.Shape().height;
 
-	//printf("Image Dims: %d,%d,1\n", width, height);
-
 	// Overlap cells by half
 	int nCellsX = 2 * width / _cellSize - 1;
 	int nCellsY = 2 * height / _cellSize - 1;
 
-	//printf("Feature Dims: %d,%d,%d\n", nCellsX, nCellsY, _nAngularBins);
-
 	CFloatImage featImg(nCellsX, nCellsY, _nAngularBins);
 	featImg.ClearPixels();
-
-	//int cellOffsetX = (width - nCellsX * _cellSize) / 2;
-	//int cellOffsetY = (height - nCellsY * _cellSize) / 2;
 
 	CFloatImage gradMagImg(width, height, 1);
 	CFloatImage gradOrImg(width, height, 1);
@@ -486,10 +479,6 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 			float magnitude = sqrt(dx*dx + dy*dy);
 			gradMagImg.Pixel(x, y, 0) = magnitude;
 
-			/*if (magnitude < 0) {
-				printf("Negative magnitude: %10.9f", magnitude);
-			}*/
-
 			// Compute gradient angle
 			float angle = atan2(dy, dx);
 
@@ -498,13 +487,6 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 
 			// If unsigned, take mod wrt pi
 			angle = _unsignedGradients ? fmod(angle, M_PI) : angle;
-
-			//if (isnan(angle) || angle < -2 * M_PI || angle > 2 * M_PI) {
-			//	printf("Big Angle: %10.9f\n", angle);
-			//}
-			//if (isnan(angle) || angle < 0) {
-			//	printf("Negative Angle: %9.8f\n", angle);
-			//}
 
 			gradOrImg.Pixel(x, y, 0) = angle;
 		}
@@ -542,74 +524,11 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 					float distance = sqrt(distX * distX + distY * distY);
 					float gaussian = exp(-distance / (2 * sigmaSq)) / (2 * M_PI * sigmaSq);
 
-					float featVal = featImg.Pixel(cellX, cellY, angBin);
-					featVal += gaussian * magnitude;
-					/*if (featVal < 0) {
-						printf("Negative feature (%d,%d,%d): %10.8f\n", cellX, cellY, angBin, featImg.Pixel(cellX, cellY, angBin));
-					}*/
-					featImg.Pixel(cellX, cellY, angBin) = featVal;
-					//featImg.Pixel(cellX, cellY, angBin) += gaussian * magnitude;
+					featImg.Pixel(cellX, cellY, angBin) += gaussian * magnitude;
 				}
 			}
 		}
 	}
-
-	//for (int x = 0; x < width; x++) {
-	//	for (int y = 0; y < height; y++) {
-	//		float dx = xGrad.Pixel(x, y, 0);
-	//		float dy = yGrad.Pixel(x, y, 0);
-
-	//		float gradMag = sqrt(dx*dx + dy*dy);
-	//		gradMagImg.Pixel(x, y, 0) = gradMag;
-
-	//		float gradOr = atan2(dy, dx);
-	//		gradOr = gradOr < 0 ? 2 * M_PI - gradOr : gradOr;
-	//		gradOr = _unsignedGradients ? fmod(gradOr, M_PI) : gradOr;
-	//		gradOrImg.Pixel(x, y, 0) = gradOr;
-
-	//		// No contribution for pixels outside cell range
-	//		if (x >= nCellsX * _cellSize || y >= nCellsY * _cellSize) {
-	//			continue;
-	//		}
-
-	//		int cellX = x / _cellSize;
-	//		int cellY = y / _cellSize;
-
-	//		int angBin = floor(gradOr / angBinWidth);
-
-	//		float sigma = _cellSize;
-
-	//		for (int i = -1; i < 1; i++) {
-	//			for (int j = -1; j < 1; j++) {
-	//				// Do not include corner cells
-	//				if (abs(i) + abs(j) == 2) {
-	//					continue;
-	//				}
-
-	//				// Get relative cell coords
-	//				int cellI = cellX + i;
-	//				int cellJ = cellY + j;
-
-	//				// Do not include cells outside image boundaries
-	//				if (cellI < 0 || cellJ < 0 || cellI >= nCellsX || cellJ >= nCellsY) {
-	//					continue;
-	//				}
-
-	//				int centerX = cellI * _cellSize + _cellSize / 2;
-	//				int centerY = cellJ * _cellSize + _cellSize / 2;
-
-	//				int distX = abs(x - centerX);
-	//				int distY = abs(y - centerY);
-
-	//				float sigmaSq = pow(sigma, 2);
-	//				float distEucl = sqrt(distX * distX + distY * distY);
-	//				float distGaus = exp(-distEucl / (2 * sigmaSq)) / (2 * M_PI * sigmaSq);
-
-	//				featImg.Pixel(cellI, cellJ, angBin) += distGaus * gradMag;
-	//			}
-	//		}
-	//	}
-	//}
 
     // Smoothing constant to prevent division by zero
 	float eps = 0.1f;
@@ -637,14 +556,13 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 			// Renormalize thresholded bins
 			for (int bin = 0; bin < _nAngularBins; bin++) {
 				featImg.Pixel(cellX, cellY, bin) /= sqrt(threshSum);
-                //printf("(%d,%d,%d) : %10.9f\n", cellX, cellY, bin, featImg.Pixel(cellX, cellY, bin));
 			}
 		}
 	}
 
 	TypeConvert(featImg, feat);
 
-    printf("%d Done extracting HOG features\n", ++hogCount);
+    //printf("%d Done extracting HOG features\n", hogCount);
 
 	/******** END TODO ********/
 }
