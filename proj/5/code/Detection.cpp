@@ -31,17 +31,20 @@ Detection::relativeOverlap(const Detection &other) const
     // rectangles r1 and r2, and AreaUnion is the area of the union
     // of the two rectangles.
 
+    printf("this function in use\n");
     double relOver = 0.0;
-    double x1min = MIN(this->x - this->width / 2, other.x - other.width / 2);
     double x1max = MAX(this->x - this->width / 2, other.x - other.width / 2);
     double x2min = MIN(this->x + this->width / 2, other.x + other.width / 2);
-    double x2max = MAX(this->x + this->width / 2, other.x + other.width / 2);
-    double y1min = MIN(this->y - this->height / 2, other.y - other.height / 2);
     double y1max = MAX(this->y - this->height / 2, other.y - other.height / 2);
     double y2min = MIN(this->y + this->height / 2, other.y + other.height / 2);
-    double y2max = MAX(this->y + this->height / 2, other.y + other.height / 2);
-
-    relOver = ((x2min - x1max) * (y2min - y1max)) / ((x2max - x1min) * (y2max - y1min));
+    double areaInt = 0;
+    if (x1max < x2min && y1max < y2min){
+      printf("case needed\n");
+      areaInt = (x2min - x1max) * (y2min - y1max);
+    }
+    
+    double areaUnion = this->area() + other.area() - areaInt;
+    relOver = areaInt / areaUnion;
     /******** END TODO ********/
     return relOver;
 }

@@ -450,15 +450,13 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 
     //printf("%d Extracting HOG features...\n", ++hogCount);
 
-	CFloatImage imgG;
-	convertRGB2GrayImage(img, imgG);
-
 	CFloatImage xGrad, yGrad;
-	Convolve(imgG, xGrad, _kernelDx);
-	Convolve(imgG, yGrad, _kernelDy);
+	Convolve(img, xGrad, _kernelDx);
+	Convolve(img, yGrad, _kernelDy);
 
-	int width = imgG.Shape().width;
-	int height = imgG.Shape().height;
+	int width = img.Shape().width;
+	int height = img.Shape().height;
+    int bands = img.Shape().nBands;
 
 	// Overlap cells by half
 	int nCellsX = 2 * width / _cellSize - 1;
@@ -472,12 +470,22 @@ HOGFeatureExtractor::operator()(const CFloatImage &img, Feature &feat) const
 
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
-			float dx = xGrad.Pixel(x, y, 0);
-			float dy = yGrad.Pixel(x, y, 0);
+            float maxMag = 0;
+            int maxBand = 0;
+            for (int band=0;band<bands;band++){
+                float tx = xGrad.Pixel(x, y, band);
+                float ty = yGrad.Pixel(x, y, band);
+                float cMag = sqrt(tx * tx + ty * ty);
+                if (cMag > maxMag){
+                    maxMag = cMag;
+                    maxBand = band;
+                }
+            }
+            float dx = xGrad.Pixel(x,y,maxBand);
+            float dy = yGrad.Pixel(x,y,maxBand);
 
-			// Compute gradient magnitude
-			float magnitude = sqrt(dx*dx + dy*dy);
-			gradMagImg.Pixel(x, y, 0) = magnitude;
+			// Store gradient magnitude
+			gradMagImg.Pixel(x, y, 0) = maxMag;
 
 			// Compute gradient angle
 			float angle = atan2(dy, dx);
