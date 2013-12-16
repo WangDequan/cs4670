@@ -56,26 +56,30 @@ ObjectDetector::operator()( const CFloatImage &svmResp, const Size &roiSize,
 
     dets.resize(0);
     int h = svmResp.Shape().height;
-    int w = svmResp.Shape().width; 
+    int w = svmResp.Shape().width;
     double scale = imScale / featureScaleFactor;
 
     for (int x=0;x<w;x++){
         for (int y=0;y<h;y++){
-            int s = _winSizeNMS / 2;
-            double max = 0;
-            for (int dx = -s; dx < s; dx++){
+            int s = round(_winSizeNMS / 2);
+            int max = 1;
+            if (svmResp.Pixel(x, y, 0) <= _respThresh)
+                continue;
+            for (int dx = -s; dx <= s && max; dx++){
                 if ((x+dx < 0) || (x + dx >= w))
                     continue;
 
-                for (int dy = -s; dy < s; dy++){
+                for (int dy = -s; dy <= s && max; dy++){
                     if ((y + dy < 0) || (y + dy >= h))
                         continue;
-                    if (svmResp.Pixel(x+dx, y+dy, 0) > max)
-                        max = svmResp.Pixel(x+dx, y+dy, 0);
+                    if ((dy == 0) && (dx == 0))
+                        continue;
+                    if (svmResp.Pixel(x+dx, y+dy, 0) > svmResp.Pixel(x, y, 0))
+                        max = 0;
                 }
             }
-            if (max == svmResp.Pixel(x, y, 0) && max > _respThresh){
-                Detection d(x, y, max, roiSize.width * scale, roiSize.height * scale);
+            if (max) {
+                Detection d(x, y, svmResp.Pixel(x, y, 0), roiSize.width * scale, roiSize.height * scale);
                 dets.push_back(d);
             }
         }
@@ -125,19 +129,15 @@ ObjectDetector::operator()( const SBFloatPyramid &svmRespPyr, const Size &roiSiz
 
         allDets.insert(allDets.end(), levelDets.begin(), levelDets.end());
     }
+    sort(allDets.begin(), allDets.end(), sortByResponse);
 
     for (int i = 0; i < allDets.size(); i++){
-        int add = 1;
-        for (int j = 0; j < dets.size(); j++){
-            if (dets[j].relativeOverlap(allDets[i]) > _overlapThresh){
-                if (sortByResponse(allDets[i], dets[j])){
-                    dets.erase(dets.begin() + j);
-                    j--;
-                } else
-                    add = 0;
-            }
+        int j = 0;
+        for (j = 0; j < dets.size(); j++){
+            if (dets[j].relativeOverlap(allDets[i]) > _overlapThresh)
+                break;
         }
-        if (add)
+        if (j == dets.size())
             dets.push_back(allDets[i]);
     }
 
