@@ -93,8 +93,8 @@ SupportVectorMachine::train(const std::vector<float> &labels, const FeatureColle
     for (int i=0;i<nVecs;i++){
         problem.y[i] = labels[i];
         int v = 0;
-        for (int x=0;x<shape.width;x++){
-            for (int y=0;y<shape.height;y++){
+        for (int y=0;y<shape.height;y++){
+            for (int x=0;x<shape.width;x++){
                 for (int band=0; band<shape.nBands; band++){
                     int ind = i * (dim+1) + v;
                     _data[ind].index = v;
