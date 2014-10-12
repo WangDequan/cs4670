@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>index.html</title>
+
+  
+</head><body>
+<h4 style="text-align: center;"><big><big>CS4670 - Introduction to
+Computer Vision</big></big></h4>
+
+<h4 style="text-align: center;"><big>Project 2 - Feature Detection and
+Matching</big></h4>
+
+<h4 style="text-align: center;"><big>Bill Jo (bwj8), Kenneth Pu (kp295)</big></h4>
+
+<div style="text-align: left;"><span style="font-weight: bold;">Finding
+Harris Operator<br>
+</span>
+In order to calculate the harris values, we first find the x and
+y derivatives for each point and save these into two separate images.
+At
+each point, we calculate the Harris Matrix by summing the Harris Matrix
+of a weighted 5x5 area around the point.&nbsp; From this matrix, we can
+then calculate the harris operator ad orientation.<br>
+<span style="font-weight: bold;"><br>
+Local Maximum and Thresholding</span>
+<br>
+In finding the local maximum, for each point we found searched a 5x5
+area around the point to find the largest harris operator value.&nbsp;
+If the largest value happened to be the current point and the value was
+above a threshold of .01, then that point in the local max image was
+set to 1. All other points in the local max image was set to 0. The
+threshold value was found arbitrarily by trying different values.<br>
+<span style="font-weight: bold;"><br>
+<br>
+MOPS Feature Descriptor<br>
+</span>The MOPS features was found by moving a 8x8 matrix to the
+feature point and rotated.&nbsp; The skeleton code handed the
+multiplication and sampling of the feature.<br>
+
+<h4>ROC Results:</h4>
+Put ROC Images here:<br>
+<br>
+<h4>Harris Operators Examples<br>
+</h4>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 308px; height: 246px;" src="images/grayImg.jpg" alt=""><br>
+graf/img1 Gray Scale Image<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 311px; height: 247px;" src="images/harris.jpg" alt=""><br>
+graf/img1 Harris Operator Image<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 281px; height: 196px;" src="images/bikegrayImg.jpg" alt=""><br>
+bikes/img1 Gray Scale Image<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 288px; height: 202px;" src="images/bikesharris.jpg" alt=""><br>
+bikes/img1 Harris Operator Image<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<span style="font-weight: bold;">Benchmark Tests</span><br>
+<span style="font-family: monospace;"></span>
+<span style="font-family: monospace;"></span><br>
+<table style="text-align: left; width: 300px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody align="center">
+    <tr>
+      <th style="vertical-align: top;">Method \ AUC<br>
+      </th>
+      <th style="vertical-align: top;">Bikes<br>
+      </th>
+      <th style="vertical-align: top;">Leuven<br>
+      </th>
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Wall</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Simple - SSD<br>
+      </td>
+      <td style="vertical-align: top;">&nbsp;.302<br>
+      </td>
+      <td style="vertical-align: top;">.162<br>
+      </td>
+      <td style="vertical-align: top;">.232<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Simple -Ratio<br>
+      </td>
+      <td style="vertical-align: top;">.478<br>
+      </td>
+      <td style="vertical-align: top;">.491<br>
+      </td>
+      <td style="vertical-align: top;">.543<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">MOPS - SSD<br>
+      </td>
+      <td style="vertical-align: top;">.619<br>
+      </td>
+      <td style="vertical-align: top;">.637<br>
+      </td>
+      <td style="vertical-align: top;">.580<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">MOPS - Ratio<br>
+      </td>
+      <td style="vertical-align: top;">.636<br>
+      </td>
+      <td style="vertical-align: top;">.710<br>
+      </td>
+      <td style="vertical-align: top;">.631<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<span style="font-weight: bold;">Artifact Image:</span><br>
+We chose to do a feature matching on a sriracha bottle from different
+rotated viewpoints.&nbsp; As you can see, the feature matching worked
+reasonably well, I tried to find four different details: guitar font,
+"HOT" text, a chinese character, and the feet of the rooster.&nbsp; All
+four had some correctly matched features but there were also some false
+positive matched features.<br>
+<img src="images/sriComp1.JPG" alt=""><br>
+</div>
+
+</body></html>

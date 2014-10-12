@@ -1,0 +1,126 @@
+\documentclass{pset}
+\usepackage{jdh}
+
+\renewcommand\maketitle{
+  \vspace*{-5em}
+  \begin{center}\framebox{\parbox{\boxlength}{\bf
+    CS 4780, Fall 2013\hfill Project Proposal\hfill 22 October 2013
+  }}
+  \end{center}
+  \vspace{1em}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Motivation}
+
+One's career is among the most central pieces of a person's life. While there
+are many aspects to a job, such  as corporate culture, domain, etcetera, salary
+ is an unavoidably important facet. To improve the job search experience and,
+more importantly, bring transparency to the salaries behind each position, we
+would like to estimate a position's salary from its provided posting. By doing
+so, we will be helping the market two-fold: users will more easily be able to
+filter down the immense number of postings already present to find only jobs
+they are interested in with acceptable salaries to boot, while simultaneously
+helping to move towards a more efficient labor market as employers are able to
+more explicitly compete on pay.
+
+From a technical standpoint, it's an interesting problem because we have a
+large body of data to work with (100's of thousands of records) with fairly
+little structure to each record. This allows us a wide variety of approaches,
+both in how to parse the data and how to learn from it.
+
+\section*{Problem Statement}
+
+Our project's primary goal is to determine if, and how well, one can predict a
+position's salary from a job posting alone. Similarly, we would also like to
+determine which aspects of a job posting most strongly correlate with its
+salary. In answering these questions, we also intend to determine which
+strategy is best used to learn from such unstructured data. For example, is it
+best to test on simple word presence? Perhaps by phrase? Will an SVM
+significantly outperform a simple kNN model?
+
+\section*{Approach}
+
+The main thrust of our approach is a
+\link{http://en.wikipedia.org/wiki/Boosting_(machine_learning)}{boosting}
+algorithm that takes advantage of multiple classification algorithms. Using the
+provided training and test datasets, we will use decision trees, SVMs, and a
+naïve Bayes classifier to construct a super-classifier with greater predictive
+power than any of its individual components.
+
+{\it Decision Trees} - Borrowing from the concept of $n$-fold cross-validation,
+we will train limited- height decision trees on various subsamples of the
+training and test sets using the ID3 algorithm. Given a test instance and each
+tree's classification of that instance, we will generate a weight distribution
+across all possible classes for the instance, such that the weight of class $y$
+is the proportion of trees that classify $x$ as $y$.
+
+{\it SVM} - We will train a soft-margin multi-class SVM on the given training
+set that, given a test instance $x$, outputs a distribution of weights across
+all possible classifications of that instance.
+
+{\it Naïve Bayes} - We will generate a naïve Bayes classifier from the provided
+training set using the methods described in lecture. This classifier, given a
+test instance $x$, will output a probability distribution across all possible
+classes, which will serve as a weight distribution for boosting.
+
+{\it Boosting} - We will implement a boosting algorithm that, given the weight
+distributions from applying the decision tree, SVM, and naïve Bayes classifiers
+to a test instance $x$, applies a weight to each of these distributions, sums
+them together, and selects the class whose weighted sum is greatest.
+
+\section*{Resources}
+
+The majority of our resources will come directly from the Kaggle competition.
+All data that we use will come from the provided datasets, available on the
+\link{https://www.kaggle.com/c/job-salary-prediction/data}{competition website}.
+This includes job ads in their full text as well as information about their
+location and some specifics of the job in question.
+
+Software we use will be SVM light, for our SVMs, and our own software written
+in MATLAB, Python, or both for the decision trees and other potential
+classifiers.
+
+Our main research resource will likely be web searching to find up to date
+information on salary predictors, so we can get a better understanding of how
+to use the provided data efficiently. If we need to further research machine
+learning techniques, the books for the course serve as a starting point.
+
+\section*{Schedule}
+
+We have created this schedule by incorporating particular milestones of the
+development project process with the deadlines that were given to us in the
+assignment specification:
+
+{\bf$22^{nd}$ October:} Submit project proposal for feedback
+
+{\bf$24^{th}$ October:} Peer reviews for project proposal due
+
+{\bf$29^{th}$ October:} Finalize model parameters
+
+{\bf$12^{th}$ November:} Initial coding of model complete
+
+{\bf$19^{th}$ November:} Model mixing (boosting) code complete
+
+{\bf$21^{st}$ November:} Submit progress report
+
+{\bf$26^{th}$ November:} Finalized data and performance considerations
+
+{\bf$30^{th}$ November:} Report draft done and begin revising
+
+{\bf$03^{rd}$ December:} Poster complete
+
+{\bf$05^{th}$ December:} Poster presentation.  Submit poster
+
+{\bf$06^{th}$ December:} Peer reviews for posters due
+
+{\bf$08^{th}$ December:} Project report complete, begin revising
+
+{\bf$11^{th}$ December:} Final project report (and code) due
+
+{\bf$18^{th}$ December:} Peer reviews for project reports due
+
+\end{document}

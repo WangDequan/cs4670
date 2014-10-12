@@ -1,0 +1,3 @@
+[submodule "resources/tex"]
+	path = resources/tex
+	url = https://github.com/jawshooah/tex

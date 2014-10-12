@@ -1,0 +1,181 @@
+\documentclass{pset}
+\usepackage{jdh}
+\usepackage{indentfirst}
+
+\renewcommand\maketitle{
+  \vspace*{-5em}
+  \begin{center}\framebox{\parbox{\boxlength}{\bf
+    \hfill Will Bartlett (wab73)\hfill Josh Hagins (jdh298)
+    \hfill Ross Hanson (reh237)\hfill William Peck (wqp2)\hfill\\
+    \centerline{45 - Progress Report}\\
+    CS 4780, Fall 2013\hfill 21 November 2013
+  }}
+  \end{center}
+  \vspace{1em}
+}
+
+\begin{document}
+\maketitle
+
+One's career is among the most central pieces of a person's life. While there
+are many aspects to a job, such  as corporate culture, domain, etcetera, salary
+is an unavoidably important facet. To improve the job search experience and,
+more importantly, bring transparency to the salaries behind each position, we
+would like to estimate a position's salary from its provided posting. By doing
+so, we will be helping the market two-fold: users will more easily be able to
+filter down the immense number of postings already present to find only jobs
+they are interested in with acceptable salaries to boot, while simultaneously
+helping to move towards a more efficient labor market as employers are able to
+more explicitly compete on pay.
+
+From a technical standpoint, it's an interesting problem because we have a large
+body of data to work with (100's of thousands of records) with fairly little
+structure to each record. This allows us a wide variety of approaches, both in
+how to parse the data and how to learn from it.
+
+\section*{Problem Statement}
+
+Our project's primary goal is to determine if, and how well, one can predict a
+position's salary from a job posting alone. Similarly, we would also like to
+determine which aspects of a job posting most strongly correlate with its
+salary. In answering these questions, we also intend to determine which strategy
+is best used to learn from such unstructured data. For example, is it best to
+test on simple word presence? Perhaps by phrase? Will an SVM significantly
+outperform a simple kNN model?
+
+\section*{Approach}
+
+The main thrust of our approach is a
+\link{http://en.wikipedia.org/wiki/Boosting_(machine_learning)}{boosting}
+algorithm that takes advantage of multiple classification algorithms. Using the
+provided training and test datasets, we will use decision trees, SVMs, and a
+naïve Bayes classifier to construct a super-classifier with greater predictive
+power than any of its individual components.
+
+{\it Decision Trees} - Borrowing from the concept of $n$-fold cross-validation,
+we will train limited- height decision trees on various subsamples of the
+training and test sets using the ID3 algorithm. Given a test instance and each
+tree's classification of that instance, we will generate a weight distribution
+across all possible classes for the instance, such that the weight of class $y$
+is the proportion of trees that classify $x$ as $y$.
+
+{\it SVM} - We will train a soft-margin multi-class SVM on the given training
+set that, given a test instance $x$, outputs a distribution of weights across
+all possible classifications of that instance.
+
+{\it Naïve Bayes} - We will generate a naïve Bayes classifier from the provided
+training set using the methods described in lecture. This classifier, given a
+test instance $x$, will output a probability distribution across all possible
+classes, which will serve as a weight distribution for boosting.
+
+{\it Boosting} - We will implement a boosting algorithm that, given the weight
+distributions from applying the decision tree, SVM, and naïve Bayes classifiers
+to a test instance $x$, applies a weight to each of these distributions, sums
+them together, and selects the class whose weighted sum is greatest.
+
+\section*{Resources}
+
+The majority of our resources will come directly from the Kaggle competition.
+All data that we use will come from the provided datasets, available on the
+\link{https://www.kaggle.com/c/job-salary-prediction/data}{competition website}.
+This includes job ads in their full text as well as information about their
+location and some specifics of the job in question.
+
+Software we use will be SVM light, for our SVMs, and our own software written in
+MATLAB, Python, or both for the decision trees and other potential classifiers.
+
+Our main research resource will likely be web searching to find up to date
+information on salary predictors, so we can get a better understanding of how to
+use the provided data efficiently. If we need to further research machine
+learning techniques, the books for the course serve as a starting point.
+
+\section*{Progress}
+{\it Feature Identification} - To begin analyzing our data, we needed to convert
+it into SVM-Light format. The data is structured as a CSV, with fields for job
+title, location, category, employer, description, and source. To allow our
+classifiers to be data-structure agnostic, we must format each line and handle
+each field differently. The end result of this parsing is a list of strings
+representing the line. We then correlate these strings with our set of features
+and generate the appropriate data.
+
+For the text inside of the description, we simply split on spaces, producing a
+list of words. If this word is new, we assign it an index and add it to our
+vocabulary, otherwise we use its existing index. For both cases, we use word
+count as the feature value. This is analagous to our approach to the paper
+classifcation from homework 4. For something like job title, it doesn't make
+sense to split on a per-word basis, so we instread treat the entire title as a
+feature. Since something like the word ``engineer'' has a different meaning when
+in the title versus the job description, we treat the two as seperate features.
+The same approach is used for category, employer, and source. For location, we
+have been provided a flattened tree representing the hierarchy of locations, IE
+UK~London~East London~Shoreditch. We use this tree to represent similiarity
+between terms. To do this, we treat the two most specific levels of the tree as
+features as well. In the example listed above, this would correlate to East
+London and Shoreditch.
+
+{\it SVM} - Finding the right parameters and kernel for our SVM has turned out
+to be quite difficult, and we plan on spending significant time further tuning our SVM
+to get higher accuracies. We have experimented with polynomial kernels as well
+as radial basis and sigmoid kernels as they are included in SVMlight. This has
+been to varied success; the highest training accuracy we can get on a single
+classifier has been just below 72 percent, with lower validation and test accuracies.
+ However, we have to train a classifier for each of our salary classes, so this is not a 
+terrible accuracy. Because each classifier is an increment of 5000 in salary,
+misclassifying could mean just a 5000 difference in the actual prediction, which is not
+devastating. As we combine classifiers we will monitor how this affects our overall
+predictions. We believe this can and will be bettered by more experimentation with the
+supplied kernels, as we have not done much testing with the sigmoid or radial
+basis kernels.
+
+{\it Naïve Bayes} - We have written a naïve Bayes classifier with Laplace
+smoothing using similar methods and partially modified code as in Problem Set 4.
+To train the classifier, we iterate over a random sample of our training set,
+computing $P(Y=y)$ and $P(X_i=x_i|Y=y)$ for all labels $y\in Y$ and feature
+values $x_i\in X_i, i\in[1,\ldots,N]$. The performance so far has been rather
+lackluster, with testing error averaging around $45\%$.
+
+Methods to improve performance might include weighting high and low income
+predictions with costs to reduce the likelihood of grossly over- or under-
+estimating salary, or increasing the sample size for our training set, perhaps
+even using leave-one-out. Our preliminary conclusion, however, is that the naïve
+Bayes approach does not work so well for this particular problem.
+
+{\it Boosting} - We've begun to write some framework code that will apply each
+of the classification methods above and tune parameters to achieve the highest
+cross validated testing accuracy.  Then we will apply those parameters to our
+validation set in order to mesaure the benefit boosting grants. We expect to use
+linear least squares as our weighting method for various approaches at each of
+their different parameters.
+
+Under our current model, the framework code is completely agnostic to the
+models.  Each model will take in generalized parameters, not specific to the
+type of model (ie, parameters will be scaled to the same ranges).
+
+The boosted code runs quite slowly, as might be expected as hundreds of models
+are tested and evaluated.  We plan to run it with reduced precision while
+designing and testing it and then run it overnight (or in other long time
+period) to obtain final results.
+
+\section*{Schedule}
+
+{\bf$26^{th}$ November:} Finalize main classifiers
+
+{\bf$28^{th}$ November:} Complete boosting algorithm
+
+{\bf$30^{th}$ November:} Report draft done and begin revising
+
+{\bf$02^{th}$ December:} Finish testing full ensemble
+
+{\bf$03^{rd}$ December:} Poster complete
+
+{\bf$05^{th}$ December:} Poster presentation.  Submit poster
+
+{\bf$06^{th}$ December:} Peer reviews for posters due
+
+{\bf$08^{th}$ December:} Project report complete, begin revising
+
+{\bf$11^{th}$ December:} Final project report (and code) due
+
+{\bf$18^{th}$ December:} Peer reviews for project reports due
+
+\end{document}
